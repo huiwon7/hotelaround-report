@@ -11,20 +11,8 @@
   --blue:#2a78d6;    /* single-hue daily */
   --peak:#0d366b;    /* peak accent */
   --good:#006300; --bad:#d03b3b;
-}
-@media (prefers-color-scheme: dark){:root{
-    --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
-    --grid:#2c2c2a; --baseline:#383835;
-    --brand:#7ea3d6; --brand2:#9db8e0;
-    --m5:#3987e5; --m6:#9ec5f4; --blue:#3987e5; --peak:#cde2fb;
-    --good:#0ca30c; --bad:#e34948;
-}
-  body{background:#0d0d0d;color:var(--ink);} #report-content{background:#141413;}
-  .stat-tile{background:#1a1a19;border-color:rgba(255,255,255,.10);}
-  table td{border-color:#2c2c2a;} tr:hover{background:#1f1f1e;}
-  .insight-box{background:#15202b;} .insight-box.good{background:#0f1f16;} .insight-box.warn{background:#241416;}
-  .summary-box{background:#15202b;border-color:#26333f;} .kbox{background:#1a1a19;border-color:rgba(255,255,255,.10);}
-  .fig{background:#1a1a19;border-color:rgba(255,255,255,.08);}
+  /* 월별 순차 램프 (4→8월, light: 밝음→어두움 · L 단조감소 검증) */
+  --mo1:#cfe1f8; --mo2:#9ec5f4; --mo3:#4a90dd; --mo4:#1c5cab; --mo5:#0d366b;
 }
 *{box-sizing:border-box;}
 body{font-family:system-ui,-apple-system,'Segoe UI','Malgun Gothic','맑은 고딕',sans-serif;color:var(--ink);
@@ -110,6 +98,22 @@ tr:hover{background:#f7f8fa;}
 .download-bar{text-align:center;padding:14px;} .download-btn{background:var(--brand);color:#fff;border:none;padding:12px 32px;font-size:15px;font-weight:600;border-radius:8px;cursor:pointer;font-family:inherit;}
 .download-btn:hover{background:var(--brand2);}
 @media print{.download-bar{display:none;}body{background:#fff;padding:0;}#report-content{border-radius:0;}}
+/* 다크 모드 — 기본 규칙 뒤에 와야 배경색이 덮이지 않음 */
+@media (prefers-color-scheme: dark){:root{
+    --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --baseline:#383835;
+    --brand:#7ea3d6; --brand2:#9db8e0;
+    --m5:#3987e5; --m6:#9ec5f4; --blue:#3987e5; --peak:#cde2fb;
+    --mo1:#1e4f8f; --mo2:#2f6fc0; --mo3:#4a90dd; --mo4:#6ea8ee; --mo5:#9ec5f4;
+    --good:#0ca30c; --bad:#e34948;
+}
+  body{background:#0d0d0d;color:var(--ink);} #report-content{background:#141413;}
+  .stat-tile{background:#1a1a19;border-color:rgba(255,255,255,.10);}
+  table td{border-color:#2c2c2a;} tr:hover{background:#1f1f1e;}
+  .insight-box{background:#15202b;} .insight-box.good{background:#0f1f16;} .insight-box.warn{background:#241416;}
+  .summary-box{background:#15202b;border-color:#26333f;} .kbox{background:#1a1a19;border-color:rgba(255,255,255,.10);}
+  .fig{background:#1a1a19;border-color:rgba(255,255,255,.08);}
+}
 </style></head><body>
 <div class="download-bar"><button class="download-btn" onclick="downloadAsDocx()">MS Word (.docx) 다운로드</button></div>
 <div id="report-content">
@@ -638,164 +642,260 @@ tr:hover{background:#f7f8fa;}
 <strong>⑤ 가장 유의미한 비교는 전년 동월(YoY).</strong> 계절성이 큰 사업 특성상 다음 보고부터 전년 5~7월 병기 권장. 특히 7월은 연중 2위 매출월로 확정된 만큼, 전년 7월 대비 성장률이 여름 성수기 전략의 성패를 가르는 핵심 지표가 된다.
 </div>
 
-<h2>10. 부록 — 일자별 상세</h2>
-<div class="appendix">
-<h3>4월 (4/1~4/30) — 봄 비수기 저점</h3>
-<table><thead><tr><th>날짜</th><th>요일</th><th>판매객실</th><th>OCC</th><th>ADR</th><th>객실매출</th><th>F&amp;B</th></tr></thead><tbody>
-<tr><td>4/1</td><td>수</td><td>36</td><td>9.9%</td><td>57,071</td><td>2,054,572</td><td>—</td></tr>
-<tr><td>4/2</td><td>목</td><td>25</td><td>6.9%</td><td>58,197</td><td>1,454,930</td><td>—</td></tr>
-<tr><td>4/3</td><td>금</td><td>12</td><td>3.3%</td><td>73,593</td><td>883,111</td><td>—</td></tr>
-<tr><td>4/4</td><td>토</td><td>22</td><td>6.1%</td><td>82,478</td><td>1,814,507</td><td>48,700</td></tr>
-<tr><td>4/5</td><td>일</td><td>6</td><td>1.7%</td><td>53,227</td><td>319,362</td><td>—</td></tr>
-<tr><td>4/6</td><td>월</td><td>7</td><td>1.9%</td><td>48,863</td><td>342,044</td><td>—</td></tr>
-<tr><td>4/7</td><td>화</td><td>19</td><td>5.3%</td><td>66,232</td><td>1,258,406</td><td>—</td></tr>
-<tr><td>4/8</td><td>수</td><td>55</td><td>15.7%</td><td>58,640</td><td>3,225,212</td><td>—</td></tr>
-<tr><td>4/9</td><td>목</td><td>40</td><td>11.4%</td><td>61,037</td><td>2,441,491</td><td>—</td></tr>
-<tr><td>4/10</td><td>금</td><td>23</td><td>6.5%</td><td>55,802</td><td>1,283,439</td><td>—</td></tr>
-<tr><td>4/11</td><td>토</td><td>42</td><td>11.9%</td><td>81,566</td><td>3,425,773</td><td>156,100</td></tr>
-<tr><td>4/12</td><td>일</td><td>15</td><td>4.2%</td><td>49,870</td><td>748,053</td><td>—</td></tr>
-<tr><td>4/13</td><td>월</td><td>41</td><td>11.6%</td><td>54,662</td><td>2,241,123</td><td>—</td></tr>
-<tr><td>4/14</td><td>화</td><td>37</td><td>10.5%</td><td>55,172</td><td>2,041,353</td><td>—</td></tr>
-<tr><td>4/15</td><td>수</td><td>41</td><td>11.6%</td><td>57,919</td><td>2,374,688</td><td>—</td></tr>
-<tr><td>4/16</td><td>목</td><td>35</td><td>9.9%</td><td>55,323</td><td>1,936,317</td><td>—</td></tr>
-<tr><td>4/17</td><td>금</td><td>37</td><td>10.5%</td><td>57,497</td><td>2,127,390</td><td>55,800</td></tr>
-<tr><td>4/18</td><td>토</td><td>43</td><td>12.2%</td><td>68,259</td><td>2,935,155</td><td>281,700</td></tr>
-<tr><td>4/19</td><td>일</td><td>23</td><td>6.5%</td><td>49,903</td><td>1,147,759</td><td>—</td></tr>
-<tr><td>4/20</td><td>월</td><td>28</td><td>7.9%</td><td>49,550</td><td>1,387,411</td><td>—</td></tr>
-<tr><td>4/21</td><td>화</td><td>46</td><td>13.0%</td><td>55,526</td><td>2,554,173</td><td>—</td></tr>
-<tr><td>4/22</td><td>수</td><td>70</td><td>19.8%</td><td>53,765</td><td>3,763,540</td><td>—</td></tr>
-<tr><td>4/23</td><td>목</td><td>56</td><td>15.8%</td><td>55,036</td><td>3,082,040</td><td>—</td></tr>
-<tr><td>4/24</td><td>금</td><td>35</td><td>9.9%</td><td>57,460</td><td>2,011,109</td><td>199,900</td></tr>
-<tr><td>4/25</td><td>토</td><td>70</td><td>19.9%</td><td>80,530</td><td>5,637,114</td><td>206,700</td></tr>
-<tr><td>4/26</td><td>일</td><td>53</td><td>15.0%</td><td>56,817</td><td>3,011,323</td><td>—</td></tr>
-<tr><td>4/27</td><td>월</td><td>59</td><td>16.7%</td><td>54,150</td><td>3,194,832</td><td>—</td></tr>
-<tr><td>4/28</td><td>화</td><td>88</td><td>24.9%</td><td>57,554</td><td>5,064,711</td><td>—</td></tr>
-<tr><td>4/29</td><td>수</td><td>71</td><td>20.1%</td><td>53,996</td><td>3,833,700</td><td>—</td></tr>
-<tr><td>4/30</td><td>목</td><td>98</td><td>27.8%</td><td>53,954</td><td>5,287,470</td><td>—</td></tr>
-<tr class="highlight-row"><td colspan="2">4월 합계</td><td>1,233</td><td>11.5%</td><td>59,109</td><td>72,882,108</td><td>1,000,900</td></tr>
-</tbody></table>
-<div class="note">* 4/22 객실매출은 원본 376,540원(앞자리 누락 의심) → ADR×판매객실로 3,763,540원 보정(월 누계와 일치). 4/19는 원본 제목 '월' 표기이나 실제 일요일. ※4월 객실매출 합계(72.9백만)는 <strong>일일보고 기준</strong>이며, 결산서(회계) 기준 112.1백만원과 약 39백만원 차이가 있음(회계상 추가 인식분 추정).</div>
-<h3>5월 (5/1~5/31)</h3>
-<table><thead><tr><th>날짜</th><th>요일</th><th>판매객실</th><th>OCC</th><th>ADR</th><th>객실매출</th><th>F&amp;B</th></tr></thead><tbody>
-<tr><td>5/1</td><td>금</td><td>296</td><td>83.1%</td><td>222,690</td><td>65,916,199</td><td>2,664,000</td></tr>
-<tr><td>5/2</td><td>토</td><td>261</td><td>73.5%</td><td>201,716</td><td>52,647,845</td><td>5,326,900</td></tr>
-<tr><td>5/3</td><td>일</td><td>146</td><td>40.9%</td><td>138,399</td><td>20,206,274</td><td>4,667,900</td></tr>
-<tr><td>5/4</td><td>월</td><td>82</td><td>22.9%</td><td>99,896</td><td>8,191,486</td><td>1,734,400</td></tr>
-<tr><td>5/5</td><td>화</td><td>24</td><td>6.7%</td><td>50,925</td><td>1,222,207</td><td>720,700</td></tr>
-<tr><td>5/6</td><td>수</td><td>27</td><td>7.5%</td><td>63,363</td><td>1,710,799</td><td>—</td></tr>
-<tr><td>5/7</td><td>목</td><td>20</td><td>5.6%</td><td>49,631</td><td>992,618</td><td>—</td></tr>
-<tr><td>5/8</td><td>금</td><td>11</td><td>3.1%</td><td>61,530</td><td>676,831</td><td>—</td></tr>
-<tr><td>5/9</td><td>토</td><td>59</td><td>16.5%</td><td>90,906</td><td>5,363,443</td><td>171,600</td></tr>
-<tr><td>5/10</td><td>일</td><td>21</td><td>5.9%</td><td>54,424</td><td>1,142,904</td><td>672,000</td></tr>
-<tr><td>5/11</td><td>월</td><td>25</td><td>7.1%</td><td>48,026</td><td>1,200,638</td><td>—</td></tr>
-<tr><td>5/12</td><td>화</td><td>25</td><td>7.1%</td><td>58,865</td><td>1,471,620</td><td>—</td></tr>
-<tr><td>5/13</td><td>수</td><td>28</td><td>8.0%</td><td>51,802</td><td>1,450,465</td><td>—</td></tr>
-<tr><td>5/14</td><td>목</td><td>45</td><td>12.8%</td><td>57,774</td><td>2,599,849</td><td>—</td></tr>
-<tr><td>5/15</td><td>금</td><td>35</td><td>10.0%</td><td>64,456</td><td>2,255,952</td><td>—</td></tr>
-<tr><td>5/16</td><td>토</td><td>93</td><td>26.4%</td><td>69,884</td><td>6,499,207</td><td>852,800</td></tr>
-<tr><td>5/17</td><td>일</td><td>19</td><td>5.4%</td><td>62,888</td><td>1,194,874</td><td>1,056,000</td></tr>
-<tr><td>5/18</td><td>월</td><td>28</td><td>8.0%</td><td>82,260</td><td>2,303,291</td><td>—</td></tr>
-<tr><td>5/19</td><td>화</td><td>25</td><td>7.1%</td><td>57,886</td><td>1,447,151</td><td>644,000</td></tr>
-<tr><td>5/20</td><td>수</td><td>34</td><td>9.7%</td><td>55,565</td><td>1,889,202</td><td>644,000</td></tr>
-<tr><td>5/21</td><td>목</td><td>27</td><td>7.7%</td><td>55,318</td><td>1,493,583</td><td>—</td></tr>
-<tr><td>5/22</td><td>금</td><td>38</td><td>10.7%</td><td>84,541</td><td>3,212,566</td><td>—</td></tr>
-<tr><td>5/23</td><td>토</td><td>249</td><td>71.3%</td><td>147,574</td><td>36,745,874</td><td>1,542,800</td></tr>
-<tr><td>5/24</td><td>일</td><td>223</td><td>63.5%</td><td>126,652</td><td>28,243,324</td><td>4,813,700</td></tr>
-<tr><td>5/25</td><td>월</td><td>16</td><td>4.5%</td><td>64,991</td><td>1,039,852</td><td>3,388,000</td></tr>
-<tr><td>5/26</td><td>화</td><td>74</td><td>21.0%</td><td>55,887</td><td>4,135,644</td><td>—</td></tr>
-<tr><td>5/27</td><td>수</td><td>103</td><td>29.3%</td><td>52,275</td><td>5,384,335</td><td>—</td></tr>
-<tr><td>5/28</td><td>목</td><td>23</td><td>6.5%</td><td>60,103</td><td>1,382,373</td><td>—</td></tr>
-<tr><td>5/29</td><td>금</td><td>33</td><td>9.3%</td><td>57,862</td><td>1,909,435</td><td>—</td></tr>
-<tr><td>5/30</td><td>토</td><td>63</td><td>17.9%</td><td>70,963</td><td>4,470,692</td><td>644,700</td></tr>
-<tr><td>5/31</td><td>일</td><td>18</td><td>5.0%</td><td>57,698</td><td>1,038,565</td><td>720,000</td></tr>
-<tr class="highlight-row"><td colspan="2">5월 합계</td><td>2,171</td><td>19.8%</td><td>124,108</td><td>269,439,098</td><td>29,819,000</td></tr>
-</tbody></table>
-<h3>6월 (6/1~6/30)</h3>
-<table><thead><tr><th>날짜</th><th>요일</th><th>판매객실</th><th>OCC</th><th>ADR</th><th>객실매출</th><th>F&amp;B</th></tr></thead><tbody>
-<tr><td>6/1</td><td>월</td><td>36</td><td>10.0%</td><td>55,794</td><td>2,008,579</td><td>—</td></tr>
-<tr><td>6/2</td><td>화</td><td>20</td><td>5.6%</td><td>78,974</td><td>1,579,472</td><td>—</td></tr>
-<tr><td>6/3</td><td>수</td><td>24</td><td>6.7%</td><td>73,898</td><td>1,773,543</td><td>—</td></tr>
-<tr><td>6/4</td><td>목</td><td>29</td><td>8.2%</td><td>67,153</td><td>1,947,437</td><td>—</td></tr>
-<tr><td>6/5</td><td>금</td><td>37</td><td>10.5%</td><td>78,017</td><td>2,886,639</td><td>86,600</td></tr>
-<tr><td>6/6</td><td>토</td><td>130</td><td>36.7%</td><td>99,461</td><td>12,929,924</td><td>1,103,000</td></tr>
-<tr><td>6/7</td><td>일</td><td>80</td><td>22.5%</td><td>57,493</td><td>4,599,475</td><td>2,532,000</td></tr>
-<tr><td>6/8</td><td>월</td><td>83</td><td>23.4%</td><td>57,345</td><td>4,759,607</td><td>—</td></tr>
-<tr><td>6/9</td><td>화</td><td>41</td><td>11.5%</td><td>59,400</td><td>2,435,384</td><td>—</td></tr>
-<tr><td>6/10</td><td>수</td><td>22</td><td>6.2%</td><td>61,060</td><td>1,343,327</td><td>—</td></tr>
-<tr><td>6/11</td><td>목</td><td>29</td><td>8.2%</td><td>59,925</td><td>1,737,822</td><td>—</td></tr>
-<tr><td>6/12</td><td>금</td><td>34</td><td>9.5%</td><td>77,184</td><td>2,624,249</td><td>54,700</td></tr>
-<tr><td>6/13</td><td>토</td><td>83</td><td>23.2%</td><td>109,605</td><td>9,097,180</td><td>997,900</td></tr>
-<tr><td>6/14</td><td>일</td><td>27</td><td>7.5%</td><td>48,144</td><td>1,299,894</td><td>1,544,000</td></tr>
-<tr><td>6/15</td><td>월</td><td>38</td><td>10.5%</td><td>53,274</td><td>2,024,423</td><td>—</td></tr>
-<tr><td>6/16</td><td>화</td><td>63</td><td>17.4%</td><td>57,942</td><td>3,650,363</td><td>—</td></tr>
-<tr><td>6/17</td><td>수</td><td>50</td><td>13.7%</td><td>54,751</td><td>2,737,532</td><td>—</td></tr>
-<tr><td>6/18</td><td>목</td><td>82</td><td>22.5%</td><td>69,285</td><td>5,681,388</td><td>—</td></tr>
-<tr><td>6/19</td><td>금</td><td>80</td><td>21.9%</td><td>76,532</td><td>6,122,535</td><td>80,700</td></tr>
-<tr><td>6/20</td><td>토</td><td>99</td><td>27.3%</td><td>99,163</td><td>9,817,092</td><td>996,400</td></tr>
-<tr><td>6/21</td><td>일</td><td>114</td><td>31.4%</td><td>65,628</td><td>7,481,624</td><td>576,000</td></tr>
-<tr><td>6/22</td><td>월</td><td>119</td><td>32.8%</td><td>61,326</td><td>7,297,773</td><td>—</td></tr>
-<tr><td>6/23</td><td>화</td><td>133</td><td>36.7%</td><td>72,815</td><td>9,684,398</td><td>—</td></tr>
-<tr><td>6/24</td><td>수</td><td>137</td><td>38.0%</td><td>75,669</td><td>10,366,650</td><td>—</td></tr>
-<tr><td>6/25</td><td>목</td><td>137</td><td>38.0%</td><td>77,287</td><td>10,588,564</td><td>—</td></tr>
-<tr><td>6/26</td><td>금</td><td>308</td><td>85.3%</td><td>83,767</td><td>25,800,219</td><td>—</td></tr>
-<tr><td>6/27</td><td>토</td><td>85</td><td>23.7%</td><td>123,071</td><td>10,461,065</td><td>1,885,200</td></tr>
-<tr><td>6/28</td><td>일</td><td>81</td><td>22.6%</td><td>67,082</td><td>5,433,632</td><td>1,084,000</td></tr>
-<tr><td>6/29</td><td>월</td><td>89</td><td>24.8%</td><td>61,706</td><td>5,491,875</td><td>—</td></tr>
-<tr><td>6/30</td><td>화</td><td>136</td><td>42.2%</td><td>68,968</td><td>10,414,108</td><td>—</td></tr>
-<tr class="highlight-row"><td colspan="2">6월 합계</td><td>2,426</td><td>22.7%</td><td>75,876</td><td>184,075,773</td><td>11,361,800</td></tr>
-</tbody></table>
-<h3>7월 (7/1~7/31, 확정) — 여름 성수기 진입, 연중 2위 매출월</h3>
-<table><thead><tr><th>날짜</th><th>요일</th><th>판매객실</th><th>OCC</th><th>ADR</th><th>객실매출</th><th>F&amp;B</th></tr></thead><tbody>
-<tr><td>7/1</td><td>수</td><td>47</td><td>13.3%</td><td>60,980</td><td>2,866,066</td><td>—</td></tr>
-<tr><td>7/2</td><td>목</td><td>29</td><td>8.1%</td><td>98,947</td><td>2,869,460</td><td>—</td></tr>
-<tr><td>7/3</td><td>금</td><td>38</td><td>10.6%</td><td>82,253</td><td>3,125,625</td><td>95,700</td></tr>
-<tr><td>7/4</td><td>토</td><td>68</td><td>18.9%</td><td>122,004</td><td>8,296,248</td><td>691,000</td></tr>
-<tr><td>7/5</td><td>일</td><td>29</td><td>8.1%</td><td>66,566</td><td>1,930,418</td><td>—</td></tr>
-<tr><td>7/6</td><td>월</td><td>60</td><td>16.5%</td><td>57,917</td><td>3,475,037</td><td>—</td></tr>
-<tr><td>7/7</td><td>화</td><td>65</td><td>17.9%</td><td>63,409</td><td>4,121,599</td><td>—</td></tr>
-<tr><td>7/8</td><td>수</td><td>35</td><td>9.6%</td><td>56,415</td><td>1,974,530</td><td>—</td></tr>
-<tr><td>7/9</td><td>목</td><td>34</td><td>9.3%</td><td>60,626</td><td>2,061,289</td><td>—</td></tr>
-<tr><td>7/10</td><td>금</td><td>51</td><td>13.9%</td><td>92,061</td><td>4,695,106</td><td>—</td></tr>
-<tr><td>7/11</td><td>토</td><td>77</td><td>21.0%</td><td>130,654</td><td>10,060,344</td><td>875,900</td></tr>
-<tr><td>7/12</td><td>일</td><td>29</td><td>7.9%</td><td>69,387</td><td>2,012,236</td><td>992,000</td></tr>
-<tr><td>7/13</td><td>월</td><td>32</td><td>8.8%</td><td>56,365</td><td>1,803,691</td><td>—</td></tr>
-<tr><td>7/14</td><td>화</td><td>30</td><td>8.2%</td><td>59,999</td><td>1,799,960</td><td>—</td></tr>
-<tr><td>7/15</td><td>수</td><td>24</td><td>6.6%</td><td>49,853</td><td>1,196,479</td><td>—</td></tr>
-<tr><td>7/16</td><td>목</td><td>94</td><td>25.7%</td><td>100,460</td><td>9,443,276</td><td>—</td></tr>
-<tr class="highlight-row"><td>7/17</td><td>금</td><td>307</td><td>84.6%</td><td>208,754</td><td>64,087,513</td><td>12,822,100</td></tr>
-<tr><td>7/18</td><td>토</td><td>129</td><td>35.6%</td><td>172,965</td><td>22,312,506</td><td>—</td></tr>
-<tr><td>7/19</td><td>일</td><td>26</td><td>7.1%</td><td>140,189</td><td>3,644,923</td><td>969,000</td></tr>
-<tr><td>7/20</td><td>월</td><td>41</td><td>11.2%</td><td>100,380</td><td>4,115,598</td><td>502,000</td></tr>
-<tr><td>7/21</td><td>화</td><td>49</td><td>13.4%</td><td>106,343</td><td>5,210,795</td><td>337,500</td></tr>
-<tr><td>7/22</td><td>수</td><td>52</td><td>14.3%</td><td>95,787</td><td>4,980,941</td><td>327,400</td></tr>
-<tr><td>7/23</td><td>목</td><td>64</td><td>17.5%</td><td>96,999</td><td>6,207,916</td><td>743,800</td></tr>
-<tr><td>7/24</td><td>금</td><td>83</td><td>22.9%</td><td>143,140</td><td>11,880,601</td><td>1,332,400</td></tr>
-<tr><td>7/25</td><td>토</td><td>89</td><td>24.5%</td><td>188,714</td><td>16,795,520</td><td>1,164,000</td></tr>
-<tr><td>7/26</td><td>일</td><td>86</td><td>23.7%</td><td>154,181</td><td>13,259,595</td><td>1,641,200</td></tr>
-<tr><td>7/27</td><td>월</td><td>110</td><td>30.3%</td><td>155,918</td><td>17,151,033</td><td>1,425,400</td></tr>
-<tr><td>7/28</td><td>화</td><td>127</td><td>35.0%</td><td>145,108</td><td>18,428,713</td><td>1,600,800</td></tr>
-<tr><td>7/29</td><td>수</td><td>168</td><td>46.4%</td><td>162,754</td><td>27,342,673</td><td>2,528,800</td></tr>
-<tr><td>7/30</td><td>목</td><td>153</td><td>42.5%</td><td>197,471</td><td>30,213,022</td><td>4,028,200</td></tr>
-<tr class="highlight-row"><td>7/31</td><td>금</td><td>167</td><td>46.3%</td><td>193,642</td><td>32,338,241</td><td>3,409,300</td></tr>
-<tr class="highlight-row"><td colspan="2">7월 확정 (1~31일)</td><td>2,393</td><td>21.3%</td><td>141,956</td><td>339,700,954</td><td>41,634,300</td></tr>
-</tbody></table>
-<div class="note">※ <strong>7월 전 일자는 PMS 원장(Sales On the Book, 07/2026, Rsvn Sts: Definite)으로 재검증한 확정치</strong>이며, 월 합계 2,393실 / 339,700,954원은 PMS Grand Total과 일치한다. 종전 일일보고 기반 추정에서 <strong>7/18(토)은 익일 리포트 파일 누락(0바이트)에 따른 잠정치 22,371,597원 → 확정 22,312,506원(ADR 172,965)으로 확정</strong>되었고, <strong>7/24 ADR 143,140원은 역산치가 PMS 실측과 일치함이 확인</strong>되어 잠정 표기를 해제했다(7/8도 1,974,525 → 1,974,530원으로 미세 조정). <strong>7/17(금)은 단체행사(바르게살기운동 경기도협의회 60객실+연회)로 객실매출 64.1백만원(OCC 84.6%)·F&amp;B 12.8백만원(연회 8.74백만 포함)을 기록 — 5/1에 이은 연중 2위 매출일.</strong> <strong>7/24~31은 여드레 연속 판매객실 83~168실·객실매출 11.9~32.3백만원의 고가동이 이어지며 월말로 갈수록 상승</strong>(중앙대·키움 주중 단체, 삼척시청 배드민턴, 목포교육지원청, 서울대 대학신문사 등). 판매 구성은 <strong>FIT 2,248실(93.9%)·320.8백만원 / 단체 145실(6.1%)·18.9백만원</strong>으로, 단체는 실 수 자체보다 <strong>고단가 일자를 만들어 주변 FIT 단가를 함께 끌어올리는 효과</strong>가 컸다(7/17·7/29·7/30).</div>
-<div class="note">* 5/22·6/25 OCC는 원본 오타 보정, 5/25 판매객실은 공란 역산, 6/27은 추가 확보 실측치. F&amp;B "—"는 당일매출 0원(미입력 가능성 포함); 월 F&amp;B 합계는 월 누계(F&amp;B누적월매출) 기준이라 일자 합과 소폭 차이가 있을 수 있음. 7월 F&amp;B(41,634,300원, 7/1~31 월 누계 확정)는 조식 8.66백만·예약조식 14.87백만·연회 8.74백만·룸서비스 4.26백만·치킨피자 3.07백만·베이커리 2.03백만으로 구성되며, 7월 중순 이후 치킨·피자 POS 장애로 일부 기간 산출이 누락되어 <strong>실제는 소폭 상회할 가능성</strong>이 있다. 일자별 F&amp;B의 단순 합과 월 누계는 소폭 차이가 있어 <strong>월 누계 기준</strong>을 채택했다. OCC 분모는 5·6월이 가용 약 356실, 7월은 PMS 기준 약 363실로 월별로 미세한 차이가 있다.</div>
-<h3>8월 (8/1~8/8, 진행 중) — 여름 성수기 정점 구간</h3>
-<table><thead><tr><th>날짜</th><th>요일</th><th>판매객실</th><th>OCC</th><th>ADR</th><th>객실매출</th><th>F&amp;B(누계)</th></tr></thead><tbody>
-<tr><td>8/1</td><td>토</td><td>195</td><td>54.5%</td><td>229,169</td><td>44,687,997</td><td>4,073,800</td></tr>
-<tr><td>8/2</td><td>일</td><td>135</td><td>37.9%</td><td>212,056</td><td>28,627,507</td><td>3,828,700</td></tr>
-<tr><td>8/3</td><td>월</td><td>168</td><td>47.1%</td><td>191,903</td><td>32,239,658</td><td>3,153,500</td></tr>
-<tr><td>8/4</td><td>화</td><td>144</td><td>40.1%</td><td>148,387</td><td>21,367,783</td><td>2,771,900</td></tr>
-<tr><td>8/5</td><td>수</td><td>116</td><td>32.3%</td><td>146,813</td><td>17,030,276</td><td>2,044,600</td></tr>
-<tr><td>8/6</td><td>목</td><td>123</td><td>34.3%</td><td>155,487</td><td>19,124,910</td><td>2,162,500</td></tr>
-<tr><td>8/7</td><td>금</td><td>112</td><td>31.2%</td><td>162,953</td><td>18,250,754</td><td>1,666,100</td></tr>
-<tr class="highlight-row"><td>8/8</td><td>토</td><td>141</td><td>39.3%</td><td>168,099</td><td>23,701,898</td><td>2,472,000</td></tr>
-<tr class="highlight-row"><td colspan="2">8월 실현 (1~8일)</td><td>1,134</td><td>39.6%</td><td>180,803</td><td>205,030,783</td><td>22,253,100</td></tr>
-</tbody></table>
-<div class="note">※ 8월은 진행 중(8/1~8일 실현, 일일보고 YESTERDAY 열 기준). <strong>8/9 기준 월 예약 on-books = 2,308실 / 객실매출 395,437,220원 / ADR 171,333원</strong>으로, 잔여 22일 예약을 포함한 forward 지표이며 <strong>7월 확정 객실매출(339,700,954원)을 이미 16.4% 상회</strong>한다. 7월 사례에서 on-books는 7/27 시점 319.2백만 → 최종 339.7백만으로 마감까지 약 6% 추가 증가했으므로, <strong>8월도 최종치는 현 on-books를 상회할 가능성</strong>이 있다. <strong>8/1(토)은 판매객실 195실·OCC 54.5%·객실매출 44.7백만원으로 연중 4위 매출일</strong>(5/1·5/2·7/17에 이어). F&amp;B는 일자별 당일매출이 아닌 <strong>월 누계</strong> 표기이며, 8월은 8/8까지 연회(Banquet) 매출이 0원으로 7월(8.74백만)과 달리 <strong>연회 없이 객실·조식만으로</strong> 이 수준을 만든 점이 특징이다. 8월 확정치는 월 마감 후 PMS 원장(Sales On the Book 08/2026)으로 재검증 예정.</div>
+<h2>10. 부록 — 월별 비교 데이터</h2>
+<p>4~8월을 동일 지표로 나란히 비교한다. 일자별 원자료는 상단 <strong>「일자별 객실매출 추이」 차트에 마우스를 올리면</strong> 날짜·요일·금액이 그대로 표시된다.</p>
+<div class="insight-box"><strong>읽는 법.</strong> 8월은 8일분만 실현된 <strong>진행 중</strong>이므로, 월 총액(객실매출·F&amp;B)은 <strong>점선 막대</strong>로 구분해 다른 달과 직접 비교하지 않는다. 달 길이와 진행률의 영향을 제거한 <strong>일평균·OCC·ADR</strong>이 유일하게 공정한 비교 축이며, 이 세 지표에서 8월은 모두 실선이다.</div>
+
+<h3>10-1. 매출 규모</h3>
+<div class="two-col">
+<div class="fig"><div class="cap">월별 객실매출 — 8월은 8일분(점선)</div><svg viewBox="0 0 440 240" class="chart" role="img" aria-label="월별 객실매출">
+<line x1="44" y1="200.0" x2="430" y2="200.0" class="grid"/>
+<text x="38" y="203.0" class="ytick" text-anchor="end">0</text>
+<line x1="44" y1="156.5" x2="430" y2="156.5" class="grid"/>
+<text x="38" y="159.5" class="ytick" text-anchor="end">100</text>
+<line x1="44" y1="113.0" x2="430" y2="113.0" class="grid"/>
+<text x="38" y="116.0" class="ytick" text-anchor="end">200</text>
+<line x1="44" y1="69.5" x2="430" y2="69.5" class="grid"/>
+<text x="38" y="72.5" class="ytick" text-anchor="end">300</text>
+<line x1="44" y1="26.0" x2="430" y2="26.0" class="grid"/>
+<text x="38" y="29.0" class="ytick" text-anchor="end">400</text>
+<text x="38" y="16" class="axis-unit" text-anchor="end">백만원</text>
+<path d="M 59.6,200.0 L 59.6,172.3 Q 59.6,168.3 63.6,168.3 L 101.6,168.3 Q 105.6,168.3 105.6,172.3 L 105.6,200.0 Z" fill="var(--mo1)"><title>4월 객실매출 72,882,108원</title></path>
+<text x="82.6" y="162.3" class="barval" text-anchor="middle">72.9</text>
+<text x="82.6" y="218.0" class="catlab" text-anchor="middle">4월</text>
+<text x="82.6" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 136.8,200.0 L 136.8,86.8 Q 136.8,82.8 140.8,82.8 L 178.8,82.8 Q 182.8,82.8 182.8,86.8 L 182.8,200.0 Z" fill="var(--mo2)"><title>5월 객실매출 269,439,098원</title></path>
+<text x="159.8" y="76.8" class="barval" text-anchor="middle">269.4</text>
+<text x="159.8" y="218.0" class="catlab" text-anchor="middle">5월</text>
+<text x="159.8" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 214.0,200.0 L 214.0,123.9 Q 214.0,119.9 218.0,119.9 L 256.0,119.9 Q 260.0,119.9 260.0,123.9 L 260.0,200.0 Z" fill="var(--mo3)"><title>6월 객실매출 184,075,773원</title></path>
+<text x="237.0" y="113.9" class="barval" text-anchor="middle">184.1</text>
+<text x="237.0" y="218.0" class="catlab" text-anchor="middle">6월</text>
+<text x="237.0" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 291.2,200.0 L 291.2,56.2 Q 291.2,52.2 295.2,52.2 L 333.2,52.2 Q 337.2,52.2 337.2,56.2 L 337.2,200.0 Z" fill="var(--mo4)"><title>7월 객실매출 339,700,954원</title></path>
+<text x="314.2" y="46.2" class="barval" text-anchor="middle">339.7</text>
+<text x="314.2" y="218.0" class="catlab" text-anchor="middle">7월</text>
+<text x="314.2" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 368.4,200.0 L 368.4,114.8 Q 368.4,110.8 372.4,110.8 L 410.4,110.8 Q 414.4,110.8 414.4,114.8 L 414.4,200.0 Z" fill="var(--mo5)" fill-opacity="0.28" stroke="var(--mo5)" stroke-width="1.6" stroke-dasharray="4 2"><title>8월 객실매출 205,030,783원 (8일분·진행 중)</title></path>
+<text x="391.4" y="104.8" class="barval" text-anchor="middle">205.0</text>
+<text x="391.4" y="218.0" class="catlab" text-anchor="middle">8월</text>
+<text x="391.4" y="231.0" class="subtick" text-anchor="middle">1~8일</text>
+</svg></div>
+<div class="fig"><div class="cap">월별 F&amp;B매출 — 8월은 8일분(점선)</div><svg viewBox="0 0 440 240" class="chart" role="img" aria-label="월별 F&B매출">
+<line x1="44" y1="200.0" x2="430" y2="200.0" class="grid"/>
+<text x="38" y="203.0" class="ytick" text-anchor="end">0</text>
+<line x1="44" y1="165.2" x2="430" y2="165.2" class="grid"/>
+<text x="38" y="168.2" class="ytick" text-anchor="end">10</text>
+<line x1="44" y1="130.4" x2="430" y2="130.4" class="grid"/>
+<text x="38" y="133.4" class="ytick" text-anchor="end">20</text>
+<line x1="44" y1="95.6" x2="430" y2="95.6" class="grid"/>
+<text x="38" y="98.6" class="ytick" text-anchor="end">30</text>
+<line x1="44" y1="60.8" x2="430" y2="60.8" class="grid"/>
+<text x="38" y="63.8" class="ytick" text-anchor="end">40</text>
+<line x1="44" y1="26.0" x2="430" y2="26.0" class="grid"/>
+<text x="38" y="29.0" class="ytick" text-anchor="end">50</text>
+<text x="38" y="16" class="axis-unit" text-anchor="end">백만원</text>
+<path d="M 59.6,200.0 L 59.6,200.0 Q 59.6,196.5 63.1,196.5 L 102.1,196.5 Q 105.6,196.5 105.6,200.0 L 105.6,200.0 Z" fill="var(--mo1)"><title>4월 F&amp;B매출 1,000,900원</title></path>
+<text x="82.6" y="190.5" class="barval" text-anchor="middle">1.0</text>
+<text x="82.6" y="218.0" class="catlab" text-anchor="middle">4월</text>
+<text x="82.6" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 136.8,200.0 L 136.8,100.2 Q 136.8,96.2 140.8,96.2 L 178.8,96.2 Q 182.8,96.2 182.8,100.2 L 182.8,200.0 Z" fill="var(--mo2)"><title>5월 F&amp;B매출 29,819,000원</title></path>
+<text x="159.8" y="90.2" class="barval" text-anchor="middle">29.8</text>
+<text x="159.8" y="218.0" class="catlab" text-anchor="middle">5월</text>
+<text x="159.8" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 214.0,200.0 L 214.0,164.5 Q 214.0,160.5 218.0,160.5 L 256.0,160.5 Q 260.0,160.5 260.0,164.5 L 260.0,200.0 Z" fill="var(--mo3)"><title>6월 F&amp;B매출 11,361,800원</title></path>
+<text x="237.0" y="154.5" class="barval" text-anchor="middle">11.4</text>
+<text x="237.0" y="218.0" class="catlab" text-anchor="middle">6월</text>
+<text x="237.0" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 291.2,200.0 L 291.2,59.1 Q 291.2,55.1 295.2,55.1 L 333.2,55.1 Q 337.2,55.1 337.2,59.1 L 337.2,200.0 Z" fill="var(--mo4)"><title>7월 F&amp;B매출 41,634,300원</title></path>
+<text x="314.2" y="49.1" class="barval" text-anchor="middle">41.6</text>
+<text x="314.2" y="218.0" class="catlab" text-anchor="middle">7월</text>
+<text x="314.2" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 368.4,200.0 L 368.4,126.6 Q 368.4,122.6 372.4,122.6 L 410.4,122.6 Q 414.4,122.6 414.4,126.6 L 414.4,200.0 Z" fill="var(--mo5)" fill-opacity="0.28" stroke="var(--mo5)" stroke-width="1.6" stroke-dasharray="4 2"><title>8월 F&amp;B매출 22,253,100원 (8일분·진행 중)</title></path>
+<text x="391.4" y="116.6" class="barval" text-anchor="middle">22.3</text>
+<text x="391.4" y="218.0" class="catlab" text-anchor="middle">8월</text>
+<text x="391.4" y="231.0" class="subtick" text-anchor="middle">1~8일</text>
+</svg></div>
 </div>
 
+<h3>10-2. 공정 비교 지표 — 일평균 · 가동률 · 단가</h3>
+<div class="fig"><div class="cap"><b>월별 일평균 객실매출</b> — 달 길이·진행률을 보정한 가장 공정한 비교</div><svg viewBox="0 0 440 240" class="chart" role="img" aria-label="월별 일평균 객실매출">
+<line x1="44" y1="200.0" x2="430" y2="200.0" class="grid"/>
+<text x="38" y="203.0" class="ytick" text-anchor="end">0</text>
+<line x1="44" y1="142.0" x2="430" y2="142.0" class="grid"/>
+<text x="38" y="145.0" class="ytick" text-anchor="end">10</text>
+<line x1="44" y1="84.0" x2="430" y2="84.0" class="grid"/>
+<text x="38" y="87.0" class="ytick" text-anchor="end">20</text>
+<line x1="44" y1="26.0" x2="430" y2="26.0" class="grid"/>
+<text x="38" y="29.0" class="ytick" text-anchor="end">30</text>
+<text x="38" y="16" class="axis-unit" text-anchor="end">백만원/일</text>
+<path d="M 59.6,200.0 L 59.6,189.9 Q 59.6,185.9 63.6,185.9 L 101.6,185.9 Q 105.6,185.9 105.6,189.9 L 105.6,200.0 Z" fill="var(--mo1)"><title>4월 일평균 객실매출 2,429,404원 (30일 기준)</title></path>
+<text x="82.6" y="179.9" class="barval" text-anchor="middle">2.4</text>
+<text x="82.6" y="218.0" class="catlab" text-anchor="middle">4월</text>
+<text x="82.6" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 136.8,200.0 L 136.8,153.6 Q 136.8,149.6 140.8,149.6 L 178.8,149.6 Q 182.8,149.6 182.8,153.6 L 182.8,200.0 Z" fill="var(--mo2)"><title>5월 일평균 객실매출 8,691,584원 (31일 기준)</title></path>
+<text x="159.8" y="143.6" class="barval" text-anchor="middle">8.7</text>
+<text x="159.8" y="218.0" class="catlab" text-anchor="middle">5월</text>
+<text x="159.8" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 214.0,200.0 L 214.0,168.4 Q 214.0,164.4 218.0,164.4 L 256.0,164.4 Q 260.0,164.4 260.0,168.4 L 260.0,200.0 Z" fill="var(--mo3)"><title>6월 일평균 객실매출 6,135,859원 (30일 기준)</title></path>
+<text x="237.0" y="158.4" class="barval" text-anchor="middle">6.1</text>
+<text x="237.0" y="218.0" class="catlab" text-anchor="middle">6월</text>
+<text x="237.0" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 291.2,200.0 L 291.2,140.4 Q 291.2,136.4 295.2,136.4 L 333.2,136.4 Q 337.2,136.4 337.2,140.4 L 337.2,200.0 Z" fill="var(--mo4)"><title>7월 일평균 객실매출 10,958,095원 (31일 기준)</title></path>
+<text x="314.2" y="130.4" class="barval" text-anchor="middle">11.0</text>
+<text x="314.2" y="218.0" class="catlab" text-anchor="middle">7월</text>
+<text x="314.2" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 368.4,200.0 L 368.4,55.4 Q 368.4,51.4 372.4,51.4 L 410.4,51.4 Q 414.4,51.4 414.4,55.4 L 414.4,200.0 Z" fill="var(--mo5)"><title>8월 일평균 객실매출 25,628,848원 (8일 기준)</title></path>
+<text x="391.4" y="45.4" class="barval" text-anchor="middle">25.6</text>
+<text x="391.4" y="218.0" class="catlab" text-anchor="middle">8월</text>
+<text x="391.4" y="231.0" class="subtick" text-anchor="middle">1~8일</text>
+</svg></div>
+<div class="two-col">
+<div class="fig"><div class="cap">월별 OCC (가동률)</div><svg viewBox="0 0 440 240" class="chart" role="img" aria-label="월별 OCC">
+<line x1="44" y1="200.0" x2="430" y2="200.0" class="grid"/>
+<text x="38" y="203.0" class="ytick" text-anchor="end">0</text>
+<line x1="44" y1="156.5" x2="430" y2="156.5" class="grid"/>
+<text x="38" y="159.5" class="ytick" text-anchor="end">10</text>
+<line x1="44" y1="113.0" x2="430" y2="113.0" class="grid"/>
+<text x="38" y="116.0" class="ytick" text-anchor="end">20</text>
+<line x1="44" y1="69.5" x2="430" y2="69.5" class="grid"/>
+<text x="38" y="72.5" class="ytick" text-anchor="end">30</text>
+<line x1="44" y1="26.0" x2="430" y2="26.0" class="grid"/>
+<text x="38" y="29.0" class="ytick" text-anchor="end">40</text>
+<text x="38" y="16" class="axis-unit" text-anchor="end">%</text>
+<path d="M 59.6,200.0 L 59.6,153.5 Q 59.6,149.5 63.6,149.5 L 101.6,149.5 Q 105.6,149.5 105.6,153.5 L 105.6,200.0 Z" fill="var(--mo1)"><title>4월 OCC 11.6%</title></path>
+<text x="82.6" y="143.5" class="barval" text-anchor="middle">11.6</text>
+<text x="82.6" y="218.0" class="catlab" text-anchor="middle">4월</text>
+<text x="82.6" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 136.8,200.0 L 136.8,117.9 Q 136.8,113.9 140.8,113.9 L 178.8,113.9 Q 182.8,113.9 182.8,117.9 L 182.8,200.0 Z" fill="var(--mo2)"><title>5월 OCC 19.8%</title></path>
+<text x="159.8" y="107.9" class="barval" text-anchor="middle">19.8</text>
+<text x="159.8" y="218.0" class="catlab" text-anchor="middle">5월</text>
+<text x="159.8" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 214.0,200.0 L 214.0,105.3 Q 214.0,101.3 218.0,101.3 L 256.0,101.3 Q 260.0,101.3 260.0,105.3 L 260.0,200.0 Z" fill="var(--mo3)"><title>6월 OCC 22.7%</title></path>
+<text x="237.0" y="95.3" class="barval" text-anchor="middle">22.7</text>
+<text x="237.0" y="218.0" class="catlab" text-anchor="middle">6월</text>
+<text x="237.0" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 291.2,200.0 L 291.2,111.3 Q 291.2,107.3 295.2,107.3 L 333.2,107.3 Q 337.2,107.3 337.2,111.3 L 337.2,200.0 Z" fill="var(--mo4)"><title>7월 OCC 21.3%</title></path>
+<text x="314.2" y="101.3" class="barval" text-anchor="middle">21.3</text>
+<text x="314.2" y="218.0" class="catlab" text-anchor="middle">7월</text>
+<text x="314.2" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 368.4,200.0 L 368.4,31.7 Q 368.4,27.7 372.4,27.7 L 410.4,27.7 Q 414.4,27.7 414.4,31.7 L 414.4,200.0 Z" fill="var(--mo5)"><title>8월 OCC 39.6%</title></path>
+<text x="391.4" y="21.7" class="barval" text-anchor="middle">39.6</text>
+<text x="391.4" y="218.0" class="catlab" text-anchor="middle">8월</text>
+<text x="391.4" y="231.0" class="subtick" text-anchor="middle">1~8일</text>
+</svg></div>
+<div class="fig"><div class="cap">월별 ADR (평균 판매단가)</div><svg viewBox="0 0 440 240" class="chart" role="img" aria-label="월별 ADR">
+<line x1="44" y1="200.0" x2="430" y2="200.0" class="grid"/>
+<text x="38" y="203.0" class="ytick" text-anchor="end">0</text>
+<line x1="44" y1="156.5" x2="430" y2="156.5" class="grid"/>
+<text x="38" y="159.5" class="ytick" text-anchor="end">50</text>
+<line x1="44" y1="113.0" x2="430" y2="113.0" class="grid"/>
+<text x="38" y="116.0" class="ytick" text-anchor="end">100</text>
+<line x1="44" y1="69.5" x2="430" y2="69.5" class="grid"/>
+<text x="38" y="72.5" class="ytick" text-anchor="end">150</text>
+<line x1="44" y1="26.0" x2="430" y2="26.0" class="grid"/>
+<text x="38" y="29.0" class="ytick" text-anchor="end">200</text>
+<text x="38" y="16" class="axis-unit" text-anchor="end">천원</text>
+<path d="M 59.6,200.0 L 59.6,152.6 Q 59.6,148.6 63.6,148.6 L 101.6,148.6 Q 105.6,148.6 105.6,152.6 L 105.6,200.0 Z" fill="var(--mo1)"><title>4월 ADR 59,110원</title></path>
+<text x="82.6" y="142.6" class="barval" text-anchor="middle">59.1</text>
+<text x="82.6" y="218.0" class="catlab" text-anchor="middle">4월</text>
+<text x="82.6" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 136.8,200.0 L 136.8,96.0 Q 136.8,92.0 140.8,92.0 L 178.8,92.0 Q 182.8,92.0 182.8,96.0 L 182.8,200.0 Z" fill="var(--mo2)"><title>5월 ADR 124,108원</title></path>
+<text x="159.8" y="86.0" class="barval" text-anchor="middle">124.1</text>
+<text x="159.8" y="218.0" class="catlab" text-anchor="middle">5월</text>
+<text x="159.8" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 214.0,200.0 L 214.0,138.0 Q 214.0,134.0 218.0,134.0 L 256.0,134.0 Q 260.0,134.0 260.0,138.0 L 260.0,200.0 Z" fill="var(--mo3)"><title>6월 ADR 75,876원</title></path>
+<text x="237.0" y="128.0" class="barval" text-anchor="middle">75.9</text>
+<text x="237.0" y="218.0" class="catlab" text-anchor="middle">6월</text>
+<text x="237.0" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 291.2,200.0 L 291.2,80.5 Q 291.2,76.5 295.2,76.5 L 333.2,76.5 Q 337.2,76.5 337.2,80.5 L 337.2,200.0 Z" fill="var(--mo4)"><title>7월 ADR 141,956원</title></path>
+<text x="314.2" y="70.5" class="barval" text-anchor="middle">142.0</text>
+<text x="314.2" y="218.0" class="catlab" text-anchor="middle">7월</text>
+<text x="314.2" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 368.4,200.0 L 368.4,46.7 Q 368.4,42.7 372.4,42.7 L 410.4,42.7 Q 414.4,42.7 414.4,46.7 L 414.4,200.0 Z" fill="var(--mo5)"><title>8월 ADR 180,803원</title></path>
+<text x="391.4" y="36.7" class="barval" text-anchor="middle">180.8</text>
+<text x="391.4" y="218.0" class="catlab" text-anchor="middle">8월</text>
+<text x="391.4" y="231.0" class="subtick" text-anchor="middle">1~8일</text>
+</svg></div>
+</div>
+<div class="insight-box good"><strong>세 지표가 같은 방향을 가리킨다.</strong> 일평균 객실매출은 4월 2.4 → 5월 8.7 → 6월 6.1 → 7월 11.0 → <strong>8월 25.6백만원</strong>, OCC는 11.6 → 19.8 → 22.7 → 21.3 → <strong>39.6%</strong>, ADR은 59.1 → 124.1 → 75.9 → 142.0 → <strong>180.8천원</strong>. 5월은 <strong>단가만</strong> 높고 가동률이 낮은 소수일 의존형, 6월은 <strong>가동률만</strong> 오르고 단가가 무너진 물량형이었던 반면, <strong>7·8월은 가동률과 단가가 함께 오른 유일한 구간</strong>이다.</div>
+
+<h3>10-3. 주중 · 주말 구조 변화</h3>
+<div class="two-col">
+<div class="fig"><div class="cap">주중(월~목) 일평균 판매객실</div><svg viewBox="0 0 440 240" class="chart" role="img" aria-label="월별 주중 일평균 판매객실">
+<line x1="44" y1="200.0" x2="430" y2="200.0" class="grid"/>
+<text x="38" y="203.0" class="ytick" text-anchor="end">0</text>
+<line x1="44" y1="142.0" x2="430" y2="142.0" class="grid"/>
+<text x="38" y="145.0" class="ytick" text-anchor="end">50</text>
+<line x1="44" y1="84.0" x2="430" y2="84.0" class="grid"/>
+<text x="38" y="87.0" class="ytick" text-anchor="end">100</text>
+<line x1="44" y1="26.0" x2="430" y2="26.0" class="grid"/>
+<text x="38" y="29.0" class="ytick" text-anchor="end">150</text>
+<text x="38" y="16" class="axis-unit" text-anchor="end">실/일</text>
+<path d="M 59.6,200.0 L 59.6,149.1 Q 59.6,145.1 63.6,145.1 L 101.6,145.1 Q 105.6,145.1 105.6,149.1 L 105.6,200.0 Z" fill="var(--mo1)"><title>4월 주중(월~목) 일평균 47.3실</title></path>
+<text x="82.6" y="139.1" class="barval" text-anchor="middle">47.3</text>
+<text x="82.6" y="218.0" class="catlab" text-anchor="middle">4월</text>
+<text x="82.6" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 136.8,200.0 L 136.8,160.1 Q 136.8,156.1 140.8,156.1 L 178.8,156.1 Q 182.8,156.1 182.8,160.1 L 182.8,200.0 Z" fill="var(--mo2)"><title>5월 주중(월~목) 일평균 37.9실</title></path>
+<text x="159.8" y="150.1" class="barval" text-anchor="middle">37.9</text>
+<text x="159.8" y="218.0" class="catlab" text-anchor="middle">5월</text>
+<text x="159.8" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 214.0,200.0 L 214.0,122.3 Q 214.0,118.3 218.0,118.3 L 256.0,118.3 Q 260.0,118.3 260.0,122.3 L 260.0,200.0 Z" fill="var(--mo3)"><title>6월 주중(월~목) 일평균 70.4실</title></path>
+<text x="237.0" y="112.3" class="barval" text-anchor="middle">70.4</text>
+<text x="237.0" y="218.0" class="catlab" text-anchor="middle">6월</text>
+<text x="237.0" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 291.2,200.0 L 291.2,125.8 Q 291.2,121.8 295.2,121.8 L 333.2,121.8 Q 337.2,121.8 337.2,125.8 L 337.2,200.0 Z" fill="var(--mo4)"><title>7월 주중(월~목) 일평균 67.4실</title></path>
+<text x="314.2" y="115.8" class="barval" text-anchor="middle">67.4</text>
+<text x="314.2" y="218.0" class="catlab" text-anchor="middle">7월</text>
+<text x="314.2" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 368.4,200.0 L 368.4,44.2 Q 368.4,40.2 372.4,40.2 L 410.4,40.2 Q 414.4,40.2 414.4,44.2 L 414.4,200.0 Z" fill="var(--mo5)"><title>8월 주중(월~목) 일평균 137.8실</title></path>
+<text x="391.4" y="34.2" class="barval" text-anchor="middle">137.8</text>
+<text x="391.4" y="218.0" class="catlab" text-anchor="middle">8월</text>
+<text x="391.4" y="231.0" class="subtick" text-anchor="middle">1~8일</text>
+</svg></div>
+<div class="fig"><div class="cap">주말(금~일) 일평균 판매객실</div><svg viewBox="0 0 440 240" class="chart" role="img" aria-label="월별 주말 일평균 판매객실">
+<line x1="44" y1="200.0" x2="430" y2="200.0" class="grid"/>
+<text x="38" y="203.0" class="ytick" text-anchor="end">0</text>
+<line x1="44" y1="142.0" x2="430" y2="142.0" class="grid"/>
+<text x="38" y="145.0" class="ytick" text-anchor="end">50</text>
+<line x1="44" y1="84.0" x2="430" y2="84.0" class="grid"/>
+<text x="38" y="87.0" class="ytick" text-anchor="end">100</text>
+<line x1="44" y1="26.0" x2="430" y2="26.0" class="grid"/>
+<text x="38" y="29.0" class="ytick" text-anchor="end">150</text>
+<text x="38" y="16" class="axis-unit" text-anchor="end">실/일</text>
+<path d="M 59.6,200.0 L 59.6,167.2 Q 59.6,163.2 63.6,163.2 L 101.6,163.2 Q 105.6,163.2 105.6,167.2 L 105.6,200.0 Z" fill="var(--mo1)"><title>4월 주말(금~일) 일평균 31.8실</title></path>
+<text x="82.6" y="157.2" class="barval" text-anchor="middle">31.8</text>
+<text x="82.6" y="218.0" class="catlab" text-anchor="middle">4월</text>
+<text x="82.6" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 136.8,200.0 L 136.8,83.0 Q 136.8,79.0 140.8,79.0 L 178.8,79.0 Q 182.8,79.0 182.8,83.0 L 182.8,200.0 Z" fill="var(--mo2)"><title>5월 주말(금~일) 일평균 104.3실</title></path>
+<text x="159.8" y="73.0" class="barval" text-anchor="middle">104.3</text>
+<text x="159.8" y="218.0" class="catlab" text-anchor="middle">5월</text>
+<text x="159.8" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 214.0,200.0 L 214.0,92.1 Q 214.0,88.1 218.0,88.1 L 256.0,88.1 Q 260.0,88.1 260.0,92.1 L 260.0,200.0 Z" fill="var(--mo3)"><title>6월 주말(금~일) 일평균 96.5실</title></path>
+<text x="237.0" y="82.1" class="barval" text-anchor="middle">96.5</text>
+<text x="237.0" y="218.0" class="catlab" text-anchor="middle">6월</text>
+<text x="237.0" y="231.0" class="subtick" text-anchor="middle">30일</text>
+<path d="M 291.2,200.0 L 291.2,98.8 Q 291.2,94.8 295.2,94.8 L 333.2,94.8 Q 337.2,94.8 337.2,98.8 L 337.2,200.0 Z" fill="var(--mo4)"><title>7월 주말(금~일) 일평균 90.7실</title></path>
+<text x="314.2" y="88.8" class="barval" text-anchor="middle">90.7</text>
+<text x="314.2" y="218.0" class="catlab" text-anchor="middle">7월</text>
+<text x="314.2" y="231.0" class="subtick" text-anchor="middle">31일</text>
+<path d="M 368.4,200.0 L 368.4,34.9 Q 368.4,30.9 372.4,30.9 L 410.4,30.9 Q 414.4,30.9 414.4,34.9 L 414.4,200.0 Z" fill="var(--mo5)"><title>8월 주말(금~일) 일평균 145.8실</title></path>
+<text x="391.4" y="24.9" class="barval" text-anchor="middle">145.8</text>
+<text x="391.4" y="218.0" class="catlab" text-anchor="middle">8월</text>
+<text x="391.4" y="231.0" class="subtick" text-anchor="middle">1~8일</text>
+</svg></div>
+</div>
+<div class="insight-box"><strong>회복의 성격이 바뀌었다.</strong> 주말 일평균은 5월 104.3 → 8월 145.8실로 1.4배 느는 데 그쳤지만, <strong>주중 일평균은 5월 37.9 → 8월 137.8실로 3.6배</strong>가 됐다. 5월에는 주말이 주중의 2.8배였던 격차가 <strong>8월에는 1.06배까지 좁혀져 사실상 소멸</strong>했다. 이는 주말 레저 수요가 아니라 <strong>주중 단체·기업 수요가 실적을 끌어올렸다</strong>는 뜻으로, 보고서 7·8장의 주중 베이스 전략과 직접 연결된다.</div>
+
+<h3>10-4. 월별 요약 표</h3>
+<table><thead><tr><th>월</th><th>일수</th><th>판매객실</th><th>OCC</th><th>ADR</th><th>객실매출</th><th>F&amp;B</th><th>총매출</th><th>일평균 객실매출</th></tr></thead><tbody>
+<tr><td>4월</td><td>30</td><td>1,233</td><td>11.6%</td><td>59,110</td><td>72,882,108</td><td>1,000,900</td><td>73,883,008</td><td>2,429,404</td></tr>
+<tr><td>5월</td><td>31</td><td>2,171</td><td>19.8%</td><td>124,108</td><td>269,439,098</td><td>29,819,000</td><td>299,258,098</td><td>8,691,584</td></tr>
+<tr><td>6월</td><td>30</td><td>2,426</td><td>22.7%</td><td>75,876</td><td>184,075,773</td><td>11,361,800</td><td>195,437,573</td><td>6,135,859</td></tr>
+<tr><td>7월</td><td>31</td><td>2,393</td><td>21.3%</td><td>141,956</td><td>339,700,954</td><td>41,634,300</td><td>381,335,254</td><td>10,958,095</td></tr>
+<tr class="highlight-row"><td>8월 (진행 중)</td><td>8</td><td>1,134</td><td>39.6%</td><td>180,803</td><td>205,030,783</td><td>22,253,100</td><td>227,283,883</td><td>25,628,848</td></tr>
+</tbody></table>
+<div class="note">※ 객실매출·판매객실·OCC·ADR은 일자별 실적 합산(4~6월 일일보고, 7월 PMS 원장, 8월 일일보고 8/1~8/8). F&amp;B와 총매출은 <strong>월 누계</strong> 기준. 8월은 8일분 실현치이며 월 총액은 다른 달과 직접 비교할 수 없다 — 비교는 <strong>일평균·OCC·ADR</strong> 열로 한다. 4월 객실매출은 일일보고 합산 기준이며, 결산서 기준(112.1백만원)과 약 39백만원 차이가 있어 회계상 추가 인식분으로 추정된다(9장 참조). 금액 V.A.T 별도.</div>
 
 <div class="quote">"호텔의 컨셉은 성수기가 아니라 비수기에 맞춰 만들어야 한다"<div class="author">— 호시노리조트 호시노 요시하루</div></div>
 
