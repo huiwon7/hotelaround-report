@@ -1,0 +1,2338 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>호텔어라운드 평창 — 검색 수요 × 매출 실적 교차 분석</title>
+<meta name="description" content="NAVER 검색 수요 18개 키워드 24개월치와 2026년 2~8월 매출·점유율 실적을 맞대어 본 리포트. 숙박 의도 검색과 매출의 상관 r=0.959, 카테고리 층은 무관.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="호텔어라운드 평창 — 검색 수요 × 매출 실적 교차 분석">
+<meta property="og:description" content="NAVER 검색 수요 18개 키워드 24개월치와 2026년 2~8월 매출·점유율 실적을 맞대어 본 리포트. 숙박 의도 검색과 매출의 상관 r=0.959, 카테고리 층은 무관.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E">
+<style>
+  html { -webkit-text-size-adjust: 100%; }
+  img, svg { max-width: 100%; }
+  table { border-collapse: collapse; }
+  button { font-family: inherit; }
+</style>
+</head>
+<body>
+<style>
+  :root {
+    color-scheme: light;
+    --plane:        #f9f9f7;
+    --surface:      #fcfcfb;
+    --ink:          #0b0b0b;
+    --ink-2:        #52514e;
+    --muted:        #898781;
+    --grid:         #e1e0d9;
+    --axis:         #c3c2b7;
+    --hairline:     rgba(11, 11, 11, 0.10);
+    --wash:         rgba(11, 11, 11, 0.035);
+    --series-1:     #2a78d6;
+    --series-2:     #eb6834;
+    --series-3:     #1baf7a;
+    --series-4:     #eda100;
+    --series-5:     #e87ba4;
+    --good:         #006300;
+    --critical:     #d03b3b;
+    --warning:      #fab219;
+    --seq-100:      #cde2fb;
+    --seq-450:      #2a78d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --plane:      #0d0d0d;
+      --surface:    #1a1a19;
+      --ink:        #ffffff;
+      --ink-2:      #c3c2b7;
+      --muted:      #898781;
+      --grid:       #2c2c2a;
+      --axis:       #383835;
+      --hairline:   rgba(255, 255, 255, 0.10);
+      --wash:       rgba(255, 255, 255, 0.045);
+      --series-1:   #3987e5;
+      --series-2:   #d95926;
+      --series-3:   #199e70;
+      --series-4:   #c98500;
+      --series-5:   #d55181;
+      --good:       #0ca30c;
+      --critical:   #d03b3b;
+      --warning:    #fab219;
+      --seq-100:    #184f95;
+      --seq-450:    #3987e5;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --plane:      #0d0d0d;
+    --surface:    #1a1a19;
+    --ink:        #ffffff;
+    --ink-2:      #c3c2b7;
+    --muted:      #898781;
+    --grid:       #2c2c2a;
+    --axis:       #383835;
+    --hairline:   rgba(255, 255, 255, 0.10);
+    --wash:       rgba(255, 255, 255, 0.045);
+    --series-1:   #3987e5;
+    --series-2:   #d95926;
+    --series-3:   #199e70;
+    --series-4:   #c98500;
+    --series-5:   #d55181;
+    --good:       #0ca30c;
+    --critical:   #d03b3b;
+    --warning:    #fab219;
+    --seq-100:    #184f95;
+    --seq-450:    #3987e5;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--plane);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic",
+                 "Apple SD Gothic Neo", sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    /* 한글은 어절 단위로 끊어야 한다 — 기본값은 음절 중간에서 자른다 */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* ── header ─────────────────────────────────────────────── */
+  .masthead { display: flex; flex-direction: column; gap: 14px; }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(26px, 4.2vw, 38px);
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+    font-weight: 680;
+    text-wrap: balance;
+  }
+  .standfirst {
+    margin: 0;
+    max-width: 62ch;
+    color: var(--ink-2);
+    font-size: 16px;
+  }
+  .runline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    padding-top: 6px;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .runline b { color: var(--ink-2); font-weight: 600; }
+
+  /* ── hero + KPI ─────────────────────────────────────────── */
+  .headline-band {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.5fr);
+    gap: 28px;
+    align-items: stretch;
+  }
+  @media (max-width: 760px) { .headline-band { grid-template-columns: 1fr; } }
+
+  .hero {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 24px 26px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+  .hero-label { font-size: 13px; color: var(--ink-2); }
+  .hero-value {
+    font-size: clamp(48px, 7vw, 62px);
+    font-weight: 660;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+  .hero-unit { font-size: 20px; font-weight: 500; color: var(--ink-2); letter-spacing: 0; }
+  .hero-foot { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 460px) { .kpis { grid-template-columns: 1fr; } }
+
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 14px 16px 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .tile-label { font-size: 12px; color: var(--ink-2); }
+  .tile-value { font-size: 25px; font-weight: 640; letter-spacing: -0.02em; line-height: 1.2; }
+  .tile-foot { font-size: 11.5px; color: var(--muted); }
+  .up   { color: var(--good); }
+  .down { color: var(--critical); }
+
+  /* ── sections & cards ───────────────────────────────────── */
+  section { display: flex; flex-direction: column; gap: 16px; }
+
+  .sec-head { display: flex; flex-direction: column; gap: 6px; }
+  .sec-index {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  h2 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 660;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .sec-note { margin: 0; max-width: 70ch; color: var(--ink-2); font-size: 14.5px; }
+
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 20px 20px 16px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 620;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .card-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 1px 7px;
+    border-radius: 3px;
+    border: 1px solid var(--hairline);
+    background: var(--wash);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-2);
+    letter-spacing: 0.01em;
+    vertical-align: 2px;
+  }
+  .badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--warning);
+  }
+
+  /* ── legend ─────────────────────────────────────────────── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-bottom: 12px;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .legend-key { width: 16px; height: 2px; border-radius: 1px; flex: none; }
+  .legend-key.area { height: 10px; border-radius: 2px; }
+  .legend-num {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+
+  /* ── chart svg ──────────────────────────────────────────── */
+  .chart-wrap { position: relative; width: 100%; }
+  svg.chart { display: block; width: 100%; overflow: visible; }
+
+  .grid-line { stroke: var(--grid); stroke-width: 1; shape-rendering: crispEdges; }
+  .axis-line { stroke: var(--axis); stroke-width: 1; shape-rendering: crispEdges; }
+  .tick-text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums;
+               font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+  .dlabel    { fill: var(--ink-2); font-size: 11.5px; font-weight: 600; }
+  .dlabel-num{ fill: var(--ink); font-size: 11.5px; font-weight: 660;
+               font-variant-numeric: tabular-nums; }
+  .leader    { stroke: var(--axis); stroke-width: 1; fill: none; }
+  .anno      { fill: var(--muted); font-size: 11px; }
+  .anno-rule { stroke: var(--axis); stroke-width: 1; stroke-dasharray: none; }
+
+  .s1 { stroke: var(--series-1); } .s2 { stroke: var(--series-2); }
+  .s3 { stroke: var(--series-3); } .s4 { stroke: var(--series-4); }
+  .s5 { stroke: var(--series-5); }
+  .f1 { fill: var(--series-1); } .f2 { fill: var(--series-2); }
+  .f3 { fill: var(--series-3); } .f4 { fill: var(--series-4); }
+  .f5 { fill: var(--series-5); }
+
+  .series-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .series-area { stroke: none; opacity: 0.10; }
+  .end-dot { stroke: var(--surface); stroke-width: 2; }
+  .bar { fill: var(--series-1); }
+  .bar-partial { opacity: 0.42; }
+  .bar-hit { fill: transparent; }
+  .connector { stroke: var(--axis); stroke-width: 2; stroke-linecap: round; }
+  .band { fill: var(--wash); }
+  .crosshair { stroke: var(--axis); stroke-width: 1; pointer-events: none; }
+  .focus-dot { stroke: var(--surface); stroke-width: 2; pointer-events: none; }
+
+  /* ── tooltip ────────────────────────────────────────────── */
+  .tip {
+    position: absolute;
+    z-index: 5;
+    min-width: 168px;
+    padding: 9px 11px 8px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.09s linear;
+  }
+  .tip[data-on="1"] { opacity: 1; }
+  .tip-head {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .tip-row {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    align-items: center;
+    gap: 8px;
+    padding: 1.5px 0;
+  }
+  .tip-key { height: 2px; border-radius: 1px; }
+  .tip-name { color: var(--ink-2); }
+  .tip-val {
+    color: var(--ink);
+    font-weight: 660;
+    font-variant-numeric: tabular-nums;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+
+  /* ── small multiples & floor tiles ──────────────────────── */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  .floor-tile { display: flex; flex-direction: column; gap: 2px; }
+  .floor-kw { font-size: 13.5px; font-weight: 620; }
+  .floor-val {
+    font-size: 22px; font-weight: 640; letter-spacing: -0.02em;
+  }
+  .floor-val span { font-size: 13px; font-weight: 500; color: var(--ink-2); }
+  .floor-note { font-size: 11.5px; color: var(--muted); }
+
+  /* ── table ──────────────────────────────────────────────── */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--hairline); border-radius: 4px;
+                  background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  caption { text-align: left; padding: 14px 16px 0; font-size: 12px; color: var(--muted); }
+  th, td {
+    padding: 7px 12px;
+    text-align: right;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--grid);
+    font-variant-numeric: tabular-nums;
+  }
+  thead th {
+    position: sticky; top: 0;
+    background: var(--surface);
+    font-size: 11.5px;
+    font-weight: 620;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--axis);
+  }
+  th.period, td.period {
+    text-align: left;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    color: var(--ink-2);
+    position: sticky; left: 0;
+    background: var(--surface);
+  }
+  tbody tr:hover td { background: var(--wash); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.nil { color: var(--muted); }
+
+  details.table-block > summary {
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-2);
+    padding: 7px 12px;
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    background: var(--surface);
+    width: fit-content;
+  }
+  details.table-block > summary::-webkit-details-marker { display: none; }
+  details.table-block > summary::before { content: "▸"; color: var(--muted); font-size: 10px; }
+  details.table-block[open] > summary::before { content: "▾"; }
+  details.table-block > summary:focus-visible,
+  a:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
+  details.table-block { display: flex; flex-direction: column; gap: 12px; }
+
+  /* ── strategy propositions ──────────────────────────────── */
+  .props { display: flex; flex-direction: column; gap: 0; }
+  .prop {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 18px;
+    padding: 22px 0;
+    border-top: 1px solid var(--grid);
+  }
+  .prop:last-of-type { border-bottom: 1px solid var(--grid); }
+  @media (max-width: 620px) { .prop { grid-template-columns: 1fr; gap: 6px; } }
+  .prop-n {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    padding-top: 4px;
+  }
+  .prop-body h3 {
+    margin: 0 0 12px;
+    font-size: 17px;
+    font-weight: 660;
+    letter-spacing: -0.012em;
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+  .prop dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 9px 16px;
+  }
+  @media (max-width: 620px) { .prop dl { grid-template-columns: 1fr; gap: 2px 0; } }
+  .prop dt {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  @media (max-width: 620px) { .prop dt { padding-top: 8px; } }
+  .prop dd { margin: 0; font-size: 14px; color: var(--ink-2); max-width: 68ch; }
+  .prop dd.act { color: var(--ink); }
+  .prop dd b, .sec-note b, .standfirst b { font-weight: 660; color: var(--ink); }
+
+  ul.verify { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 7px; }
+  ul.verify li { color: var(--ink-2); font-size: 13.5px; max-width: 74ch; }
+  ul.verify li::marker { color: var(--muted); }
+
+  .table-scroll.bare { border: none; border-radius: 0; }
+  table.plan { font-size: 13.5px; }
+  table.plan th.lead, table.plan td.lead { text-align: left; white-space: normal; }
+  table.plan td.lead:first-child { font-weight: 600; color: var(--ink); min-width: 190px; }
+  table.plan td.lead:nth-child(2) {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  table.plan td.lead:last-child { color: var(--ink-2); }
+  table.plan thead th { border-bottom: 1px solid var(--axis); }
+  table.plan.mini { font-size: 12.5px; }
+  table.plan.mini td.lead:first-child { min-width: 110px; }
+  table.plan.mini td.lead:nth-child(2) { font-family: inherit; }
+  .prop dd.nogap { max-width: 460px; }
+  .prop dt.wide { white-space: nowrap; }
+  .mini-note { font-size: 12px; color: var(--muted); margin-top: 7px; max-width: 60ch; }
+  .mini-note b { color: var(--ink-2); font-weight: 620; }
+
+  .card.correction { border-left: 3px solid var(--warning); }
+  dl.fixlist { margin: 0; display: grid; grid-template-columns: 44px 1fr; gap: 9px 16px; }
+  @media (max-width: 620px) { dl.fixlist { grid-template-columns: 1fr; gap: 2px 0; } }
+  dl.fixlist dt {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+    color: var(--muted); padding-top: 3px;
+  }
+  dl.fixlist dd { margin: 0; font-size: 14px; color: var(--ink-2); max-width: 70ch; }
+  dl.fixlist dd b { color: var(--ink); font-weight: 660; }
+
+  .method { display: flex; flex-direction: column; gap: 10px; }
+  .method p { margin: 0; color: var(--ink-2); font-size: 13.5px; max-width: 74ch; }
+  .method code {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12.5px;
+    background: var(--wash);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .method .warn { color: var(--ink); }
+
+  hr.rule { border: none; border-top: 1px solid var(--grid); margin: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  /* ── save-as-PDF control ────────────────────────────────── */
+  .print-only { display: none; }
+  .toolbar { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: -22px; }
+  .btn-primary {
+    border-color: var(--series-1);
+    color: var(--series-1);
+  }
+  .btn-primary:hover { background: var(--series-1); color: #fff; }
+  .btn-meta { color: var(--muted); font-weight: 500; }
+  .btn-primary:hover .btn-meta { color: rgba(255, 255, 255, 0.75); }
+  .btn-print {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px;
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-print:hover { background: var(--wash); color: var(--ink); }
+  .btn-print:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
+  .btn-print svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+
+  .fallback {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--warning);
+    border-radius: 4px;
+    padding: 16px 18px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .fallback[hidden] { display: none; }
+  .fallback-title { font-size: 13.5px; font-weight: 660; }
+  .fallback p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 68ch; }
+  .fallback-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .fallback-note { font-size: 12.5px; color: var(--muted) !important; }
+  .fallback-note b { color: var(--ink-2); font-weight: 620; }
+  .fallback code {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12px; background: var(--wash); padding: 1px 5px; border-radius: 3px;
+  }
+  .fallback-done { color: var(--good) !important; font-weight: 600; }
+
+  /* ── print / PDF ────────────────────────────────────────── */
+  @page { size: A4 portrait; margin: 14mm 12mm 16mm; }
+
+  @media print {
+    /* 인쇄는 항상 라이트 팔레트로 — 다크 배경은 잉크만 먹고 읽기 나쁘다 */
+    :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+      color-scheme: light;
+      --plane: #ffffff;
+      --surface: #ffffff;
+      --ink: #000000;
+      --ink-2: #3d3c39;
+      --muted: #6b6963;
+      --grid: #dedcd4;
+      --axis: #b0aea6;
+      --hairline: rgba(0, 0, 0, 0.22);
+      --wash: rgba(0, 0, 0, 0.04);
+      --series-1: #1f66bd; --series-2: #d1541f; --series-3: #158a60;
+      --series-4: #b57c00; --series-5: #cf6089;
+      --good: #00560a; --critical: #b82f2f; --warning: #c98500;
+    }
+    body { font-size: 10pt; line-height: 1.5; background: #fff; }
+    .page { max-width: none; padding: 0; gap: 15px; }
+    section { gap: 10px; }
+    .card { padding: 12px 14px 10px; }
+    .card-sub { margin-bottom: 9px; }
+    .legend { margin-bottom: 8px; }
+    .prop { padding: 13px 0; }
+    .prop-body h3 { margin-bottom: 8px; }
+    .prop dl { gap: 6px 14px; }
+    .hero { padding: 16px 18px; }
+    .masthead { gap: 10px; }
+
+    .no-print, .toolbar, .tip { display: none !important; }
+
+    /* 19열짜리 화면용 표는 A4 폭에 들어가지 않는다 — 5열씩 끊은 인쇄용 표로 대체 */
+    details.table-block { display: none !important; }
+    .print-only { display: block !important; }
+    .table-scroll { overflow: visible !important; }
+    thead th, th.period, td.period { position: static !important; }
+    .print-table { break-inside: avoid; margin-bottom: 14px; }
+    .print-table table {
+      width: 100%;
+      border: 1px solid var(--hairline);
+      font-size: 8.5pt;
+    }
+    .print-table th, .print-table td {
+      padding: 3px 6px;
+      white-space: normal;
+      vertical-align: bottom;
+    }
+    .print-table th { font-size: 8pt; line-height: 1.25; }
+    .print-table-cap {
+      font-size: 8.5pt;
+      color: var(--muted);
+      margin-bottom: 4px;
+      break-after: avoid;
+    }
+
+    h1 { font-size: 21pt; }
+    h2 { font-size: 13.5pt; }
+    .hero-value { font-size: 40pt; }
+    .tile-value { font-size: 15pt; }
+    .prop-body h3 { font-size: 12pt; }
+
+    .card, .tile, .hero { box-shadow: none; border-color: var(--hairline); }
+
+    section { break-inside: auto; }
+    .card, .prop, .tile, .hero, .finding, .headline-band { break-inside: avoid; }
+    .sec-head { break-after: avoid; break-inside: avoid; }
+    .card-title, .card-sub, .legend { break-after: avoid; }
+    h1, h2, .prop-body h3 { break-after: avoid; }
+    tr, .verify li { break-inside: avoid; }
+
+    a[href]::after { content: ""; }
+  }
+</style>
+
+<div class="page">
+
+  <div class="toolbar no-print">
+    <button type="button" class="btn-print btn-primary" id="btn-pdf"
+            data-pdf-url="report.pdf" data-pdf-size="799 KB">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 2v8m0 0 3-3m-3 3L5 7M2.5 12.5h11" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      PDF 내려받기 <span class="btn-meta" id="pdf-meta"></span>
+    </button>
+    <button type="button" class="btn-print" id="btn-print">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M4.5 6V2h7v4M4.5 12H3V7h10v5h-1.5M4.5 10h7v4h-7z" stroke-linejoin="round" />
+      </svg>
+      인쇄
+    </button>
+  </div>
+
+  <div class="fallback no-print" id="print-fallback" hidden>
+    <div class="fallback-title" id="fallback-title">이 창에서는 인쇄 대화상자를 열 수 없습니다</div>
+    <p id="fallback-body">
+      리포트가 샌드박스 처리된 프레임 안에서 열려 있어 브라우저가 인쇄 호출을 차단했습니다.
+      <b>「PDF 내려받기」</b>는 인쇄 대화상자를 쓰지 않으므로 그대로 동작합니다. 그래도 막힌다면
+      아래를 써 주세요.
+    </p>
+    <div class="fallback-actions">
+      <button type="button" class="btn-print" id="btn-newtab">새 탭에서 열기</button>
+      <button type="button" class="btn-print" id="btn-download">HTML로 내려받기</button>
+    </div>
+    <p class="fallback-note">
+      새 탭에서 열었다면 <b>Ctrl+P</b>(Mac은 <b>⌘+P</b>)로 인쇄하고 대상에서
+      <b>“PDF로 저장”</b>, <b>“배경 그래픽”</b>을 켜 주세요. 내려받은 <code>.html</code>
+      파일을 열면 인쇄 대화상자가 자동으로 뜹니다.
+    </p>
+  </div>
+
+  <header class="masthead">
+    <div class="eyebrow">NAVER 검색 수요 × 운영 매출 실적 · 교차 분석</div>
+    <h1>호텔어라운드 평창 — 검색 수요와 매출 실적을 맞대어 본 24개월</h1>
+    <p class="standfirst">
+      2024년 8월부터 2026년 7월까지 18개 키워드의 월별 검색 수요를 라이브 수집하고, 운영
+      리포트의 2~8월 매출·점유율 실적과 맞대어 봤다. 세 가지가 드러났다 —
+      <b>점유율이 일곱 달 내내 손익분기 아래</b>라 유입을 늘리는 데 상한이 없다는 것,
+      <b>매출과 함께 움직이는 검색은 숙박 의도 층 하나뿐</b>(r = 0.959)이고 기존 계획이 걸려
+      있던 카테고리 층은 상관이 0이라는 것, 그리고 <b>휘닉스파크 단지와 9월 축제라는 두 개의
+      큰 수요가 키워드 세트에서 통째로 빠져 있었다</b>는 것이다.
+    </p>
+    <div class="runline">
+      <span>기간 <b id="run-range"></b></span>
+      <span>수집 <b id="run-date"></b></span>
+      <span>키워드 <b id="run-total"></b> · 월별 추이 확보 <b id="run-measurable"></b></span>
+      <span>검색 <b>datalab / keywordstool</b></span>
+      <span>실적 <b>hotelaround-report (2026-02~08)</b></span>
+    </div>
+  </header>
+
+  <div class="headline-band">
+    <div class="hero">
+      <div class="hero-label">연중 최고 객실 점유율 (2026년 8월 1~8일)</div>
+      <div class="hero-value" id="hero-value"></div>
+      <div class="hero-foot" id="hero-foot"></div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- ── 1. revenue ───────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">01 — 매출 실적</div>
+      <h2>매출은 겨울에 몰려 있고, 점유율은 일곱 달 내내 손익분기 아래였다</h2>
+      <p class="sec-note">
+        운영 리포트의 실적 데이터다. 2월이 734.1백만원으로 연중 최고이고 7월이 381.3백만원으로
+        그 절반이다. 그런데 더 중요한 것은 점유율이다 — 자료가 손익분기로 잡은
+        <b>40~50%</b>에 <b>한 달도 도달하지 못했다</b>. 4월 11.6%, 7월 21.3%,
+        가장 높은 8월 초조차 39.6%다. <b>매일 300실 넘게 비어 있다</b>는 뜻이고, 이것이 이후
+        모든 해석의 전제가 된다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title">월별 총매출 (백만원)</div>
+      <div class="card-sub">8월*는 1~8일까지의 진행 중 실적 — 옅은 막대</div>
+      <div class="chart-wrap" id="chart-revenue"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">객실 점유율과 손익분기 구간</div>
+      <div class="card-sub">2·3월은 점유율이 자료에 없어 제외 · 회색 띠가 손익분기 추정 구간</div>
+      <div class="chart-wrap" id="chart-occupancy"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">일평균 판매 객실 — 주중 vs 주말</div>
+      <div class="card-sub">
+        5월은 주말이 주중의 2.75배(104.3실 vs 37.9실)였고, 8월 초에는 격차가 1.06배로 좁혀졌다.
+        주중 공실이 구조적 문제라는 뜻이다
+      </div>
+      <div class="legend" id="legend-daypart"></div>
+      <div class="chart-wrap" id="chart-daypart"></div>
+    </div>
+  </section>
+
+  <!-- ── 2. search vs revenue ─────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">02 — 검색과 매출의 대응</div>
+      <h2>매출과 함께 움직이는 검색은 한 층뿐이고, 카테고리 층은 무관하다</h2>
+      <p class="sec-note">
+        실적이 있는 여섯 달(2~7월)에 대해 각 검색 층위와 총매출의 상관을 계산했다.
+        <b>숙박 의도 층</b>(브랜드 + 휘닉스파크 숙소·호텔)은 <b>r = 0.959</b>,
+        브랜드 단독은 0.907, 그런데 <b>카테고리 층은 −0.011</b>로 사실상 무관하다.
+        카테고리 층에도 뚜렷한 계절성이 있는데 상관이 0이라는 것은, 단순히 둘 다 계절을
+        타서 생긴 착시가 아니라는 뜻이다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title">숙박 의도 검색 vs 총매출 — 각자 최댓값 100으로 지수화</div>
+      <div class="card-sub">
+        규모 단위가 달라 한 축에 그대로 겹칠 수 없으므로 지수로 맞췄다 · 2026년 2~7월
+      </div>
+      <div class="legend" id="legend-index-compare"></div>
+      <div class="chart-wrap" id="chart-index-compare"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">숙박 의도 검색 1회당 매출</div>
+      <div class="card-sub">그달 총매출 ÷ 그달 숙박 의도 검색량 — 같은 검색 1회의 값이 달마다 얼마나 다른지</div>
+      <div class="chart-wrap" id="chart-per-search"></div>
+    </div>
+    <p class="sec-note">
+      2월의 검색 1회는 49,719원어치, 4월의 검색 1회는 12,817원어치다 — <b>겨울 검색이 봄
+      검색의 3.9배</b> 값을 한다. 같은 노력으로 같은 검색량을 만들어도 계절에 따라 회수가
+      네 배 차이 난다는 뜻이다.
+    </p>
+    <div class="card">
+      <div class="card-title">이 상관을 어디까지 믿을 수 있나</div>
+      <ul class="verify">
+        <li><b>표본이 6개월이다.</b> 상관계수 하나로 인과를 말할 수 없고, 동행한다는 것까지만
+          말할 수 있다.</li>
+        <li><b>인과 방향이 반대일 수 있다.</b> 단체 예약이 먼저 잡히고 그 참가자들이 브랜드명을
+          검색했을 수 있다 — 5월 상위 4일이 월 객실매출의 68.1%를 차지한 것이 그 정황이다.</li>
+        <li><b>4월 매출에 미해명 차이가 있다.</b> 일보 합계 72.9백만원과 결산 112.1백만원이
+          39.2백만원 어긋난다(운영 리포트 자체 지적). 여기서는 일보 합계를 썼고, 결산값을 쓰면
+          4월 검색 1회당 매출은 12,817원이 아니라 19,442원이 된다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── 1. brand ─────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">03 — 브랜드 수요</div>
+      <h2>브랜드 검색은 2025년 10월에 처음 나타나 겨울에 정점을 찍었다</h2>
+      <p class="sec-note">
+        24개월 중 앞의 14개월은 데이터랩 측정 임계치 아래였다. 즉 브랜드명을 찾는 사람이
+        사실상 없었다는 뜻이다. 2025년 12월부터 수요가 폭발해 2026년 1월 최고점에 닿았고,
+        3월에 바닥을 친 뒤 여름을 향해 다시 올라오고 있다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title">호텔어라운드 평창 — 월별 검색량</div>
+      <div class="card-sub">단일 계열 · 면적은 추이 강조용 워시</div>
+      <div class="chart-wrap" id="chart-brand"></div>
+    </div>
+  </section>
+
+  <!-- ── 3. resort ────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">04 — 단지 수요</div>
+      <h2>호텔이 속한 관광단지 이름이 키워드 세트에 한 건도 없다</h2>
+      <p class="sec-note">
+        호텔어라운드 평창은 <b>휘닉스파크 관광단지 안에</b> 있다. 그런데 분석된 90개 키워드 중
+        “휘닉스”가 들어간 것은 0건이다. 실측하니 이 계열의 현재 검색량 합계는 월 43,980회로
+        <b>브랜드명(10,530회)의 4.2배, 나머지 키워드 10개 합계(2,040회)의 21.6배</b>다.
+        게다가 네 키워드 모두 24개월 전 구간이 관측돼 이 리포트에서 데이터 품질이 가장 좋다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title">단지 인지 수요 — 휘닉스파크 · 휘닉스 평창</div>
+      <div class="card-sub">“어디로 갈까”를 묻는 단계. 자릿수가 커서 아래 숙박 의도 검색과 축을 나눴다</div>
+      <div class="legend" id="legend-resort-big"></div>
+      <div class="chart-wrap" id="chart-resort-big"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">숙박 의도 검색 — 브랜드 vs 단지 숙소</div>
+      <div class="card-sub">“어디서 잘까”를 이미 묻고 있는 검색. 공통 축</div>
+      <div class="legend" id="legend-resort-stay"></div>
+      <div class="chart-wrap" id="chart-resort-stay"></div>
+    </div>
+  </section>
+
+  <!-- ── festival ─────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">05 — 축제 수요</div>
+      <h2>9월은 검색이 죽은 달이 아니라, 다른 이름으로 불리는 달이다</h2>
+      <p class="sec-note">
+        앞선 층위만 보면 9월은 버려도 되는 달로 보인다 — 카테고리 246, 단지 숙박 최저권,
+        브랜드는 관측조차 없다. 그런데 운영 리포트에 호텔이 <b>봉평 효석문화제의 공식 숙박업체로
+        지정</b>돼 있다는 사실이 적혀 있어 축제 계열을 실측했다. 결과는
+        <b>9월 달력월 평균 96,688회</b>다. 브랜드 연중 최고점(14,433회)의 6.7배이고,
+        4월(2,926회)의 33배다. 같은 달에 강원도민체전(9/11~13, 약 8,500명)과
+        한국민속예술제(9/18~20, 약 10,000명)도 열린다. 다만 이 계열도 2년차에 줄었다 —
+        2025년 9월이 2024년 9월보다 낮았고 대표 키워드는 −35%다. 그래도 절대 규모는 여전히
+        이 리포트에서 본 어떤 수요보다 크다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title">축제 계열 검색의 달력월 평균 — 봉평 메밀꽃 축제 · 평창 효석문화제 · 효석문화제 · 봉평 숙소 합계</div>
+      <div class="card-sub">9월 한 달에 연간 수요의 대부분이 몰린다 · 표본 각 2개월</div>
+      <div class="chart-wrap" id="chart-festival"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">축제 계열 4개 키워드 — 월별 검색량</div>
+      <div class="card-sub">두 해 모두 9월에만 솟는 단봉 구조. 8월부터 올라오기 시작한다</div>
+      <div class="legend" id="legend-festival"></div>
+      <div class="chart-wrap" id="chart-festival-lines"></div>
+    </div>
+    <p class="sec-note">
+      이 발견의 의미는 9월 하나에 그치지 않는다. <b>검색 데이터는 “사람들이 쓰는 단어”만
+      보여주고, 그 단어를 세트에 넣지 않으면 수요는 없는 것처럼 보인다.</b> 단지 이름이 그랬고
+      축제 이름이 그랬다. 9월 수요를 실제로 잡으려면 “봉평 숙소”처럼 <b>행사와 숙박을 잇는
+      키워드</b>가 필요한데, 그것은 현재 월 350회에 경쟁 문서 25,024건이다 —
+      공식 지정 숙박업체라는 사실을 쓸 수 있는 곳이 정확히 여기다.
+    </p>
+  </section>
+
+  <!-- ── 2. non-brand ─────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">06 — 카테고리 수요</div>
+      <h2>이 층은 모두 성장했지만, 매출과는 상관이 0이었다</h2>
+      <p class="sec-note">
+        24개월 중 11~23개월에 관측치가 있는, 추이를 신뢰할 수 있는 4개다. 넷 다 2년차에
+        성장했고 계절 곡선도 서로 다르다 — “평창 여름 휴가”는 7월에만 솟고, “강원도 웰니스
+        호텔”은 계절과 무관하게 커지며, “강원도 반려견 동반 호텔”은 사계절 내내 끊기지 않는
+        유일한 축이다. <b>그런데 이 층의 합계는 총매출과 상관이 −0.011이다</b>(섹션 02).
+        규모도 월 2,040회로 세 층 중 가장 작다. 여기 실린 성장률은 방향을 읽는 데는 쓸 수
+        있지만, 매출 기여의 근거로는 쓸 수 없다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title">비브랜드 4개 키워드 — 월별 검색량</div>
+      <div class="card-sub">공통 축. 브랜드 키워드는 자릿수가 달라 위에 따로 그렸다</div>
+      <div class="legend" id="legend-multi"></div>
+      <div class="chart-wrap" id="chart-multi"></div>
+    </div>
+  </section>
+
+  <!-- ── 4. thin ──────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">07 — 저신뢰 구간</div>
+      <h2>전환 키워드 2개는 관측이 드물어 추세로 읽으면 안 된다</h2>
+      <p class="sec-note">
+        24개월 중 관측치가 7~10개뿐이다. 나머지 달은 “검색이 0”이 아니라 “데이터랩 임계치 아래”라서
+        빈 것이고, 환산 계수도 마지막 한 달의 지수에 걸려 있어 흔들린다. 값의 절대 크기보다
+        “이 키워드는 간헐적으로만 측정될 만큼 작다”는 사실이 이 패널의 결론이다.
+      </p>
+    </div>
+    <div class="grid-2" id="small-multiples"></div>
+  </section>
+
+  <!-- ── 5. floor ─────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">08 — 측정 하한</div>
+      <h2>3개 키워드는 24개월 내내 데이터랩에 잡히지 않았다</h2>
+      <p class="sec-note">
+        표기 방식 문제가 아니다. 띄어쓰기를 바꿔도, 더 짧게 잘라도 동일하게 0이 나왔고
+        같은 호출로 “워케이션 호텔”·“평창 호텔”은 정상 반환됐다. 검색광고 API가 주는 현재
+        검색량만 존재하며, 월별 이력은 만들 수 없다. 경쟁 문서가 극히 적다는 강점은 그대로다.
+      </p>
+    </div>
+    <div class="grid-3" id="floor-tiles"></div>
+  </section>
+
+  <!-- ── 6. seasonality ───────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">09 — 계절 구조</div>
+      <h2>세 층위가 서로 다른 달에 정점을 찍는다</h2>
+      <p class="sec-note">
+        층위 간 규모 차이가 21배라 한 축에 그대로 겹칠 수 없다. 각 층의 달력월 평균을
+        <b>그 층의 최댓값을 100으로 두고 지수화</b>해 한 축에 올렸다 — 크기가 아니라 모양을
+        비교하기 위한 그림이다. 단지 숙박은 1월, 카테고리는 7월에 정점이고 브랜드는 양쪽 모두에
+        봉우리가 있다. <b>세 층이 동시에 바닥인 구간은 3~5월뿐</b>이다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-title">달력월 수요 지수 — 층위별 (각 층 최댓값 = 100)</div>
+      <div class="card-sub">브랜드는 2025-10부터만 관측돼 8·9월 값이 없다 — 선이 끊긴 구간</div>
+      <div class="legend" id="legend-season"></div>
+      <div class="chart-wrap" id="chart-season"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">달력월 평균 합계 수요 — 카테고리 층 (신뢰 구간 4개 키워드)</div>
+      <div class="card-sub">
+        지수가 아닌 실제 회수. 7월 정점을 받으려면 색인·순위가 자리 잡을 시간을 감안해
+        5~6월에 발행돼 있어야 한다 · 표본 각 2개월
+      </div>
+      <div class="chart-wrap" id="chart-calendar"></div>
+    </div>
+  </section>
+
+  <!-- ── 10. strategy ─────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">10 — 운영 전략 시사점</div>
+      <h2>검색 수요를 매출 실적·상품·채널과 맞대어 본 결과</h2>
+      <p class="sec-note">
+        아홉 항목을 <b>레버리지 순</b>으로 정렬했다 — 위쪽일수록 같은 노력 대비 움직이는 매출이
+        크다. 각 항목은 <b>근거</b>(측정했거나 운영 리포트·브랜드 자료에 기록된 사실),
+        <b>함의</b>(그 사실들을 맞대어 나오는 추론), <b>조치</b>로 나눴다. 근거에 없는 수치는
+        쓰지 않았고, 확인해야 결론이 서는 것은 맨 아래에 모았다. 앞선 판(검색 데이터만 본 판)에서
+        <b>틀렸던 결론 하나</b>는 별도로 표시했다.
+      </p>
+    </div>
+
+    <div class="props">
+
+      <article class="prop">
+        <div class="prop-n">01</div>
+        <div class="prop-body">
+          <h3>채울 방이 매일 300실 넘게 남는다 — 유입을 늘리는 데 상한이 없다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              점유율은 4월 11.6%, 5월 19.8%, 6월 22.7%, 7월 21.3%로 <b>손익분기 추정 구간
+              40~50%에 일곱 달 내내 닿지 못했다</b>. 가장 높은 8월 1~8일도 39.6%다. 한편 매출
+              개선은 전부 단가에서 왔다 — 운영 리포트의 표현대로 물리적 점유는 −1.4%인데
+              <b>ADR은 +87.1%</b>다.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              지금까지 손댄 레버는 단가 하나이고 물량은 그대로다. 마케팅 확대를 검토할 때 보통
+              먼저 묻는 “늘어난 수요를 받을 방이 있는가”가 여기서는 제약이 아니다. 검색은
+              물량을 움직이는 채널이므로, 이 호텔에서는 <b>단가 트랙과 겹치지 않는 별개의
+              레버</b>다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              검색·콘텐츠 투자를 <b>ADR 방어와 분리된 물량 트랙</b>으로 규정한다. 성과 지표도
+              매출이 아니라 <b>판매 객실 수</b>로 잡아야 단가 정책과 섞이지 않는다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">02</div>
+        <div class="prop-body">
+          <h3>매출과 함께 움직이는 검색은 한 층뿐이다 — 카테고리 층은 상관이 0이다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              실적이 있는 여섯 달(2~7월) 기준, 총매출과의 상관은 <b>숙박 의도 층 r = 0.959</b>,
+              브랜드 단독 0.907, <b>카테고리 층 −0.011</b>이다. 카테고리 층에도 뚜렷한 계절성이
+              있는데(7월 정점) 상관이 0이라는 것은 둘 다 계절을 타서 생긴 착시가 아님을 뜻한다.
+              실제로 카테고리 검색이 최고였던 7월의 매출은 381.3백만원으로, 카테고리 검색이
+              바닥이던 2월(734.1백만원)의 절반이다.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              “평창 가족 여행”·“평창 여름 휴가” 같은 탐색 단계 키워드는 규모도 가장 작고
+              (월 2,040회) 매출과도 연결되지 않는다. 그런데 기존 콘텐츠 계획은 전부 이 층에
+              걸려 있었다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              콘텐츠 자원을 <b>숙박 의도 층(브랜드 + 휘닉스파크 숙소·호텔)으로 재배치</b>한다.
+              카테고리 층은 인지 보조용으로만 남기고 주력에서 뺀다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">03</div>
+        <div class="prop-body">
+          <h3>9월 축제 수요가 이미 올라오는 중인데 자산이 하나도 없다 — 가장 급하다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              축제 계열 검색의 9월 달력월 평균은 <b>96,688회</b>로 브랜드 연중 최고점의 6.7배다.
+              8월 평균도 이미 24,312회로 올라온다. 호텔은 브랜드 자료상
+              <b>봉평 효석문화제 공식 숙박업체로 지정</b>돼 있고, 같은 달 강원도민체전(9/11~13,
+              약 8,500명)과 한국민속예술제(9/18~20, 약 10,000명)가 열린다. 행사와 숙박을 잇는
+              “봉평 숙소”는 월 350회에 경쟁 문서 25,024건이다.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              9월은 브랜드·단지·카테고리 세 층이 모두 바닥인 달이라 검색만 보면 버릴 달이었다.
+              실제로는 연중 가장 큰 단일 수요가 다른 이름으로 존재하고, 그 수요에 대해 이 호텔은
+              <b>공식 지정이라는 남들이 못 쓰는 근거</b>를 갖고 있다. 오늘이 8월 11일이므로
+              남은 준비 기간은 3~4주다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              <b>8월 중 즉시 착수</b>. 축제 일정·셔틀·거리·객실 잔여를 다루는 실용 콘텐츠를
+              “봉평 숙소”·“효석문화제 숙소”에 맞춰 낸다. 이 항목만 올해 안에 결과를 확인할 수
+              있다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">04</div>
+        <div class="prop-body">
+          <h3>겨울이 여름의 1.9배 시장인데 목표는 여름에 걸려 있다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              2월 매출 734.1백만원 대 7월 381.3백만원. 3·4월은 80.9 / 73.9백만원으로 2월의
+              10분의 1이다. 검색 쪽도 같은 방향이다 — 브랜드 검색 1월 14,433회 최고,
+              휘닉스파크 숙소 1월 평균 6,956회 대 4월 24회. 그리고
+              <b>숙박 의도 검색 1회당 매출이 2월 49,719원 대 4월 12,817원</b>으로 3.9배 차이다.
+              현재 설정된 브랜드 목표는 “여름 성수기(7~8월) 객실 점유율 확대”다.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              같은 검색 1회를 만들어도 겨울에 만든 것이 네 배 값을 한다. 여름만 겨냥한 목표는
+              더 큰 시장과 더 좋은 전환 구간을 동시에 비워둔다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              목표를 <b>겨울(12~2월) 주공략 + 여름 유지</b>의 두 사이클로 재설정한다.
+              겨울 콘텐츠는 <b>9~10월</b>에 나가 있어야 12~1월 검색 정점을 받는다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">05</div>
+        <div class="prop-body">
+          <h3>단지 검색과 브랜드 검색 사이의 깔때기 중간이 비어 있다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              분석된 90개 키워드 중 “휘닉스” 포함 0건인데, 실측하니 휘닉스파크 34,590 /
+              휘닉스 평창 8,540 / 휘닉스파크 호텔 660 / 휘닉스파크 숙소 190회로 <b>합계 월
+              43,980회</b>다. 브랜드명의 4.2배다. 12~1월 두 달만 놓고 보면 숙박 의도 검색이
+              브랜드 단독의 <b>1.6배</b>가 된다. 다만 단지 계열은 4개 모두 2년차에 감소했고
+              (−23% ~ −66%), 같은 기간 카테고리 4개는 전부 증가해 플랫폼 전체 효과로는 설명되지
+              않는다.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              “휘닉스파크에 간다”까지 정한 사람과 “호텔어라운드에 묵는다”를 정한 사람 사이의
+              단계에 자사 콘텐츠가 없다. 단지 안에 있다는 사실이 이 키워드를 쓸 가장 정당한
+              근거인데 쓰이지 않는다. 다만 단지 트래픽 자체는 줄어드는 파이이므로 장기 축이
+              아니라 <b>지금 수확할 자산</b>으로 다뤄야 한다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              휘닉스파크 숙소·호텔을 키워드 세트에 편입해 <b>9~10월 발행</b>. 단지 시설과 호텔
+              사이의 거리·동선·셔틀을 실제로 다루는 글이어야 검색 의도와 맞는다. 단지 계열
+              비중은 분기마다 재측정한다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">06</div>
+        <div class="prop-body">
+          <h3>B2B는 비수기 대안이 아니라 이미 이 호텔의 주 엔진이다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              상위 4일이 월 객실매출에서 차지하는 비중이 <b>5월 68.1%</b>, 7월 45.3%, 6월 32.5%,
+              4월 27.2%다. 연중 매출 1·2위 날이 5/1(65.9백만원)과
+              <b>7/17 단체 행사(64.1백만원, 점유율 84.6%)</b>다. 운영 리포트에 올바르게살기운동
+              경기도협의회(60실), 삼척시청, 중앙대, 키움, 목포교육청, 서울대 등 단체 고객이
+              열거돼 있고, 브랜드 자료에는 대연회장 180명 수용(325.8㎡, 1:2 분할)과 2018
+              평창올림픽·기업 연수 수용 경험이 있다. 반면 검색은 “평창 워크숍 장소” 20회 /
+              “평창 단체 숙소” 30회로 사실상 없다.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              검색이 만들지 못하는 매출을 단체가 만들고 있다. 그런데 이 구조는 동시에 위험이다 —
+              5월은 나흘이 빠지면 매출의 3분의 1만 남는다. B2B를 “비수기 보조”로 다루면 실제
+              매출 구조를 잘못 읽는 것이다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              B2B를 <b>별도 채널로 승격</b>해 검색 KPI와 분리 관리한다. 3~5월에 배정된 콘텐츠
+              리소스를 B2B 영업과 9~10월 겨울 준비로 옮긴다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">07</div>
+        <div class="prop-body">
+          <h3>주중 공실이 구조적인데, 워케이션은 검색으로 풀 수 없다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              일평균 판매 객실이 <b>5월 주중 37.9실 대 주말 104.3실(2.75배)</b>, 6월 70.4 대
+              96.5, 7월 67.4 대 90.7이고, 성수기인 8월 초에만 137.8 대 145.8로 붙는다. ADR도
+              5월 주중 62.6천원 대 주말 147.9천원이다. 워케이션 검색은 “평창 워케이션” 20회,
+              “강원 워케이션” 130회이고, “평창 워케이션 호텔”·“평창 아파트형 호텔”은 24개월 내내
+              측정 하한 미만이다. 운영 리포트가 근거로 든 “강원 워케이션 2024년 약 8만 명”은
+              <b>프로그램 참가자 수이지 검색 수요가 아니다</b>.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              주중을 채울 상품 방향(장기·워케이션)은 맞지만 채널이 틀렸다. 이 수요는 검색창에
+              나타나지 않으므로 콘텐츠로는 잡히지 않는다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              워케이션·장기투숙은 <b>지자체 프로그램 제휴와 기업 영업</b>으로 간다. 검색 콘텐츠
+              예산을 여기에 배정하지 않는다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">08</div>
+        <div class="prop-body">
+          <h3>평판은 OTA에 잠겨 있는데, 채널 비중 데이터 자체가 없다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              브랜드 자료 기준 Trip.com 평창군 1위, 만족도 9.0/10, 리뷰 8,400건 이상. 반면
+              브랜드명 검색 월 10,530회에 경쟁 문서는 653건뿐인데 상위 20위 안에 자사 글이 없다.
+              운영 리포트는 OTA 수수료를 15~20%로 적으면서도 <b>직판 대 OTA 비중은 제시하지
+              않는다</b> — 그 데이터가 존재하지 않는다.
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              전환에 가장 가까운 수요가 자사 채널을 거치지 않는다. 그 손실이 얼마인지조차 지금은
+              계산할 수 없다. 4~7월 객실매출 합계 866.1백만원에 대해 가정별로만 범위를 볼 수 있다.
+            </dd>
+            <dt class="wide">민감도</dt>
+            <dd class="act nogap">
+              <div class="table-scroll bare">
+                <table class="plan mini">
+                  <thead>
+                    <tr><th class="lead">OTA 비중 가정</th><th class="lead">수수료 15%</th><th class="lead">수수료 20%</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="lead">30%</td><td class="lead">39.0백만원</td><td class="lead">52.0백만원</td></tr>
+                    <tr><td class="lead">50%</td><td class="lead">65.0백만원</td><td class="lead">86.6백만원</td></tr>
+                    <tr><td class="lead">70%</td><td class="lead">90.9백만원</td><td class="lead">121.3백만원</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="mini-note">
+                4~7월 객실매출 866.1백만원 기준 4개월치 수수료. <b>가정에 따른 범위이지 실측이
+                아니다</b> — 실제 비중을 모르면 이 표의 어느 줄이 맞는지 알 수 없다.
+              </div>
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              ① <b>채널별 예약 비중 집계를 먼저 만든다</b> — 없으면 이후 모든 직판 논의가 추정에
+              머문다. ② 대기 중인 브랜드 원고를 발행하고 URL을 등록해 순위·유입 측정을 시작한다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="prop">
+        <div class="prop-n">09</div>
+        <div class="prop-body">
+          <h3>웰니스는 수요가 15배로 늘었는데 공급이 주 30명이다</h3>
+          <dl>
+            <dt>근거</dt>
+            <dd>
+              “강원도 웰니스 호텔” 1년차 121 → 2년차 1,792(<b>+1,381%</b>)로 이번 분석에서 가장
+              가파른 성장이다. 브랜드 자료의 포지셔닝도 “웰니스·럭셔리 타겟 확대”이고 운영
+              리포트도 웰니스를 비수기 상품으로 제안한다 — 다만 <b>양쪽 다 수요 수치는 제시하지
+              않는다</b>. 한편 기록된 공급은 요가 금·토·일, 회차당 최대 10명, 1시간으로 주당
+              최대 30명이다. 객실은 518실이다. 같은 맥락의 반려견 축은 “강원도 반려견 동반
+              호텔” 월 300회에 24개월 중 22개월 관측으로, 계절 공백이 없는 유일한 키워드다
+              (2년차 +75%).
+            </dd>
+            <dt>함의</dt>
+            <dd>
+              웰니스는 수요·의지·상품 방향이 모두 같은 곳을 가리키는데 수용력이 병목이다. 지금
+              전면에 세우면 유입된 기대를 상품이 못 받고, 만족도 9.0은 지키는 편이 새로 얻는
+              것보다 싸다. 반려견은 규모는 작지만 3~5월에도 죽지 않는 유일한 축이다.
+            </dd>
+            <dt>조치</dt>
+            <dd class="act">
+              웰니스는 <b>회차·정원 확대가 콘텐츠보다 선행</b>하고, 확대 결정 시점이 곧 발행
+              시점이다. 반려견은 펫룸 객실 수·요금·15kg 상한을 확인한 뒤 <b>비수기 전용 축</b>으로
+              운용한다.
+            </dd>
+          </dl>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="card correction">
+      <div class="card-title">정정 — 매출 데이터를 보고 뒤집힌 결론</div>
+      <div class="card-sub">검색 데이터만 보던 판에서 내렸던 판단이 틀렸다</div>
+      <dl class="fixlist">
+        <dt>앞서</dt>
+        <dd>
+          “키즈풀을 8월 1일에 열어 수요 정점(7월)을 한 달 놓쳤다”, “8월엔 여름 창이 이미 닫혔다”.
+        </dd>
+        <dt>실제</dt>
+        <dd>
+          <b>8월 1~8일이 연중 최고 점유율 39.6%, 일평균 매출 25.6백만원</b>이고 온더북스 기준
+          8월 전체가 7월을 16.4% 넘길 전망이다. 키즈풀 개장은 <b>투숙 정점에 정확히 맞았다</b>.
+        </dd>
+        <dt>교훈</dt>
+        <dd>
+          검색 정점은 <b>예약을 결정하는 시점</b>이고 매출 정점은 <b>투숙하는 시점</b>이다. 이
+          호텔의 여름은 그 간격이 약 한 달이다(검색 7월 → 투숙 8월 초). 따라서 어긋난 것은 개장
+          시점이 아니라 <b>고지 콘텐츠 시점</b>이며, 겨울에 같은 규칙을 적용하면 검색 정점 12~1월
+          → 콘텐츠는 9~10월이 된다. 이 리포트의 모든 발행 시점은 이 리드타임을 반영한 것이다.
+        </dd>
+      </dl>
+    </div>
+
+    <div class="card">
+      <div class="card-title">확인이 필요한 것 — 이 데이터만으로는 결론이 서지 않는 항목</div>
+      <div class="card-sub">아래 값이 정해지기 전까지 해당 항목은 가설이다</div>
+      <ul class="verify">
+        <li><b>채널별 예약 비중(직판 대 OTA).</b> 08번의 손실 규모가 전적으로 여기 달려 있다.
+          운영 리포트에도 없다.</li>
+        <li><b>실제 판매 가능 객실 수.</b> 점유율과 판매 객실 수를 역산하면 하루 약 354~363실이
+          나오는데, 총 객실은 518실이다. 약 160실이 판매 재고에 없는 이유가 무엇인지에 따라
+          01번의 “남는 방” 규모가 달라진다.</li>
+        <li><b>2·3월 점유율과 ADR.</b> 매출만 있고 점유율이 없어 겨울이 손익분기를 넘겼는지
+          알 수 없다. 04번의 강도가 여기 달려 있다.</li>
+        <li><b>4월 매출의 39.2백만원 차이.</b> 일보 합계 72.9 대 결산 112.1백만원(운영 리포트
+          자체 지적). 02번의 검색 1회당 매출이 12,817원인지 19,442원인지가 갈린다.</li>
+        <li><b>9월 이후 실적.</b> 축제 수요가 실제 투숙으로 이어졌는지 확인할 데이터가 아직 없다.
+          03번의 검증은 9월 실적이 나온 뒤에 가능하다.</li>
+        <li><b>펫룸 객실 수와 15kg 상한 정책</b>, <b>브랜드 검색이 2025년 10월에야 임계치를
+          넘은 이유.</b> 리뷰 8,400건은 그 전에 쌓였을 텐데 검색은 없었다.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">착수 순서 — 수요 곡선과 매출 실적에서 역산한 시점</div>
+      <div class="card-sub">오늘(2026-08-11) 기준 · 리드타임 약 1개월 반영</div>
+      <div class="table-scroll bare">
+        <table class="plan">
+          <thead>
+            <tr><th class="lead">조치</th><th class="lead">착수</th><th class="lead">근거</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="lead">9월 축제 콘텐츠 (봉평 숙소·효석문화제)</td>
+              <td class="lead">8월 즉시</td>
+              <td class="lead">9월 검색 96,688회 · 공식 지정 숙박업체 · 남은 준비 3~4주</td>
+            </tr>
+            <tr>
+              <td class="lead">브랜드 원고 발행 + URL 등록</td>
+              <td class="lead">8월 즉시</td>
+              <td class="lead">월 10,530회 · 경쟁 653건 · 원고는 이미 완성</td>
+            </tr>
+            <tr>
+              <td class="lead">채널별 예약 비중 집계 구축</td>
+              <td class="lead">8~9월</td>
+              <td class="lead">직판·OTA 데이터 부재 — 없으면 손실 추정 불가</td>
+            </tr>
+            <tr>
+              <td class="lead">휘닉스파크 숙소·호텔 콘텐츠</td>
+              <td class="lead">9~10월</td>
+              <td class="lead">12~1월 정점 · 검색 1회당 매출 겨울이 3.9배</td>
+            </tr>
+            <tr>
+              <td class="lead">겨울 브랜드 콘텐츠</td>
+              <td class="lead">9~10월</td>
+              <td class="lead">2월 매출 734.1백만원 · 브랜드 검색 1월 14,433회</td>
+            </tr>
+            <tr>
+              <td class="lead">웰니스 수용력 확대 검토</td>
+              <td class="lead">9월</td>
+              <td class="lead">수요 +1,381% vs 공급 주 30명</td>
+            </tr>
+            <tr>
+              <td class="lead">B2B·주중 영업 별도 채널화</td>
+              <td class="lead">연간 계획</td>
+              <td class="lead">5월 상위 4일 = 객실매출 68.1% · 주중 공실 2.75배</td>
+            </tr>
+            <tr>
+              <td class="lead">키즈풀 고지 콘텐츠 6월로</td>
+              <td class="lead">내년 계획</td>
+              <td class="lead">개장 시점은 맞았음 — 고지가 검색 정점보다 늦었을 뿐</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 8. table ─────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">11 — 원본 값</div>
+      <h2>전체 데이터</h2>
+      <p class="sec-note">
+        차트에 그려진 모든 값이 여기에 있다. <code>—</code>는 데이터랩 임계치 미만이라
+        환산할 수 없었던 달이다.
+      </p>
+    </div>
+    <details class="table-block">
+      <summary>24개월 × 18개 키워드 표 열기</summary>
+      <div class="table-scroll">
+        <table id="data-table">
+          <caption>월별 추정 검색량(회). 데이터랩 상대 지수 × (검색광고 절대 검색량 ÷ 최근월 지수).</caption>
+        </table>
+      </div>
+    </details>
+    <div class="print-only" id="print-tables"></div>
+  </section>
+
+  <!-- ── 9. method ────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-index">12 — 방법과 한계</div>
+      <h2>이 숫자가 어떻게 만들어졌는지</h2>
+    </div>
+    <div class="method">
+      <p>
+        <b>왜 환산이 필요한가.</b> 네이버는 “과거 월별 검색 횟수”를 그대로 주는 API가 없다.
+        데이터랩은 기간 내 최고점을 100으로 둔 <b>상대 지수</b>만 주고, 검색광고
+        <code>keywordstool</code>은 <b>최근 30일 절대 검색량</b>만 준다. 그래서 키워드마다
+        데이터랩을 개별 호출해(그룹으로 묶으면 지수가 키워드 간 상대값이 되어 스케일이 깨진다)
+        마지막 달의 지수를 절대 검색량에 맞추는 계수를 구하고, 그 계수를 24개월 전체에 적용했다.
+      </p>
+      <p>
+        <b class="warn">그래서 이 값은 추정치다.</b> 상대 지수의 반올림 오차가 계수를 통해
+        증폭되며, 마지막 달의 지수가 낮을수록 오차가 커진다. 관측 개월 수가 적은 키워드
+        (섹션 03)에서 특히 그렇다. 순위·유입 같은 실측 지표를 대체하는 값이 아니라,
+        <b>어느 달에 수요가 몰리는지</b>를 읽기 위한 값이다.
+      </p>
+      <p>
+        <b>빠진 달의 의미.</b> 데이터랩은 검색량이 임계치 미만인 달을 응답에서 아예 빼고 준다.
+        표의 0과 <code>—</code>는 “검색이 없었다”가 아니라 “측정 하한 아래였다”로 읽어야 한다.
+      </p>
+      <p>
+        <b>검색광고 API의 하한.</b> <code>keywordstool</code>은 저볼륨 키워드에 대해
+        <code>"&lt; 10"</code>을 반환하고, 수집 코드는 이를 10으로 파싱한다. PC·모바일 합산이
+        20인 키워드는 실제로는 그보다 작을 수 있다.
+      </p>
+      <p>
+        <b>매출 데이터의 출처와 한계.</b> 실적 수치는 운영 리포트
+        (<code>huiwon7.github.io/hotelaround-report</code>)에서 가져왔고 이 분석에서 재계산하지
+        않았다. 그 리포트가 스스로 밝힌 문제도 그대로 안고 간다 — 4월 객실매출은 일보 합계
+        72.9백만원과 결산 112.1백만원이 <b>39.2백만원 어긋나고</b>(여기서는 일보 합계 사용),
+        6월 F&amp;B에는 0원 입력이 다수이며, 5/22·6/25 점유율에 전사 오류가 있었다. PMS와 POS가
+        연동되지 않아 F&amp;B 집계 자체가 불완전하다. 2·3월은 매출만 있고 점유율·ADR이 없어
+        점유율 그래프에서 제외했다. 8월은 1~8일까지의 진행 중 수치다.
+      </p>
+      <p>
+        <b>상관계수에 대해.</b> 표본이 6개월(2~7월)이므로 이 값은 <b>동행을 보여줄 뿐 인과가
+        아니다</b>. 단체 예약이 먼저 잡히고 그 참가자들이 브랜드명을 검색했을 가능성 —
+        즉 인과가 반대일 가능성 — 을 이 데이터로는 배제할 수 없다. 5월 상위 4일이 월
+        객실매출의 68.1%를 차지한 것이 그 정황이다. 실적이 몇 달 더 쌓인 뒤 재계산해야 한다.
+      </p>
+      <p>
+        <b>재현.</b> <code>python -m scripts.collect_trends --months 24 --out trends.json</code> —
+        같은 스크립트로 언제든 다시 수집된다. 단지 계열 4개는
+        <code>--keywords "휘닉스파크" "휘닉스 평창" "휘닉스파크 호텔" "휘닉스파크 숙소"</code>로
+        따로 받았다. 색상은 CVD 검증을 통과한 팔레트를 쓰며, 라이트 모드에서
+        3:1 미만인 계열은 직접 라벨과 위 표로 값을 따로 읽을 수 있게 했다.
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<script id="chart-data" type="application/json">{"collected_at": "2026-08-11", "start": "2024-08-01", "end": "2026-07-31", "periods": ["2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07"], "brand": {"keyword": "호텔어라운드 평창", "values": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 42, 9722, 14433, 11536, 3252, 5520, 7527, 6220, 10530], "absolute": 10530, "coverage": 10, "yoy": {"y1": 0, "y2": 68814, "pct": null}}, "reliable": [{"keyword": "평창 여름 휴가", "values": [208, 0, 0, 0, 0, 0, 0, 15, 0, 8, 358, 702, 59, 0, 0, 0, 0, 0, 0, 8, 8, 157, 549, 700], "absolute": 700, "coverage": 11, "yoy": {"y1": 1291, "y2": 1481, "pct": 15}}, {"keyword": "강원도 웰니스 호텔", "values": [7, 0, 0, 0, 0, 0, 7, 0, 15, 0, 11, 81, 173, 126, 125, 61, 0, 8, 24, 224, 203, 236, 192, 420], "absolute": 420, "coverage": 16, "yoy": {"y1": 121, "y2": 1792, "pct": 1381}}, {"keyword": "평창 가족 여행", "values": [214, 144, 39, 8, 47, 59, 42, 0, 34, 56, 56, 226, 168, 127, 92, 163, 83, 191, 231, 52, 231, 205, 207, 400], "absolute": 400, "coverage": 23, "yoy": {"y1": 925, "y2": 2150, "pct": 132}}, {"keyword": "강원도 반려견 동반 호텔", "values": [105, 30, 17, 0, 23, 94, 70, 19, 0, 122, 108, 223, 260, 66, 37, 72, 211, 120, 26, 66, 80, 78, 103, 300], "absolute": 300, "coverage": 22, "yoy": {"y1": 811, "y2": 1419, "pct": 75}}], "thin": [{"keyword": "평창 호텔 예약", "values": [315, 90, 0, 0, 0, 285, 0, 0, 0, 0, 0, 165, 0, 255, 105, 0, 0, 0, 0, 0, 0, 0, 0, 90], "absolute": 90, "coverage": 7, "yoy": {"y1": 855, "y2": 450, "pct": -47}}, {"keyword": "평창 반려견 동반 숙소", "values": [49, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 29, 66, 21, 41, 0, 21, 25, 0, 0, 0, 0, 25, 70], "absolute": 70, "coverage": 10, "yoy": {"y1": 99, "y2": 269, "pct": 172}}], "floor": [{"keyword": "평창 반려동물 호텔 예약", "absolute": 20}, {"keyword": "평창 워케이션 호텔", "absolute": 20}, {"keyword": "평창 아파트형 호텔", "absolute": 20}], "calendar": [{"month": 1, "avg": 236, "n": 2}, {"month": 2, "avg": 200, "n": 2}, {"month": 3, "avg": 192, "n": 2}, {"month": 4, "avg": 286, "n": 2}, {"month": 5, "avg": 431, "n": 2}, {"month": 6, "avg": 792, "n": 2}, {"month": 7, "avg": 1526, "n": 2}, {"month": 8, "avg": 597, "n": 2}, {"month": 9, "avg": 246, "n": 2}, {"month": 10, "avg": 155, "n": 2}, {"month": 11, "avg": 152, "n": 2}, {"month": 12, "avg": 182, "n": 2}], "resort_big": [{"keyword": "휘닉스파크", "values": [72810, 72225, 54885, 146307, 230215, 212989, 130325, 50801, 31257, 37538, 48071, 74209, 48885, 46066, 39395, 121330, 178823, 154593, 94169, 26993, 20696, 17743, 26993, 34590], "absolute": 34590, "coverage": 24, "yoy": {"y1": 1161632, "y2": 810276, "pct": -30}}, {"keyword": "휘닉스 평창", "values": [41964, 29932, 29565, 39466, 37148, 30089, 19579, 12581, 12787, 16153, 23215, 19197, 10936, 9331, 7058, 12154, 14356, 10516, 6460, 4362, 6564, 5950, 10490, 8540], "absolute": 8540, "coverage": 24, "yoy": {"y1": 311676, "y2": 106717, "pct": -66}}], "resort_stay": [{"keyword": "휘닉스파크 호텔", "values": [991, 879, 688, 1341, 2470, 2597, 1539, 475, 289, 396, 535, 1193, 981, 623, 717, 1121, 1831, 2047, 977, 93, 237, 325, 595, 660], "absolute": 660, "coverage": 24, "yoy": {"y1": 13393, "y2": 10207, "pct": -24}}, {"keyword": "휘닉스파크 숙소", "values": [315, 338, 530, 2058, 6422, 8050, 3460, 198, 38, 51, 308, 465, 344, 137, 416, 2236, 5480, 5863, 2252, 49, 9, 9, 125, 190], "absolute": 190, "coverage": 24, "yoy": {"y1": 22233, "y2": 17110, "pct": -23}}], "season_index": {"layers": [{"name": "단지 숙박 수요", "short": "단지 숙박", "slot": 1, "values": [100.0, 44.3, 4.4, 3.1, 4.2, 8.4, 13.5, 14.2, 10.7, 12.7, 36.4, 87.3], "basis": "휘닉스파크 호텔 + 휘닉스파크 숙소", "peak": 9278}, {"name": "브랜드 수요", "short": "브랜드", "slot": 2, "values": [100.0, 79.9, 22.5, 38.2, 52.2, 43.1, 73.0, null, null, 0.2, 0.3, 67.4], "basis": "호텔어라운드 평창 (관측 월만)", "peak": 14433}, {"name": "카테고리 수요", "short": "카테고리", "slot": 3, "values": [15.5, 13.1, 12.6, 18.7, 28.2, 51.9, 100.0, 39.1, 16.2, 10.2, 10.0, 11.9], "basis": "비브랜드 신뢰 4개 합계", "peak": 1526}], "brand_months": {"10": 1, "11": 1, "12": 1, "1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1, "7": 1}}, "scale": {"resort": 43980, "brand": 10530, "category": 2040}, "facts": {"stay_jan": 6956, "stay_apr": 24, "stay_ratio": 290, "resort_over_brand": 4.2, "resort_over_cat": 21.6, "winter_intent_multiple": 1.63}, "festival": [{"keyword": "봉평 메밀꽃 축제", "values": [13723, 63229, 27359, 1460, 215, 402, 985, 1662, 2582, 3051, 3286, 2889, 11769, 38986, 12167, 1951, 7, 0, 299, 1354, 2343, 2863, 3003, 4180], "absolute": 4180, "coverage": 23, "yoy": {"y1": 120843, "y2": 78922, "pct": -35}}, {"keyword": "평창 효석문화제", "values": [7399, 38337, 1046, 247, 73, 34, 30, 97, 81, 145, 123, 1499, 6519, 27669, 702, 100, 21, 7, 0, 402, 585, 598, 1091, 2130], "absolute": 2130, "coverage": 23, "yoy": {"y1": 49111, "y2": 39824, "pct": -19}}, {"keyword": "효석문화제", "values": [3857, 12089, 615, 222, 5, 5, 6, 60, 55, 150, 375, 822, 4346, 12142, 631, 217, 32, 5, 5, 49, 79, 171, 186, 670], "absolute": 670, "coverage": 24, "yoy": {"y1": 18261, "y2": 18533, "pct": 1}}, {"keyword": "봉평 숙소", "values": [549, 501, 381, 50, 67, 62, 144, 67, 85, 97, 163, 288, 462, 422, 138, 0, 41, 75, 10, 64, 42, 116, 127, 350], "absolute": 350, "coverage": 23, "yoy": {"y1": 2454, "y2": 1847, "pct": -25}}], "festival_calendar": [{"month": 1, "avg": 295}, {"month": 2, "avg": 740}, {"month": 3, "avg": 1878}, {"month": 4, "avg": 2926}, {"month": 5, "avg": 3596}, {"month": 6, "avg": 4177}, {"month": 7, "avg": 6414}, {"month": 8, "avg": 24312}, {"month": 9, "avg": 96688}, {"month": 10, "avg": 21520}, {"month": 11, "avg": 2124}, {"month": 12, "avg": 230}], "revenue": {"source": "huiwon7.github.io/hotelaround-report", "breakeven": [40, 50], "months": [{"m": "2026-02", "label": "2월", "total": 734.1, "occ": null, "adr": null, "rooms": null, "partial": false}, {"m": "2026-03", "label": "3월", "total": 80.9, "occ": null, "adr": null, "rooms": null, "partial": false}, {"m": "2026-04", "label": "4월", "total": 73.9, "occ": 11.6, "adr": 59110, "rooms": 1233, "partial": false}, {"m": "2026-05", "label": "5월", "total": 299.3, "occ": 19.8, "adr": 124108, "rooms": 2171, "partial": false}, {"m": "2026-06", "label": "6월", "total": 195.4, "occ": 22.7, "adr": 75876, "rooms": 2426, "partial": false}, {"m": "2026-07", "label": "7월", "total": 381.3, "occ": 21.3, "adr": 141956, "rooms": 2393, "partial": false}, {"m": "2026-08", "label": "8월*", "total": 227.3, "occ": 39.6, "adr": 180803, "rooms": 1134, "partial": true}], "daypart": [{"label": "4월", "weekday": 47.3, "weekend": 31.8}, {"label": "5월", "weekday": 37.9, "weekend": 104.3}, {"label": "6월", "weekday": 70.4, "weekend": 96.5}, {"label": "7월", "weekday": 67.4, "weekend": 90.7}, {"label": "8월*", "weekday": 137.8, "weekend": 145.8}], "top4_share": [{"label": "4월", "v": 27.2}, {"label": "5월", "v": 68.1}, {"label": "6월", "v": 32.5}, {"label": "7월", "v": 45.3}]}, "correlation": {"n": 6, "intent": 0.959, "brand": 0.907, "category": -0.011, "pairs": [{"m": "2026-02", "label": "2월", "rev": 734.1, "intent": 14765, "brand": 11536, "cat": 281, "per_search": 49719}, {"m": "2026-03", "label": "3월", "rev": 80.9, "intent": 3394, "brand": 3252, "cat": 350, "per_search": 23836}, {"m": "2026-04", "label": "4월", "rev": 73.9, "intent": 5766, "brand": 5520, "cat": 522, "per_search": 12817}, {"m": "2026-05", "label": "5월", "rev": 299.3, "intent": 7861, "brand": 7527, "cat": 676, "per_search": 38074}, {"m": "2026-06", "label": "6월", "rev": 195.4, "intent": 6940, "brand": 6220, "cat": 1051, "per_search": 28156}, {"m": "2026-07", "label": "7월", "rev": 381.3, "intent": 11380, "brand": 10530, "cat": 1820, "per_search": 33506}]}, "index_compare": [{"label": "2월", "intent": 100.0, "rev": 100.0}, {"label": "3월", "intent": 23.0, "rev": 11.0}, {"label": "4월", "intent": 39.1, "rev": 10.1}, {"label": "5월", "intent": 53.2, "rev": 40.8}, {"label": "6월", "intent": 47.0, "rev": 26.6}, {"label": "7월", "intent": 77.1, "rev": 51.9}]}</script>
+<script id="pdf-blob" type="text/plain"></script>
+
+<script>
+(function () {
+  "use strict";
+
+  // 어떤 DOM 변경보다 먼저 원본을 떠 둔다 — 내려받기 대체 경로가 이걸 쓴다
+  var PRISTINE = "<!doctype html>" + document.documentElement.outerHTML;
+
+  var D = JSON.parse(document.getElementById("chart-data").textContent);
+  var REDRAWS = [];   // 인쇄 시 지면 폭에 맞춰 모든 차트를 다시 그리기 위한 목록
+  var PERIODS = D.periods;
+  var nf = new Intl.NumberFormat("ko-KR");
+
+  function fmt(v) { return v === null || v === undefined ? "—" : nf.format(v); }
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined) n.textContent = txt;
+    return n;
+  }
+  function svgEl(tag, attrs) {
+    var n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (var k in attrs) if (attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function niceTicks(max, count) {
+    var raw = max / count;
+    var mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var norm = raw / mag;
+    var step = (norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 2.5 ? 2.5 : norm <= 5 ? 5 : 10) * mag;
+    // the top tick must sit at or above the max, or the series overshoots the plot
+    var n = Math.max(Math.ceil(max / step), 1);
+    var out = [];
+    for (var i = 0; i <= n; i++) out.push(Math.round(i * step));
+    return out;
+  }
+  function label(period) { return period.slice(2, 4) + "." + period.slice(5, 7); }
+
+  // ── header numbers ───────────────────────────────────────
+  var brand = D.brand;
+  var vals = brand.values;
+  var lastVal = vals[vals.length - 1];
+  var peak = vals.reduce(function (a, b, i) { return b > vals[a] ? i : a; }, 0);
+  var resortCount = D.resort_big.length + D.resort_stay.length;
+  var festCount = D.festival.length;
+  var measurable = 1 + resortCount + festCount + D.reliable.length + D.thin.length;
+  var total = measurable + D.floor.length;
+
+  document.getElementById("run-range").textContent = D.start.slice(0, 7) + " ~ " + D.end.slice(0, 7);
+  document.getElementById("run-date").textContent = D.collected_at;
+  document.getElementById("run-total").textContent =
+    total + "개 (핵심 10 + 단지 " + resortCount + " + 축제 " + festCount + ")";
+  document.getElementById("run-measurable").textContent = measurable + "개";
+
+  var hv = document.getElementById("hero-value");
+  hv.appendChild(document.createTextNode("39.6"));
+  hv.appendChild(el("span", "hero-unit", "%"));
+  document.getElementById("hero-foot").textContent =
+    "손익분기 추정 40~50% — 최고인 달조차 미달했고, 4~7월은 11.6~22.7%였다";
+
+  var wellness = D.reliable.filter(function (s) { return s.keyword === "강원도 웰니스 호텔"; })[0];
+  var sep = D.festival_calendar[8].avg;
+  var perSearch = D.correlation.pairs;
+  var pFeb = perSearch[0].per_search, pApr = perSearch[2].per_search;
+
+  var TILES = [
+    {
+      label: "매출 최고 달 (2026-02)",
+      value: "734.1",
+      foot: "백만원 · 7월(381.3)의 1.9배 · 겨울이 여름보다 크다"
+    },
+    {
+      label: "숙박 의도 검색 ↔ 매출 상관",
+      value: "r = " + D.correlation.intent.toFixed(3),
+      foot: "카테고리 층은 " + D.correlation.category.toFixed(3) + " — 사실상 무관 · 표본 6개월"
+    },
+    {
+      label: "9월 축제 검색 (누락돼 있던 층)",
+      value: nf.format(sep),
+      foot: "달력월 평균 · 호텔은 효석문화제 공식 숙박업체"
+    },
+    {
+      label: "단지 계열 검색 (누락돼 있던 층)",
+      value: nf.format(D.scale.resort),
+      foot: "휘닉스파크 계열 4개 합 · 브랜드의 " + D.facts.resort_over_brand + "배"
+    },
+    {
+      label: "검색 1회당 매출 — 겨울 vs 봄",
+      value: nf.format(pFeb) + " → " + nf.format(pApr),
+      foot: "원 · 2월 대 4월, " + (pFeb / pApr).toFixed(1) + "배 차이",
+      delta: "down",
+      deltaText: "−" + Math.round((1 - pApr / pFeb) * 100) + "%"
+    },
+    {
+      label: "매출 개선이 온 곳",
+      value: "ADR +87.1%",
+      foot: "물리적 점유는 −1.4% · 물량 레버는 아직 손대지 않았다",
+      delta: "up"
+    }
+  ];
+
+  var kpis = document.getElementById("kpis");
+  TILES.forEach(function (t) {
+    var tile = el("div", "tile");
+    tile.appendChild(el("div", "tile-label", t.label));
+    var v = el("div", "tile-value" + (t.delta && !t.deltaText ? " " + t.delta : ""), t.value);
+    if (t.deltaText) {
+      var d = el("span", t.delta, " " + t.deltaText);
+      d.style.fontSize = "15px";
+      v.appendChild(d);
+    }
+    tile.appendChild(v);
+    tile.appendChild(el("div", "tile-foot", t.foot));
+    kpis.appendChild(tile);
+  });
+
+  // ── tooltip factory ──────────────────────────────────────
+  function makeTip(wrap) {
+    var tip = el("div", "tip");
+    wrap.appendChild(tip);
+    return {
+      node: tip,
+      show: function (x, y, head, rows) {
+        tip.textContent = "";
+        tip.appendChild(el("div", "tip-head", head));
+        rows.forEach(function (r) {
+          var row = el("div", "tip-row");
+          var key = el("div", "tip-key");
+          key.style.background = r.color;
+          row.appendChild(key);
+          row.appendChild(el("div", "tip-name", r.name));
+          row.appendChild(el("div", "tip-val", r.value));
+          tip.appendChild(row);
+        });
+        tip.setAttribute("data-on", "1");
+        var w = tip.offsetWidth, ww = wrap.clientWidth;
+        var left = Math.min(Math.max(x - w / 2, 0), Math.max(ww - w, 0));
+        tip.style.left = left + "px";
+        tip.style.top = Math.max(y - tip.offsetHeight - 14, 0) + "px";
+      },
+      hide: function () { tip.removeAttribute("data-on"); }
+    };
+  }
+
+  function seriesColor(slot) {
+    return getComputedStyle(document.documentElement).getPropertyValue("--series-" + slot).trim();
+  }
+
+  // ── line chart (1..n series over PERIODS) ────────────────
+  function lineChart(wrapId, series, opts) {
+    opts = opts || {};
+    var wrap = document.getElementById(wrapId);
+    var tip = makeTip(wrap);
+    var CATS = opts.categories || PERIODS;
+    var isTick = opts.isTick || function (p) { return p.slice(5) === "01" || p.slice(5) === "07"; };
+    var tickText = opts.tickText || label;
+    var headText = opts.headText || function (p) {
+      return p.slice(0, 4) + "년 " + Number(p.slice(5)) + "월";
+    };
+
+    function draw() {
+      var W = wrap.clientWidth;
+      if (!W) return;
+      var H = opts.height || 300;
+      var padL = 46, padR = opts.padR !== undefined ? opts.padR : 96;
+      var padT = opts.padT !== undefined ? opts.padT : 14, padB = 30;
+      var iw = Math.max(W - padL - padR, 40), ih = H - padT - padB;
+
+      wrap.querySelectorAll("svg").forEach(function (n) { n.remove(); });
+      var svg = svgEl("svg", { class: "chart", viewBox: "0 0 " + W + " " + H, height: H });
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", opts.aria || "월별 검색량 추이 그래프");
+
+      var maxV = 0;
+      series.forEach(function (s) {
+        s.values.forEach(function (v) { if (v !== null && v > maxV) maxV = v; });
+      });
+      var ticks = niceTicks(maxV || 1, 4);
+      var yMax = ticks[ticks.length - 1];
+
+      var x = function (i) { return padL + (CATS.length === 1 ? 0 : i * iw / (CATS.length - 1)); };
+      var y = function (v) { return padT + ih - (v / yMax) * ih; };
+
+      ticks.forEach(function (t) {
+        svg.appendChild(svgEl("line", {
+          class: t === 0 ? "axis-line" : "grid-line",
+          x1: padL, x2: padL + iw, y1: y(t), y2: y(t)
+        }));
+        var tx = svgEl("text", { class: "tick-text", x: padL - 9, y: y(t) + 4, "text-anchor": "end" });
+        tx.textContent = nf.format(t);
+        svg.appendChild(tx);
+      });
+
+      CATS.forEach(function (p, i) {
+        if (!isTick(p, i)) return;
+        var tx = svgEl("text", { class: "tick-text", x: x(i), y: padT + ih + 18, "text-anchor": "middle" });
+        tx.textContent = tickText(p);
+        svg.appendChild(tx);
+      });
+
+      // a leading run of zeros means "below the DataLab floor", not "nobody searched"
+      if (opts.preBand) {
+        svg.appendChild(svgEl("rect", {
+          class: "band", x: padL, y: padT,
+          width: x(opts.preBand) - padL, height: ih
+        }));
+        var bl = svgEl("text", { class: "anno", x: padL + 8, y: padT + 16 });
+        bl.textContent = "측정 하한 미만 — 관측 없음";
+        svg.appendChild(bl);
+      }
+
+      series.forEach(function (s) {
+        // a null is a hole in the data — break the line rather than bridging it,
+        // which would draw a trend across months that were never measured
+        var d = "", pts = [], open = false;
+        s.values.forEach(function (v, i) {
+          if (v === null || v === undefined) { open = false; return; }
+          d += (open ? " L" : " M") + x(i) + " " + y(v);
+          open = true;
+          pts.push([x(i), y(v), i, v]);
+        });
+        if (!pts.length) return;
+
+        var hasHole = pts.length !== s.values.length;
+        if (opts.area && !hasHole) {
+          var base = padT + ih;
+          svg.appendChild(svgEl("path", {
+            class: "series-area f" + s.slot,
+            d: d + " L" + pts[pts.length - 1][0] + " " + base + " L" + pts[0][0] + " " + base + " Z"
+          }));
+        }
+        svg.appendChild(svgEl("path", { class: "series-line s" + s.slot, d: d.trim() }));
+
+        // an isolated point has no segment to sit on — give it a dot of its own
+        pts.forEach(function (p, i) {
+          var alone = (i === 0 || pts[i - 1][2] !== p[2] - 1) &&
+                      (i === pts.length - 1 || pts[i + 1][2] !== p[2] + 1);
+          if (alone) svg.appendChild(svgEl("circle", { class: "end-dot f" + s.slot, cx: p[0], cy: p[1], r: 3 }));
+        });
+
+        var last = pts[pts.length - 1];
+        svg.appendChild(svgEl("circle", { class: "end-dot f" + s.slot, cx: last[0], cy: last[1], r: 4.5 }));
+        s._endY = last[1];
+        s._endX = last[0];
+        s._endV = last[3];
+      });
+
+      // direct end labels with collision-aware nudging + leader lines
+      if (padR > 40) {
+        var ordered = series.slice().filter(function (s) { return s._endY !== undefined; })
+          .sort(function (a, b) { return a._endY - b._endY; });
+        var minGap = series.length > 1 ? 30 : 18;
+        var topLimit = padT - 2, bottomLimit = padT + ih - 9;
+
+        // pass 1 pushes labels down off each other; pass 2 pulls the stack back up
+        // if it ran past the plot, so the last one never lands on the x-axis ticks
+        var prev = topLimit - minGap;
+        ordered.forEach(function (s) {
+          s._ly = Math.max(s._endY, prev + minGap);
+          prev = s._ly;
+        });
+        var next = bottomLimit + minGap;
+        for (var k = ordered.length - 1; k >= 0; k--) {
+          ordered[k]._ly = Math.min(ordered[k]._ly, next - minGap);
+          next = ordered[k]._ly;
+        }
+
+        ordered.forEach(function (s) {
+          var ly = s._ly;
+          var lx = padL + iw + 12;
+          if (Math.abs(ly - s._endY) > 1.5) {
+            svg.appendChild(svgEl("path", {
+              class: "leader",
+              d: "M" + (s._endX + 6) + " " + s._endY + " L" + (lx - 4) + " " + ly
+            }));
+          }
+          if (series.length > 1) {
+            // one series needs no name — the card title already says what is plotted
+            var t1 = svgEl("text", { class: "dlabel", x: lx, y: ly - 3 });
+            t1.textContent = s.short || s.keyword;
+            svg.appendChild(t1);
+          }
+          var t2 = svgEl("text", {
+            class: "dlabel-num", x: lx, y: series.length > 1 ? ly + 11 : ly + 4
+          });
+          t2.textContent = (opts.valueFmt || nf.format)(s._endV);
+          svg.appendChild(t2);
+        });
+      }
+
+      // hover layer
+      var cross = svgEl("line", { class: "crosshair", y1: padT, y2: padT + ih, x1: -99, x2: -99 });
+      cross.style.opacity = "0";
+      svg.appendChild(cross);
+      var dots = svgEl("g");
+      svg.appendChild(dots);
+
+      var hit = svgEl("rect", { x: padL, y: padT, width: iw, height: ih, fill: "transparent" });
+      hit.style.cursor = "crosshair";
+      svg.appendChild(hit);
+
+      function focus(i) {
+        cross.setAttribute("x1", x(i));
+        cross.setAttribute("x2", x(i));
+        cross.style.opacity = "1";
+        dots.textContent = "";
+        var rows = [];
+        series.forEach(function (s) {
+          var v = s.values[i];
+          var none = (v === null || v === undefined);
+          rows.push({
+            name: s.short || s.keyword,
+            value: none ? (opts.noneText || "측정 하한 미만") : (opts.valueFmt || nf.format)(v) + (opts.unit || " 회"),
+            color: seriesColor(s.slot)
+          });
+          if (none) return;
+          dots.appendChild(svgEl("circle", { class: "focus-dot f" + s.slot, cx: x(i), cy: y(v), r: 4.5 }));
+        });
+        tip.show(x(i), y(yMax) + 30, headText(CATS[i], i), rows);
+      }
+      function clear() {
+        cross.style.opacity = "0";
+        dots.textContent = "";
+        tip.hide();
+      }
+      hit.addEventListener("pointermove", function (e) {
+        var r = svg.getBoundingClientRect();
+        var px = (e.clientX - r.left) * (W / r.width);
+        var i = Math.round((px - padL) / (iw / (CATS.length - 1)));
+        focus(Math.min(Math.max(i, 0), CATS.length - 1));
+      });
+      hit.addEventListener("pointerleave", clear);
+
+      wrap.insertBefore(svg, tip.node);
+    }
+
+    draw();
+    REDRAWS.push(draw);
+    if (window.ResizeObserver) new ResizeObserver(draw).observe(wrap);
+  }
+
+  // ── section 01: brand ────────────────────────────────────
+  var firstSeen = vals.findIndex(function (v) { return v > 0; });
+  lineChart("chart-brand", [{ keyword: brand.keyword, values: brand.values, slot: 1 }], {
+    height: 300, area: true, padR: 68, padT: 22,
+    preBand: firstSeen > 0 ? firstSeen : 0,
+    aria: "호텔어라운드 평창 브랜드 검색량 24개월 추이. 2025년 10월 첫 관측, 2026년 1월 14,433회로 최고점."
+  });
+
+  // ── section 02: four series ──────────────────────────────
+  var SHORT = {
+    "평창 여름 휴가": "평창 여름 휴가",
+    "강원도 웰니스 호텔": "강원도 웰니스 호텔",
+    "평창 가족 여행": "평창 가족 여행",
+    "강원도 반려견 동반 호텔": "강원도 반려견 동반"
+  };
+  var multi = D.reliable.map(function (s, i) {
+    return { keyword: s.keyword, short: SHORT[s.keyword] || s.keyword, values: s.values, slot: i + 1, yoy: s.yoy };
+  });
+
+  function buildLegend(id, series, noteFn) {
+    var box = document.getElementById(id);
+    if (!box) return;
+    series.forEach(function (s) {
+      var item = el("div", "legend-item");
+      var key = el("span", "legend-key");
+      key.style.background = seriesColor(s.slot);
+      item.appendChild(key);
+      item.appendChild(document.createTextNode(s.keyword));
+      var note = noteFn && noteFn(s);
+      if (note) item.appendChild(el("span", "legend-num", note));
+      box.appendChild(item);
+    });
+  }
+  function yoyNote(s) {
+    if (!s.yoy || s.yoy.pct === null || s.yoy.pct === undefined) return "";
+    return "2년차 " + (s.yoy.pct >= 0 ? "+" : "") + s.yoy.pct + "%";
+  }
+
+  buildLegend("legend-multi", multi, yoyNote);
+
+  lineChart("chart-multi", multi, {
+    height: 330, padR: 150, padT: 26,
+    aria: "비브랜드 4개 키워드의 24개월 월별 검색량 추이."
+  });
+
+  // ── section 03: the resort layer ─────────────────────────
+  // slots are fixed per entity so a keyword keeps its colour across both cards
+  var RESORT_SLOT = {
+    "호텔어라운드 평창": 1, "휘닉스파크": 2, "휘닉스 평창": 3,
+    "휘닉스파크 호텔": 4, "휘닉스파크 숙소": 5
+  };
+  function asSeries(s, shortName) {
+    return {
+      keyword: s.keyword, short: shortName || s.keyword, values: s.values,
+      slot: RESORT_SLOT[s.keyword], yoy: s.yoy
+    };
+  }
+
+  var resortBig = D.resort_big.map(function (s) { return asSeries(s); });
+  buildLegend("legend-resort-big", resortBig, yoyNote);
+  lineChart("chart-resort-big", resortBig, {
+    height: 300, padR: 130, padT: 24,
+    aria: "휘닉스파크와 휘닉스 평창의 24개월 월별 검색량. 겨울에 정점."
+  });
+
+  var resortStay = [asSeries(brand, "호텔어라운드 평창")]
+    .concat(D.resort_stay.map(function (s) { return asSeries(s); }));
+  resortStay[0].yoy = null;
+  buildLegend("legend-resort-stay", resortStay, yoyNote);
+  lineChart("chart-resort-stay", resortStay, {
+    height: 310, padR: 150, padT: 24,
+    aria: "브랜드명, 휘닉스파크 호텔, 휘닉스파크 숙소의 24개월 월별 검색량 비교."
+  });
+
+  // ── section 04: small multiples ──────────────────────────
+  var sm = document.getElementById("small-multiples");
+  D.thin.forEach(function (s) {
+    var card = el("div", "card");
+    var t = el("div", "card-title");
+    t.appendChild(document.createTextNode(s.keyword + " "));
+    var b = el("span", "badge", "관측 " + s.coverage + "/24");
+    t.appendChild(b);
+    card.appendChild(t);
+    card.appendChild(el("div", "card-sub", "현재 " + nf.format(s.absolute) + " 회/월 · 추세 판단 불가"));
+    var wrap = el("div", "chart-wrap");
+    wrap.id = "sm-" + s.keyword.replace(/\s/g, "-");
+    card.appendChild(wrap);
+    sm.appendChild(card);
+    lineChart(wrap.id, [{ keyword: s.keyword, short: "검색량", values: s.values, slot: 1 }], {
+      height: 176, padR: 20, area: true,
+      aria: s.keyword + " 월별 검색량. 24개월 중 " + s.coverage + "개월만 관측됨."
+    });
+  });
+
+  // ── section 04: floor tiles ──────────────────────────────
+  var ft = document.getElementById("floor-tiles");
+  var COMP = { "평창 반려동물 호텔 예약": 128, "평창 워케이션 호텔": 467, "평창 아파트형 호텔": 233 };
+  D.floor.forEach(function (s) {
+    var card = el("div", "card floor-tile");
+    card.appendChild(el("div", "floor-kw", s.keyword));
+    var v = el("div", "floor-val", nf.format(s.absolute));
+    v.appendChild(el("span", null, " 회/월"));
+    card.appendChild(v);
+    card.appendChild(el("div", "floor-note", "월별 이력 없음 · 경쟁 문서 " + nf.format(COMP[s.keyword]) + "건"));
+    ft.appendChild(card);
+  });
+
+  // ── section 06a: seasonality index, three layers ─────────
+  (function () {
+    var MONTHS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    var LAYER_SLOT = { "브랜드 수요": 1, "단지 숙박 수요": 2, "카테고리 수요": 3 };
+    var layers = D.season_index.layers.map(function (L) {
+      return {
+        keyword: L.name, short: L.short, values: L.values,
+        slot: LAYER_SLOT[L.name], basis: L.basis, peak: L.peak
+      };
+    }).sort(function (a, b) { return a.slot - b.slot; });
+
+    buildLegend("legend-season", layers, function (s) {
+      return s.basis + " · 100 = " + nf.format(s.peak) + "회";
+    });
+
+    lineChart("chart-season", layers, {
+      height: 300, padR: 118, padT: 22,
+      categories: MONTHS,
+      isTick: function () { return true; },
+      tickText: function (m) { return m + "월"; },
+      headText: function (m) { return m + "월 평균"; },
+      valueFmt: function (v) { return String(v); },
+      unit: "",
+      noneText: "관측 없음",
+      aria: "층위별 달력월 수요 지수. 단지 숙박은 1월, 카테고리는 7월, 브랜드는 양쪽에 정점."
+    });
+  })();
+
+  // ── generic column chart ─────────────────────────────────
+  // items: [{label, value, partial?}]
+  function columnChart(wrapId, items, opts) {
+    opts = opts || {};
+    var wrap = document.getElementById(wrapId);
+    if (!wrap) return;
+    var tip = makeTip(wrap);
+    var vfmt = opts.valueFmt || nf.format;
+    var unit = opts.unit === undefined ? " 회" : opts.unit;
+
+    function draw() {
+      var W = wrap.clientWidth;
+      if (!W) return;
+      var H = opts.height || 260;
+      var padL = opts.padL || 52, padR = 16, padT = 24, padB = 30;
+      var iw = Math.max(W - padL - padR, 40), ih = H - padT - padB;
+
+      wrap.querySelectorAll("svg").forEach(function (n) { n.remove(); });
+      var svg = svgEl("svg", { class: "chart", viewBox: "0 0 " + W + " " + H, height: H });
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", opts.aria || "월별 막대 그래프");
+
+      var maxV = items.reduce(function (a, d) { return Math.max(a, d.value); }, 0);
+      if (opts.band) maxV = Math.max(maxV, opts.band[1]);
+      var ticks = niceTicks(maxV || 1, 4);
+      var yMax = ticks[ticks.length - 1];
+      var band = iw / items.length;
+      var bw = Math.min(24, band - 10);
+      var y = function (v) { return padT + ih - (v / yMax) * ih; };
+
+      // a reference band (e.g. break-even occupancy) sits behind the marks
+      if (opts.band) {
+        svg.appendChild(svgEl("rect", {
+          class: "band", x: padL, y: y(opts.band[1]),
+          width: iw, height: y(opts.band[0]) - y(opts.band[1])
+        }));
+        if (opts.bandLabel) {
+          var bt = svgEl("text", { class: "anno", x: padL + 8, y: y(opts.band[1]) - 6 });
+          bt.textContent = opts.bandLabel;
+          svg.appendChild(bt);
+        }
+      }
+
+      ticks.forEach(function (t) {
+        svg.appendChild(svgEl("line", {
+          class: t === 0 ? "axis-line" : "grid-line",
+          x1: padL, x2: padL + iw, y1: y(t), y2: y(t)
+        }));
+        var tx = svgEl("text", { class: "tick-text", x: padL - 9, y: y(t) + 4, "text-anchor": "end" });
+        tx.textContent = (opts.tickFmt || nf.format)(t);
+        svg.appendChild(tx);
+      });
+
+      var peak = items.reduce(function (a, d) { return d.value > a.value ? d : a; }, items[0]);
+
+      items.forEach(function (d, i) {
+        var cx = padL + band * i + band / 2;
+        var top = y(d.value), base = padT + ih;
+        var r = Math.min(4, Math.max(base - top, 0));
+        svg.appendChild(svgEl("path", {
+          class: "bar" + (d.partial ? " bar-partial" : ""),
+          d: "M" + (cx - bw / 2) + " " + base +
+             " L" + (cx - bw / 2) + " " + (top + r) +
+             " Q" + (cx - bw / 2) + " " + top + " " + (cx - bw / 2 + r) + " " + top +
+             " L" + (cx + bw / 2 - r) + " " + top +
+             " Q" + (cx + bw / 2) + " " + top + " " + (cx + bw / 2) + " " + (top + r) +
+             " L" + (cx + bw / 2) + " " + base + " Z"
+        }));
+
+        var tx = svgEl("text", { class: "tick-text", x: cx, y: base + 18, "text-anchor": "middle" });
+        tx.textContent = d.label;
+        svg.appendChild(tx);
+
+        if (d === peak || (opts.labelAll && d.value > 0)) {
+          var lv = svgEl("text", { class: "dlabel-num", x: cx, y: top - 8, "text-anchor": "middle" });
+          lv.textContent = vfmt(d.value);
+          svg.appendChild(lv);
+        }
+
+        var hit = svgEl("rect", { class: "bar-hit", x: cx - band / 2, y: padT, width: band, height: ih });
+        svg.appendChild(hit);
+        hit.addEventListener("pointerenter", function () {
+          tip.show(cx, top, d.label + (d.partial ? " (진행 중)" : ""), [
+            { name: opts.seriesName || "값", value: vfmt(d.value) + unit, color: seriesColor(1) }
+          ]);
+        });
+        hit.addEventListener("pointerleave", function () { tip.hide(); });
+      });
+
+      wrap.insertBefore(svg, tip.node);
+    }
+
+    draw();
+    REDRAWS.push(draw);
+    if (window.ResizeObserver) new ResizeObserver(draw).observe(wrap);
+  }
+
+  // ── paired-dot chart (weekday vs weekend) ────────────────
+  function pairedDots(wrapId, items, opts) {
+    opts = opts || {};
+    var wrap = document.getElementById(wrapId);
+    if (!wrap) return;
+    var tip = makeTip(wrap);
+
+    function draw() {
+      var W = wrap.clientWidth;
+      if (!W) return;
+      var H = opts.height || 250;
+      var padL = 52, padR = 16, padT = 22, padB = 30;
+      var iw = Math.max(W - padL - padR, 40), ih = H - padT - padB;
+
+      wrap.querySelectorAll("svg").forEach(function (n) { n.remove(); });
+      var svg = svgEl("svg", { class: "chart", viewBox: "0 0 " + W + " " + H, height: H });
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", opts.aria || "주중 대 주말 비교");
+
+      var maxV = items.reduce(function (a, d) { return Math.max(a, d.a, d.b); }, 0);
+      var ticks = niceTicks(maxV, 4);
+      var yMax = ticks[ticks.length - 1];
+      var band = iw / items.length;
+      var y = function (v) { return padT + ih - (v / yMax) * ih; };
+
+      ticks.forEach(function (t) {
+        svg.appendChild(svgEl("line", {
+          class: t === 0 ? "axis-line" : "grid-line",
+          x1: padL, x2: padL + iw, y1: y(t), y2: y(t)
+        }));
+        var tx = svgEl("text", { class: "tick-text", x: padL - 9, y: y(t) + 4, "text-anchor": "end" });
+        tx.textContent = nf.format(t);
+        svg.appendChild(tx);
+      });
+
+      items.forEach(function (d, i) {
+        var cx = padL + band * i + band / 2;
+        svg.appendChild(svgEl("line", {
+          class: "connector", x1: cx, x2: cx, y1: y(d.a), y2: y(d.b)
+        }));
+        svg.appendChild(svgEl("circle", { class: "end-dot f1", cx: cx, cy: y(d.a), r: 5 }));
+        svg.appendChild(svgEl("circle", { class: "end-dot f2", cx: cx, cy: y(d.b), r: 5 }));
+
+        var tx = svgEl("text", { class: "tick-text", x: cx, y: padT + ih + 18, "text-anchor": "middle" });
+        tx.textContent = d.label;
+        svg.appendChild(tx);
+
+        var hit = svgEl("rect", { class: "bar-hit", x: cx - band / 2, y: padT, width: band, height: ih });
+        svg.appendChild(hit);
+        hit.addEventListener("pointerenter", function () {
+          tip.show(cx, Math.min(y(d.a), y(d.b)), d.label, [
+            { name: opts.nameA || "A", value: d.a.toFixed(1) + (opts.unit || ""), color: seriesColor(1) },
+            { name: opts.nameB || "B", value: d.b.toFixed(1) + (opts.unit || ""), color: seriesColor(2) }
+          ]);
+        });
+        hit.addEventListener("pointerleave", function () { tip.hide(); });
+      });
+
+      wrap.insertBefore(svg, tip.node);
+    }
+
+    draw();
+    REDRAWS.push(draw);
+    if (window.ResizeObserver) new ResizeObserver(draw).observe(wrap);
+  }
+
+  // ── section 01: revenue performance ──────────────────────
+  var REV = D.revenue;
+  var mm = REV.months;
+
+  columnChart("chart-revenue", mm.map(function (r) {
+    return { label: r.label, value: r.total, partial: r.partial };
+  }), {
+    height: 260, seriesName: "총매출", unit: "백만원",
+    valueFmt: function (v) { return nf.format(v); },
+    aria: "2026년 2월부터 8월까지 월별 총매출. 2월 734.1백만원으로 최고, 4월 73.9백만원으로 최저.",
+    labelAll: true
+  });
+
+  columnChart("chart-occupancy", mm.filter(function (r) { return r.occ !== null; }).map(function (r) {
+    return { label: r.label, value: r.occ, partial: r.partial };
+  }), {
+    height: 250, seriesName: "점유율", unit: "%",
+    valueFmt: function (v) { return v.toFixed(1) + "%"; },
+    tickFmt: function (v) { return v + "%"; },
+    band: REV.breakeven, bandLabel: "손익분기 추정 구간 40~50%",
+    labelAll: true,
+    aria: "월별 객실 점유율. 4월 11.6%부터 8월 초 39.6%까지, 모두 손익분기 구간 아래."
+  });
+
+  buildLegend("legend-daypart", [
+    { keyword: "주중 (월~목) 일평균", slot: 1 },
+    { keyword: "주말 (금~일) 일평균", slot: 2 }
+  ]);
+  pairedDots("chart-daypart", REV.daypart.map(function (d) {
+    return { label: d.label, a: d.weekday, b: d.weekend };
+  }), {
+    height: 250, nameA: "주중(월~목)", nameB: "주말(금~일)", unit: "실",
+    aria: "월별 주중 대 주말 일평균 판매 객실 수."
+  });
+
+  // ── section 02: search vs revenue ────────────────────────
+  var IC = D.index_compare;
+  buildLegend("legend-index-compare", [
+    { keyword: "숙박 의도 검색 (브랜드 + 단지 숙소·호텔)", slot: 1 },
+    { keyword: "총매출", slot: 2 }
+  ]);
+  lineChart("chart-index-compare", [
+    { keyword: "숙박 의도 검색", short: "검색", values: IC.map(function (r) { return r.intent; }), slot: 1 },
+    { keyword: "총매출", short: "매출", values: IC.map(function (r) { return r.rev; }), slot: 2 }
+  ], {
+    height: 270, padR: 96, padT: 22,
+    categories: IC.map(function (r) { return r.label; }),
+    isTick: function () { return true; },
+    tickText: function (m) { return m; },
+    headText: function (m) { return "2026년 " + m; },
+    valueFmt: function (v) { return String(v); },
+    unit: "",
+    aria: "숙박 의도 검색과 총매출을 각자 최댓값 100으로 지수화해 비교. 두 곡선이 거의 겹친다."
+  });
+
+  columnChart("chart-per-search", D.correlation.pairs.map(function (p) {
+    return { label: p.label, value: p.per_search };
+  }), {
+    height: 250, seriesName: "검색 1회당 매출", unit: "원", padL: 62,
+    valueFmt: function (v) { return nf.format(v) + "원"; },
+    labelAll: true,
+    aria: "숙박 의도 검색 1회당 매출. 2월 49,719원으로 최고, 4월 12,817원으로 최저."
+  });
+
+  // ── section 05: september festival ───────────────────────
+  columnChart("chart-festival", D.festival_calendar.map(function (c) {
+    return { label: c.month + "월", value: c.avg };
+  }), {
+    height: 260, seriesName: "축제 계열 검색", padL: 58,
+    aria: "축제 계열 키워드의 달력월 평균 검색량. 9월 96,688회로 압도적 정점."
+  });
+
+  var festSeries = D.festival.map(function (s, i) {
+    return { keyword: s.keyword, short: s.keyword, values: s.values, slot: i + 1, yoy: s.yoy };
+  });
+  buildLegend("legend-festival", festSeries, yoyNote);
+  lineChart("chart-festival-lines", festSeries, {
+    height: 300, padR: 150, padT: 26,
+    aria: "축제 계열 4개 키워드의 24개월 추이. 매년 9월에만 솟는다."
+  });
+
+  // ── section 08b: calendar columns ────────────────────────
+  columnChart("chart-calendar", D.calendar.map(function (c) {
+    return { label: c.month + "월", value: c.avg };
+  }), {
+    height: 260, seriesName: "합계 수요",
+    aria: "카테고리 층의 달력월 평균 합계 수요. 7월 1,526회로 최고, 11월 152회로 최저."
+  });
+
+  // ── section 11: data table ───────────────────────────────
+  (function () {
+    var all = [brand].concat(D.resort_big, D.resort_stay, D.festival, D.reliable, D.thin);
+    var cols = all.map(function (s) { return { keyword: s.keyword, values: s.values }; })
+      .concat(D.floor.map(function (s) {
+        return { keyword: s.keyword, values: PERIODS.map(function () { return null; }) };
+      }));
+
+    function buildTable(table, subset) {
+      var thead = el("thead");
+      var hr = el("tr");
+      hr.appendChild(el("th", "period", "기간"));
+      subset.forEach(function (c) { hr.appendChild(el("th", null, c.keyword)); });
+      thead.appendChild(hr);
+      table.appendChild(thead);
+
+      var tbody = el("tbody");
+      PERIODS.forEach(function (period, i) {
+        var tr = el("tr");
+        tr.appendChild(el("td", "period", period));
+        subset.forEach(function (c) {
+          var v = c.values[i];
+          tr.appendChild(el("td", v === null || v === 0 ? "nil" : null, v === null ? "—" : fmt(v)));
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      return table;
+    }
+
+    // 화면용 — 한 장짜리 넓은 표, 가로 스크롤
+    buildTable(document.getElementById("data-table"), cols);
+
+    // 인쇄용 — A4 폭에 19열은 들어가지 않으므로 5열씩 끊어 여러 표로 낸다
+    var host = document.getElementById("print-tables");
+    if (host) {
+      var CHUNK = 5;
+      for (var start = 0; start < cols.length; start += CHUNK) {
+        var subset = cols.slice(start, start + CHUNK);
+        var wrap = el("div", "print-table");
+        var cap = el("div", "print-table-cap",
+          "월별 추정 검색량 (" + (start / CHUNK + 1) + "/" + Math.ceil(cols.length / CHUNK) + ") — " +
+          subset.map(function (c) { return c.keyword; }).join(" · "));
+        wrap.appendChild(cap);
+        wrap.appendChild(buildTable(el("table"), subset));
+        host.appendChild(wrap);
+      }
+    }
+  })();
+
+  // ── save as PDF ──────────────────────────────────────────
+  // 지면 폭은 화면 폭과 다르므로, 인쇄 스냅샷 전에 차트를 다시 그린다.
+  var tableBlock = document.querySelector("details.table-block");
+  var tableWasOpen = false;
+  var printDialogOpened = false;
+
+  function reflowCharts() {
+    REDRAWS.forEach(function (f) { try { f(); } catch (e) { /* 한 차트 실패가 인쇄를 막지 않게 */ } });
+  }
+
+  window.addEventListener("beforeprint", function () {
+    printDialogOpened = true;
+    if (tableBlock) { tableWasOpen = tableBlock.open; tableBlock.open = true; }
+    reflowCharts();
+  });
+  window.addEventListener("afterprint", function () {
+    if (tableBlock) tableBlock.open = tableWasOpen;
+    reflowCharts();
+  });
+
+  var fallback = document.getElementById("print-fallback");
+  var printBtn = document.getElementById("btn-print");
+
+  // ── 미리 만들어 둔 PDF를 그대로 내려준다 ────────────────────
+  // 인쇄 대화상자를 거치지 않으므로 샌드박스 프레임에서도 동작한다.
+  function saveBlob(blob, filename) {
+    if (navigator.msSaveBlob) { navigator.msSaveBlob(blob, filename); return; }
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.rel = "noopener";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+
+  var pdfNode = document.getElementById("pdf-blob");
+  var pdfBtn = document.getElementById("btn-pdf");
+  var PDF_NAME = "호텔어라운드평창-검색수요x매출실적-리포트.pdf";
+  var pdfBytes = null;
+  // 아티팩트에서는 PDF를 base64로 심고, 정적 호스팅에서는 옆 파일을 가리킨다
+  var pdfUrl = pdfBtn ? (pdfBtn.getAttribute("data-pdf-url") || "") : "";
+
+  if (pdfNode && pdfBtn && pdfNode.textContent.trim()) {
+    try {
+      var b64 = pdfNode.textContent.replace(/\s+/g, "");
+      var bin = atob(b64);
+      pdfBytes = new Uint8Array(bin.length);
+      for (var bi = 0; bi < bin.length; bi++) pdfBytes[bi] = bin.charCodeAt(bi);
+    } catch (e) {
+      pdfBytes = null;
+    }
+  }
+
+  if (pdfBtn) {
+    var meta = document.getElementById("pdf-meta");
+    if (meta) {
+      if (pdfBytes) meta.textContent = "(" + Math.round(pdfBytes.length / 1024) + " KB)";
+      else if (pdfUrl) meta.textContent = "(" + (pdfBtn.getAttribute("data-pdf-size") || "PDF") + ")";
+    }
+    if (!pdfBytes && !pdfUrl) {
+      pdfBtn.disabled = true;
+      pdfBtn.style.opacity = "0.5";
+    }
+    pdfBtn.addEventListener("click", function () {
+      try {
+        if (pdfBytes) {
+          saveBlob(new Blob([pdfBytes], { type: "application/pdf" }), PDF_NAME);
+        } else if (pdfUrl) {
+          var link = document.createElement("a");
+          link.href = pdfUrl;
+          link.download = PDF_NAME;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          return;
+        }
+        pdfBtn.classList.add("fallback-done");
+      } catch (e) {
+        if (fallback) {
+          document.getElementById("fallback-title").textContent = "내려받기가 차단됐습니다";
+          document.getElementById("fallback-body").textContent =
+            "이 프레임에서 파일 저장이 허용되지 않았습니다. 아래 경로를 써 주세요.";
+          fallback.hidden = false;
+        }
+      }
+    });
+  }
+
+  // 샌드박스된 프레임에서는 print()가 예외 없이 그냥 무시된다.
+  // 따라서 성공 여부는 beforeprint가 실제로 발생했는지로만 알 수 있다.
+  if (printBtn) {
+    printBtn.addEventListener("click", function () {
+      printDialogOpened = false;
+      try { window.print(); } catch (e) { /* 무시하고 아래에서 대체 경로로 */ }
+      setTimeout(function () {
+        if (!printDialogOpened && fallback) fallback.hidden = false;
+      }, 700);
+    });
+  }
+
+  var AUTOPRINT =
+    '<scr' + 'ipt>addEventListener("load",function(){setTimeout(function(){' +
+    'try{window.print()}catch(e){}},700)})</scr' + 'ipt>';
+
+  var dlBtn = document.getElementById("btn-download");
+  if (dlBtn) {
+    dlBtn.addEventListener("click", function () {
+      try {
+        var html = PRISTINE.indexOf("</body>") > -1
+          ? PRISTINE.replace("</body>", AUTOPRINT + "</body>")
+          : PRISTINE + AUTOPRINT;
+        var url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "호텔어라운드평창-검색수요x매출실적-리포트.html";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+        dlBtn.textContent = "내려받았습니다 — 파일을 열어 주세요";
+        dlBtn.classList.add("fallback-done");
+      } catch (e) {
+        dlBtn.textContent = "내려받기도 차단됨 — 아래 안내를 따라 주세요";
+      }
+    });
+  }
+
+  var tabBtn = document.getElementById("btn-newtab");
+  if (tabBtn) {
+    tabBtn.addEventListener("click", function () {
+      var w = null;
+      try { w = window.open(location.href, "_blank", "noopener"); } catch (e) { /* 차단 */ }
+      if (!w) tabBtn.textContent = "새 탭도 차단됨 — 내려받기를 써 주세요";
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

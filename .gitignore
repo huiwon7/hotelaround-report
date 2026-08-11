@@ -6,3 +6,6 @@
 scratchpad/
 auth.log
 *.bat
+
+# 검색 수요 리포트에 첨부되는 PDF는 예외로 추적한다
+!search/report.pdf
