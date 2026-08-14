@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>호텔어라운드 평창 — 숙박 수요 키워드 36개월 분석</title>
+<meta name="description" content="NAVER 숙박 의도 키워드 10개의 2023~2026년 36개월 검색 실측. 브랜드 수요는 카테고리 수요의 9.1배이며 계절이 정반대다. 7월 손익분기 부족분 2,101박 중 카테고리 검색이 감당할 수 있는 상한은 14%.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="호텔어라운드 평창 — 숙박 수요 키워드 36개월 분석">
+<meta property="og:description" content="NAVER 숙박 의도 키워드 10개의 2023~2026년 36개월 검색 실측. 브랜드 수요는 카테고리 수요의 9.1배이며 계절이 정반대다. 7월 손익분기 부족분 2,101박 중 카테고리 검색이 감당할 수 있는 상한은 14%.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%94%3C/text%3E%3C/svg%3E">
+<style>
+  html { -webkit-text-size-adjust: 100%; }
+  img, svg { max-width: 100%; }
+  table { border-collapse: collapse; }
+  button { font-family: inherit; }
+</style>
+</head>
+<body>
+<style>
+  :root {
+    color-scheme: light;
+    --plane:      #f9f9f7;
+    --surface:    #fcfcfb;
+    --ink:        #0b0b0b;
+    --ink-2:      #52514e;
+    --muted:      #898781;
+    --grid:       #e1e0d9;
+    --axis:       #c3c2b7;
+    --hairline:   rgba(11, 11, 11, 0.10);
+    --wash:       rgba(11, 11, 11, 0.035);
+    --series-1:   #2a78d6;
+    --series-2:   #eb6834;
+    --good:       #006300;
+    --critical:   #d03b3b;
+    --warning:    #fab219;
+    --ord-1:      #9ec5f4;
+    --ord-2:      #2a78d6;
+    --ord-3:      #104281;
+    --tip-bg:     #0b0b0b;
+    --tip-ink:    #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --plane:    #0d0d0d;
+      --surface:  #1a1a19;
+      --ink:      #ffffff;
+      --ink-2:    #c3c2b7;
+      --muted:    #898781;
+      --grid:     #2c2c2a;
+      --axis:     #383835;
+      --hairline: rgba(255, 255, 255, 0.10);
+      --wash:     rgba(255, 255, 255, 0.045);
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --good:     #0ca30c;
+      --critical: #d03b3b;
+      --warning:  #fab219;
+      --ord-1:    #184f95;
+      --ord-2:    #3987e5;
+      --ord-3:    #9ec5f4;
+      --tip-bg:   #f4f4f1;
+      --tip-ink:  #0b0b0b;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --plane:    #0d0d0d;
+    --surface:  #1a1a19;
+    --ink:      #ffffff;
+    --ink-2:    #c3c2b7;
+    --muted:    #898781;
+    --grid:     #2c2c2a;
+    --axis:     #383835;
+    --hairline: rgba(255, 255, 255, 0.10);
+    --wash:     rgba(255, 255, 255, 0.045);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --good:     #0ca30c;
+    --critical: #d03b3b;
+    --warning:  #fab219;
+    --ord-1:    #184f95;
+    --ord-2:    #3987e5;
+    --ord-3:    #9ec5f4;
+    --tip-bg:   #f4f4f1;
+    --tip-ink:  #0b0b0b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--plane);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic",
+                 "Apple SD Gothic Neo", sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+
+  /* ── masthead ───────────────────────────────────────────── */
+  .masthead { display: flex; flex-direction: column; gap: 14px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  h1 {
+    margin: 0; font-size: clamp(26px, 4.2vw, 38px); line-height: 1.22;
+    letter-spacing: -0.02em; font-weight: 680; text-wrap: balance;
+  }
+  .standfirst { margin: 0; max-width: 62ch; color: var(--ink-2); font-size: 16px; }
+  .runline {
+    display: flex; flex-wrap: wrap; gap: 6px 20px; padding-top: 6px;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12px; color: var(--muted);
+  }
+  .runline b { color: var(--ink-2); font-weight: 600; }
+
+  /* ── hero + KPI ─────────────────────────────────────────── */
+  .headline-band {
+    display: grid; grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.5fr);
+    gap: 28px; align-items: stretch;
+  }
+  @media (max-width: 760px) { .headline-band { grid-template-columns: 1fr; } }
+
+  .hero {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 4px;
+    padding: 24px 26px 22px; display: flex; flex-direction: column;
+    justify-content: center; gap: 4px;
+  }
+  .hero-label { font-size: 13px; color: var(--ink-2); }
+  .hero-value {
+    font-size: clamp(48px, 7vw, 62px); font-weight: 660; line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+  .hero-unit { font-size: 20px; font-weight: 500; color: var(--ink-2); letter-spacing: 0; }
+  .hero-foot { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 460px) { .kpis { grid-template-columns: 1fr; } }
+  .tile {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 4px;
+    padding: 14px 16px 13px; display: flex; flex-direction: column; gap: 1px;
+  }
+  .tile-label { font-size: 12px; color: var(--ink-2); }
+  .tile-value { font-size: 25px; font-weight: 640; letter-spacing: -0.02em; line-height: 1.2; }
+  .tile-foot { font-size: 11.5px; color: var(--muted); }
+  .up { color: var(--good); }
+  .down { color: var(--critical); }
+
+  /* ── sections ───────────────────────────────────────────── */
+  section { display: flex; flex-direction: column; gap: 16px; }
+  .sec-head { display: flex; flex-direction: column; gap: 6px; }
+  .sec-num {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 12px; color: var(--muted);
+  }
+  h2 {
+    margin: 0; font-size: clamp(19px, 2.6vw, 23px); font-weight: 660;
+    letter-spacing: -0.015em; line-height: 1.3; text-wrap: balance;
+  }
+  h3 { margin: 0; font-size: 15.5px; font-weight: 640; letter-spacing: -0.01em; }
+  p { margin: 0; max-width: 70ch; }
+  section > p { color: var(--ink-2); }
+  b, strong { font-weight: 640; color: var(--ink); }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 4px;
+    padding: 20px 22px 18px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .card-title { font-size: 14.5px; font-weight: 640; letter-spacing: -0.01em; }
+  .card-sub { font-size: 12.5px; color: var(--muted); margin-top: -8px; }
+  .card-note { font-size: 13px; color: var(--ink-2); border-top: 1px solid var(--hairline); padding-top: 12px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 12.5px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 11px; height: 11px; border-radius: 2px; flex: none; }
+
+  /* ── tables ─────────────────────────────────────────────── */
+  .scroller { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 560px; }
+  caption { caption-side: bottom; padding-top: 10px; font-size: 12px; color: var(--muted); text-align: left; }
+  th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--hairline); }
+  th:first-child, td:first-child { text-align: left; white-space: nowrap; }
+  thead th { font-size: 12px; font-weight: 600; color: var(--ink-2); border-bottom: 1px solid var(--axis); }
+  tbody td { font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: var(--wash); }
+  .num-dead { color: var(--muted); }
+
+  /* ── findings ───────────────────────────────────────────── */
+  .findings { display: flex; flex-direction: column; gap: 12px; }
+  .finding {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 4px;
+    border-left: 3px solid var(--series-1); padding: 16px 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .finding.warn { border-left-color: var(--warning); }
+  .finding.bad  { border-left-color: var(--critical); }
+  .finding-head { font-size: 15px; font-weight: 640; letter-spacing: -0.01em; }
+  .finding p { font-size: 14px; color: var(--ink-2); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: 12px; padding: 3px 9px; border-radius: 999px;
+    border: 1px solid var(--hairline); background: var(--wash); color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .chip b { font-weight: 640; }
+
+  ul { margin: 0; padding-left: 18px; color: var(--ink-2); display: flex; flex-direction: column; gap: 7px; }
+  li { max-width: 68ch; }
+  li::marker { color: var(--muted); }
+
+  /* ── charts ─────────────────────────────────────────────── */
+  figure { margin: 0; }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .sm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 22px; }
+  @media (max-width: 780px) { .sm-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .sm-grid { grid-template-columns: 1fr; } }
+  .sm-title { font-size: 13px; font-weight: 620; letter-spacing: -0.01em; }
+  .sm-sub { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .tip {
+    position: fixed; z-index: 20; pointer-events: none; opacity: 0;
+    transition: opacity .1s linear; background: var(--tip-bg); color: var(--tip-ink);
+    font-size: 12px; line-height: 1.45; padding: 7px 10px; border-radius: 4px;
+    font-variant-numeric: tabular-nums; max-width: 240px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.18);
+  }
+  .tip b { color: inherit; font-weight: 650; }
+
+  footer {
+    border-top: 1px solid var(--hairline); padding-top: 20px;
+    font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 8px;
+  }
+  footer p { max-width: 78ch; color: var(--muted); }
+  a { color: var(--series-1); }
+  @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+
+  .crosslink {
+    display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px;
+    padding-bottom: 4px;
+  }
+  .crosslink a { color: var(--series-1); text-decoration: none; }
+  .crosslink a:hover, .crosslink a:focus-visible { text-decoration: underline; }
+  .crosslink [aria-current] { color: var(--muted); }
+  :focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
+  @media print {
+    :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+      color-scheme: light;
+      --plane: #ffffff; --surface: #ffffff; --ink: #0b0b0b; --ink-2: #52514e;
+      --muted: #6b6a66; --grid: #e1e0d9; --axis: #c3c2b7;
+      --hairline: rgba(11,11,11,0.18); --wash: rgba(11,11,11,0.04);
+      --series-1: #2a78d6; --series-2: #eb6834;
+      --good: #006300; --critical: #d03b3b; --warning: #b07800;
+      --ord-1: #9ec5f4; --ord-2: #2a78d6; --ord-3: #104281;
+    }
+    .page { padding: 0 0 24px; max-width: none; gap: 28px; }
+    .crosslink, .tip { display: none; }
+    section, .card, figure.card, .finding { break-inside: avoid; }
+  }
+
+</style>
+
+<div class="page">
+
+  <nav class="crosslink" aria-label="관련 리포트">
+    <a href="../">매출 현황 보고</a>
+    <a href="../search/">검색 수요 × 매출 실적 교차 분석</a>
+    <span aria-current="page">숙박 수요 36개월 분석</span>
+  </nav>
+
+  <header class="masthead">
+    <div class="eyebrow">호텔어라운드 평창 · 검색 수요 3년 분석</div>
+    <h1>숙박 수요 키워드 10개, 36개월치를 재보니 시장이 두 개였다</h1>
+    <p class="standfirst">
+      2023년 8월부터 2026년 7월까지 NAVER 데이터랩·검색광고 API 실측. 브랜드 수요와
+      카테고리 수요는 규모도 계절도 다른 별개의 시장이며, 매출을 설명하는 쪽은 하나뿐이다.
+    </p>
+    <div class="runline">
+      <span>수집 <b>2026-08-14</b></span>
+      <span>구간 <b>2023-08 ~ 2026-07 (36개월)</b></span>
+      <span>키워드 <b>10개</b></span>
+      <span>출처 <b>datalab · keywordstool</b></span>
+      <span>매출 <b>huiwon7.github.io/hotelaround-report</b></span>
+    </div>
+  </header>
+
+  <div class="headline-band">
+    <div class="hero">
+      <div class="hero-label">브랜드 검색이 카테고리 검색의</div>
+      <div class="hero-value">9.1<span class="hero-unit">배</span></div>
+      <div class="hero-foot">최근 1년 68,814회 vs 비브랜드 6개 합계 7,561회</div>
+    </div>
+    <div class="kpis">
+      <div class="tile">
+        <div class="tile-label">브랜드 검색 관측 개월</div>
+        <div class="tile-value">10<span style="font-size:15px;color:var(--muted)"> / 36</span></div>
+        <div class="tile-foot">첫 관측 2025-10. 앞선 26개월은 0</div>
+      </div>
+      <div class="tile">
+        <div class="tile-label">7월 손익분기 부족분</div>
+        <div class="tile-value down">2,101<span style="font-size:15px;"> 박</span></div>
+        <div class="tile-foot">판매 2,393박 · 40% 기준 4,494박 필요</div>
+      </div>
+      <div class="tile">
+        <div class="tile-label">카테고리 검색 전량으로 메울 수 있는 몫</div>
+        <div class="tile-value">14<span style="font-size:15px;">%</span></div>
+        <div class="tile-foot">독점 + 전환 20% 가정, 이론적 상한</div>
+      </div>
+      <div class="tile">
+        <div class="tile-label">3년간 측정조차 안 된 키워드</div>
+        <div class="tile-value">3<span style="font-size:15px;color:var(--muted)"> / 10</span></div>
+        <div class="tile-foot">36개월 전부 데이터랩 임계치 미만</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 1 ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <h2>브랜드는 2025년 10월에 태어났다</h2>
+    </div>
+    <p>
+      “호텔어라운드 평창”은 36개월 중 <b>10개월에만 검색이 존재한다.</b> 2023년 8월부터
+      2025년 9월까지 26개월은 데이터랩 응답에 아예 없다 — 임계치 미만이 아니라, 그 이름을
+      찾는 사람이 사실상 없었다는 뜻이다. 검색결과에 <b>“구 더화이트호텔”</b> 표기가 아직
+      남아 있는 것과 맞물린다. 즉 지금 보는 브랜드 수요는 <b>1년도 안 된 자산</b>이고,
+      3년 누적 68,814회가 전부 최근 10개월에 발생했다.
+    </p>
+    <figure class="card">
+      <figcaption class="card-title">호텔어라운드 평창 — 월별 검색량 36개월</figcaption>
+      <div class="card-sub">데이터랩 상대지수 × (검색광고 절대량 ÷ 2026-07 지수). 막대 없음 = 관측 없음</div>
+      <div id="chart-brand"></div>
+      <div class="card-note">
+        정점은 <b>2026년 1월 14,433회</b>. 12·1·2월 세 달이 최근 1년 브랜드 검색의
+        <b>52%</b>를 차지한다 — 겨울에 이름이 팔리는 사업이다.
+      </div>
+    </figure>
+  </section>
+
+  <!-- ── 2 ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <h2>비브랜드 수요는 자라고 있지만, 자릿수가 다르다</h2>
+    </div>
+    <p>
+      브랜드를 뺀 6개 키워드는 3년간 <b>3,061 → 4,102 → 7,561회</b>로 2.5배 자랐다. 방향은
+      옳다. 문제는 규모다 — 최근 1년 7,561회는 <b>월평균 630회</b>이고, 브랜드 검색 한 달치의
+      6%에 불과하다.
+    </p>
+    <figure class="card">
+      <figcaption class="card-title">비브랜드 6개 키워드 — 각자의 36개월</figcaption>
+      <div class="card-sub">세로 눈금은 패널마다 다르다. 규모가 아니라 <b>형태</b>를 보기 위한 배치다</div>
+      <div class="sm-grid" id="chart-small"></div>
+    </figure>
+    <div class="card">
+      <div class="card-title">연도별 검색량과 3년 성장 배수</div>
+      <div class="scroller">
+        <table>
+          <caption>
+            Y1 = 2023.08–2024.07 · Y2 = 2024.08–2025.07 · Y3 = 2025.08–2026.07.
+            ‘관측’은 36개월 중 데이터랩이 값을 준 달의 수 — 낮을수록 추정 오차가 크다.
+          </caption>
+          <thead>
+            <tr>
+              <th>키워드</th><th>Y1</th><th>Y2</th><th>Y3</th>
+              <th>Y3/Y1</th><th>관측</th><th>모바일</th>
+            </tr>
+          </thead>
+          <tbody id="tbl-years"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="findings">
+      <div class="finding">
+        <div class="finding-head">성장은 ‘예약’이 아니라 ‘정체성’에서 일어난다</div>
+        <p>
+          <b>강원도 웰니스 호텔</b>은 3년 전 연 11회에서 <b>1,792회로 163배</b>, 반려견 계열은
+          3.4~4.3배, 가족 계열은 2.4배 자랐다. 반면 유일한 거래형 키워드
+          <b>“평창 호텔 예약”은 직전 1년 855회에서 450회로 47% 줄었다.</b> 사람들은 검색창에서
+          예약하지 않고, <b>어떤 곳인지</b>를 검색한다. 예약 행위 자체는 OTA 앱으로 옮겨갔다.
+        </p>
+      </div>
+      <div class="finding warn">
+        <div class="finding-head">웰니스는 아직 임자가 없는 유일한 축이다</div>
+        <p>
+          반려동물 축은 이미 라마다 평창이 검색결과 상위를 펫룸 콘텐츠로 점유하고 있다.
+          웰니스·숲속 힐링 축은 성장률이 가장 가파른데도 평창 사업자 중 이 프레임을 선점한
+          곳이 없다. 다만 <b>“강원도” 단위 키워드</b>라 평창 한정 수요보다 넓고, 그만큼
+          경쟁 범위도 강원 전역이다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3 ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <h2>두 시장은 계절이 정반대다</h2>
+    </div>
+    <p>
+      브랜드 수요는 <b>1월에 정점</b>, 카테고리 수요는 <b>7월에 정점</b>이다. 겨울에는 이미
+      이름을 아는 사람이 찾아오고(휘닉스파크 스키 수요에 인접), 여름에는 이름을 모르는 사람이
+      “평창 여름 휴가”·“평창 가족 여행”을 검색한다. <b>같은 호텔이 계절마다 다른 시장에
+      놓인다</b>는 뜻이고, 마케팅 자산도 계절마다 달라야 한다는 뜻이다.
+    </p>
+    <figure class="card">
+      <figcaption class="card-title">월별 수요 프로파일 — 각 계열의 자기 최댓값 = 100</figcaption>
+      <div class="card-sub">3년 평균. 절대 규모가 9배 다르므로 형태 비교를 위해 각각 지수화했다</div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--series-1)"></i>브랜드 (최댓값 4,811회/월)</span>
+        <span><i class="swatch" style="background:var(--series-2)"></i>카테고리 6개 합계 (최댓값 1,510회/월)</span>
+      </div>
+      <div id="chart-season"></div>
+      <div class="card-note">
+        8·9월에 브랜드 선이 끊긴 것은 0이 아니라 <b>관측 없음</b>이다 — 브랜드 검색이 존재한
+        10개월에 8월과 9월이 포함되지 않는다. 카테고리 수요는 그 8월에도 지수 46.5로 살아 있다.
+      </div>
+    </figure>
+    <div class="findings">
+      <div class="finding bad">
+        <div class="finding-head">여름 시장에서 우리는 검색결과에 없다</div>
+        <p>
+          2026-08-14 실측: <b>“평창 여름 휴가”·“평창 가족 여행”·“평창 호텔”·“평창 리조트”·
+          “평창 가족형 리조트”·“평창 수영장 있는 호텔” 6개 키워드 모두 상위 20위 안에
+          자사 콘텐츠가 없다.</b> 카테고리 수요가 정점인 달에, 그 수요가 보는 화면에 우리는
+          존재하지 않는다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4 ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <h2>그런데 검색으로 객실을 채울 수는 없다</h2>
+    </div>
+    <p>
+      앞 절의 결론은 “카테고리 SEO를 하자”로 이어지기 쉽다. 산술로 확인해 보면 그렇지 않다.
+      7월 기준 가용 객실은 11,235박, 판매는 2,393박(점유율 21.3%)이다. 손익분기 하단인
+      <b>40%에 닿으려면 4,494박</b>, 즉 <b>2,101박이 더 필요하다.</b> 카테고리 검색은
+      7월 한 달 <b>1,510회</b>다.
+    </p>
+    <figure class="card">
+      <figcaption class="card-title">7월 부족분 2,101박 — 채널별로 메울 수 있는 최대치</figcaption>
+      <div class="card-sub">막대는 해당 채널이 만들어낼 수 있는 월간 객실박. 회색 기준선이 부족분</div>
+      <div id="chart-gap"></div>
+      <div class="card-note">
+        카테고리 검색을 <b>100% 독점하고 방문자 5명 중 1명이 예약해도 302박</b> —
+        부족분의 14%다. 반면 브랜드 검색(7월 10,530회)에서 전환을 <b>5%p만 올려도 526박</b>,
+        10%p면 절반을 메운다. 레버는 노출이 아니라 <b>이미 우리 이름을 검색한 사람</b> 쪽에 있다.
+      </div>
+    </figure>
+  </section>
+
+  <!-- ── 5 ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <h2>브랜드 검색결과 20칸의 소유권</h2>
+    </div>
+    <p>
+      브랜드 검색이 유일하게 매출과 함께 움직이는 변수라면(6개월 상관 0.907), 경영이 관리해야
+      할 자산은 <b>그 검색어를 친 사람이 보는 화면</b>이다. 2026-08-14 “호텔어라운드 평창”
+      상위 20건을 전수 확인했다.
+    </p>
+    <div class="card">
+      <div class="card-title">“호텔어라운드 평창” 상위 20건의 구성</div>
+      <div class="chips">
+        <span class="chip">제3자 후기 <b>20 / 20</b></span>
+        <span class="chip">자사 콘텐츠 <b>0</b></span>
+        <span class="chip">‘가성비’ 프레임 <b>5</b></span>
+        <span class="chip">‘휘닉스파크 근처’ 규정 <b>6</b></span>
+        <span class="chip">‘구 더화이트호텔’ 병기 <b>3</b></span>
+      </div>
+      <div class="card-note">
+        20칸 전부가 개인 블로거의 방문 후기다. 브랜드가 통제하는 문서는 한 칸도 없다.
+      </div>
+    </div>
+    <div class="findings">
+      <div class="finding bad">
+        <div class="finding-head">‘가성비’ 프레임이 ADR 상한을 만든다</div>
+        <p>
+          상위 20건 중 5건이 제목에 ‘가성비’ 또는 ‘반값’을 달고 있다. 같은 호텔의 ADR은
+          4월 59,110원에서 8월 180,803원까지 <b>3.06배</b> 움직인다. 브랜드를 검색한 사람이
+          가장 먼저 읽는 다섯 문장이 “가성비”라면, 성수기 요금 저항은 그 화면에서 이미
+          결정된다. <b>객실 상품이 아니라 검색결과 화면이 가격 결정력을 쥐고 있다.</b>
+        </p>
+      </div>
+      <div class="finding warn">
+        <div class="finding-head">브랜드가 아직 ‘휘닉스파크 부속 숙소’로 규정돼 있다</div>
+        <p>
+          6건이 우리를 “휘닉스파크 근처/숙소”로 설명한다. 겨울 수요를 스키장에서 빌려오는
+          구조라 단기적으로는 유리하지만, 비수기(3~4월 점유율 11.6%)에는 빌려올 수요가 없다.
+          독립적인 방문 이유 — 웰니스든 반려동물이든 — 를 갖지 못하면 비수기 구멍은 구조적으로 남는다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6 ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">06</div>
+      <h2>존재하지 않는 수요를 겨냥하고 있던 키워드 3개</h2>
+    </div>
+    <p>
+      10개 중 3개는 <b>36개월 내내 데이터랩이 값을 주지 않았다.</b> 검색광고 API가 돌려준
+      월 20회도 “10회 미만”이라는 하한 표기가 두 번 더해진 값이라, 실제로는 그보다 적다.
+    </p>
+    <div class="card">
+      <div class="scroller">
+        <table>
+          <caption>이 세 키워드는 콘텐츠 계획에서 제외하거나, 검색이 아닌 채널(제휴·B2B 영업)로 옮겨야 한다.</caption>
+          <thead>
+            <tr><th>키워드</th><th>최근 30일</th><th>36개월 관측</th><th>판정</th></tr>
+          </thead>
+          <tbody id="tbl-dead"></tbody>
+        </table>
+      </div>
+      <div class="card-note">
+        특히 <b>“평창 워케이션 호텔”</b>은 비수기 대책으로 자주 거론되는 축인데, 검색 수요가
+        3년간 존재하지 않는다. 워케이션 자체가 틀렸다는 뜻은 아니고 — <b>검색으로는 팔리지
+        않는다</b>는 뜻이다. 기업 제휴로 접근할 사안이지 콘텐츠로 접근할 사안이 아니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 7 ─────────────────────────────────────────────────── -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">07</div>
+      <h2>경영 판단으로 옮기면</h2>
+    </div>
+    <div class="findings">
+      <div class="finding">
+        <div class="finding-head">1. 여름 점유율 목표는 검색이 아닌 채널로 세운다</div>
+        <p>
+          7월 부족분 2,101박 중 카테고리 검색이 이론적 상한에서도 14%밖에 감당하지 못한다.
+          여름 목표는 OTA 노출·요금 전략·제휴로 세우고, 검색은 <b>보조 채널로 목표를 재설정</b>해야 한다.
+          지금처럼 검색을 주된 수단으로 잡으면 목표는 구조적으로 미달한다.
+        </p>
+      </div>
+      <div class="finding">
+        <div class="finding-head">2. 콘텐츠 1순위는 브랜드 검색결과 20칸이다</div>
+        <p>
+          가장 큰 레버는 이미 이름을 아는 월 10,530명이다. 자사 문서가 0칸인 현재 상태에서
+          공식 정보(객실·요금·시설 팩트)를 확보하고, 실제 투숙객 후기가 ‘가성비’ 아닌 프레임으로
+          쌓이도록 유도하는 것이 카테고리 SEO보다 우선순위가 높다.
+        </p>
+      </div>
+      <div class="finding">
+        <div class="finding-head">3. 비수기(3~4월)는 검색에 답이 없다</div>
+        <p>
+          3~4월은 전 키워드가 바닥이고 점유율도 11.6%로 최저, ADR도 59,110원으로 최저다.
+          수요 자체가 없는 구간이므로 콘텐츠로는 풀 수 없다. 단체·기업·장기투숙 같은
+          비검색 채널이거나, 아니면 이 구간의 <b>고정비 구조를 다시 보는 것</b>이 답이다.
+        </p>
+      </div>
+      <div class="finding">
+        <div class="finding-head">4. 포지션을 하나 고른다면 웰니스다</div>
+        <p>
+          3년간 163배 성장, 평창 사업자 중 선점자 없음, 그리고 검색결과에 이미
+          “숲뷰가 아름다운”이라는 제3자 서술이 존재한다. 반려동물 축은 성장하지만 라마다가
+          선점했고, 가족 축은 알펜시아·휘닉스 같은 대형 리조트와 정면으로 부딪친다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      <b>방법.</b> 데이터랩은 구간 내 자기 최댓값을 100으로 하는 상대지수만 준다. 검색광고
+      <code>keywordstool</code>은 최근 30일 절대량만 준다. 두 값을 곱해 절대 수준을 복원했고,
+      계수는 2026-07 지수에 2026-08-11 실측 절대량을 맞춰 구했다 — 기존 공개 리포트와 같은
+      앵커를 써서 두 문서가 같은 달을 다르게 말하지 않게 했다.
+    </p>
+    <p>
+      <b>한계.</b> ① 검색광고의 절대량은 <b>이동하는 30일 창</b>이다. “평창 여름 휴가”는
+      8월 11일 700회에서 8월 14일 360회로 사흘 만에 절반이 됐다 — 계절 키워드의 절대 수준은
+      수집 시점에 좌우되므로, 이 문서의 판단은 모두 <b>비율과 형태</b>에 근거한다(계수는
+      비율에서 상쇄된다). ② 데이터랩은 임계치 미만인 달을 응답에서 빼므로 ‘관측’ 수가 낮은
+      키워드일수록 추정이 거칠다. ③ 매출·점유율은 2026년 2~8월 7개월치이고 8월은 부분
+      집계다. 상관계수(브랜드 0.907)는 <b>n=6</b>에서 나온 값으로, 방향의 참고일 뿐 인과의
+      근거가 아니다. ④ 검색광고가 “&lt; 10”으로 답한 값은 10으로 계산돼, 하한 키워드의
+      실제 수요는 표기보다 낮다.
+    </p>
+  </footer>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script id="data" type="application/json">{"collected":"2026-08-14","window":"2023-08 ~ 2026-07","months":["2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07"],"brand":{"keyword":"호텔어라운드 평창","values":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,42,9722,14433,11536,3252,5520,7527,6220,10530],"observed":10,"y3":68814,"mobile":83},"nonbrand":[{"keyword":"평창 가족 여행","short":"평창 가족 여행","values":[248,113,17,25,10,92,30,7,17,28,49,266,214,144,39,8,47,59,42,0,34,56,56,226,168,127,92,163,83,191,231,52,231,205,207,400],"y1":902,"y2":925,"y3":2150,"observed":35,"mobile":84,"competition":"높음","abs_0814":430,"anchor":400,"july":297},{"keyword":"강원도 웰니스 호텔","short":"강원도 웰니스 호텔","values":[0,0,0,0,0,0,0,0,11,0,0,0,7,0,0,0,0,0,7,0,15,0,11,81,173,126,125,61,0,8,24,224,203,236,192,420],"y1":11,"y2":121,"y3":1792,"observed":17,"mobile":86,"competition":"높음","abs_0814":420,"anchor":420,"july":167},{"keyword":"평창 여름 휴가","short":"평창 여름 휴가","values":[99,0,0,0,0,0,0,0,0,17,322,609,208,0,0,0,0,0,0,15,0,8,358,702,59,0,0,0,0,0,0,8,8,157,549,700],"y1":1047,"y2":1291,"y3":1481,"observed":15,"mobile":72,"competition":"높음","abs_0814":360,"anchor":700,"july":670},{"keyword":"강원도 반려견 동반 호텔","short":"강원도 반려견 동반 호텔","values":[19,17,51,0,21,9,9,9,9,9,94,85,105,30,17,0,23,94,70,19,0,122,108,223,260,66,37,72,211,120,26,66,80,78,103,300],"y1":332,"y2":811,"y3":1419,"observed":33,"mobile":76,"competition":"높음","abs_0814":170,"anchor":300,"july":203},{"keyword":"평창 호텔 예약","short":"평창 호텔 예약","values":[90,0,0,0,75,0,0,75,0,135,150,165,315,90,0,0,0,285,0,0,0,0,0,165,0,255,105,0,0,0,0,0,0,0,0,90],"y1":690,"y2":855,"y3":450,"observed":13,"mobile":75,"competition":"높음","abs_0814":40,"anchor":90,"july":140},{"keyword":"평창 반려견 동반 숙소","short":"평창 반려견 동반 숙소","values":[25,0,0,0,33,0,0,0,0,0,21,0,49,21,0,0,0,0,0,0,0,0,0,29,66,21,41,0,21,25,0,0,0,0,25,70],"y1":79,"y2":99,"y3":269,"observed":13,"mobile":86,"competition":"높음","abs_0814":70,"anchor":70,"july":33}],"dead":[{"keyword":"평창 반려동물 호텔 예약","abs":20},{"keyword":"평창 워케이션 호텔","abs":20},{"keyword":"평창 아파트형 호텔","abs":20}],"season":{"labels":["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],"brand":[100.0,79.9,22.5,38.2,52.2,43.1,73.0,null,null,0.2,0.3,67.4],"category":[19.5,9.7,10.5,13.4,23.2,49.6,100.0,46.5,22.3,11.6,7.2,11.6],"brand_peak":4811,"category_peak":1510},"revenue":[{"m":"2026-02","label":"2월","rev":734.1,"occ":null,"adr":null,"rooms":null},{"m":"2026-03","label":"3월","rev":80.9,"occ":null,"adr":null,"rooms":null},{"m":"2026-04","label":"4월","rev":73.9,"occ":11.6,"adr":59110,"rooms":1233},{"m":"2026-05","label":"5월","rev":299.3,"occ":19.8,"adr":124108,"rooms":2171},{"m":"2026-06","label":"6월","rev":195.4,"occ":22.7,"adr":75876,"rooms":2426},{"m":"2026-07","label":"7월","rev":381.3,"occ":21.3,"adr":141956,"rooms":2393},{"m":"2026-08","label":"8월*","rev":227.3,"occ":39.6,"adr":180803,"rooms":1134}],"gap":{"available":11235,"sold":2393,"breakeven_pct":40,"breakeven_rooms":4494,"shortfall":2101,"channels":[{"label":"카테고리 검색 1위 (CTR 30% · 전환 5%)","v":23,"note":"현실적"},{"label":"카테고리 검색 전량 독점 (전환 20%)","v":302,"note":"이론적 상한"},{"label":"브랜드 검색 전환 +5%p","v":526,"note":""},{"label":"브랜드 검색 전환 +10%p","v":1053,"note":""}]},"serp":{"total":20,"ours":0,"value_frame":5,"phoenix_frame":6,"old_name":3}}</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("data").textContent);
+  var NS = "http://www.w3.org/2000/svg";
+  var tip = document.getElementById("tip");
+
+  function el(name, attrs) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) { if (attrs[k] !== null && attrs[k] !== undefined) n.setAttribute(k, attrs[k]); }
+    return n;
+  }
+  function fmt(n) { return n === null || n === undefined ? "—" : n.toLocaleString("ko-KR"); }
+  function showTip(evt, html) {
+    tip.innerHTML = html;
+    tip.style.opacity = "1";
+    var pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+    var x = evt.clientX + pad, y = evt.clientY - h - 10;
+    if (x + w > window.innerWidth - 8) x = evt.clientX - w - pad;
+    if (y < 8) y = evt.clientY + pad;
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  }
+  function hideTip() { tip.style.opacity = "0"; }
+
+  function svgRoot(host, w, h) {
+    var s = el("svg", { viewBox: "0 0 " + w + " " + h, role: "img" });
+    host.appendChild(s);
+    s.addEventListener("mouseleave", hideTip);
+    return s;
+  }
+  function niceMax(v) {
+    if (v <= 0) return 1;
+    var p = Math.pow(10, Math.floor(Math.log10(v)));
+    return Math.ceil(v / p) * p;
+  }
+
+  /* ── 1. brand columns ─────────────────────────────────── */
+  (function brandChart() {
+    var host = document.getElementById("chart-brand");
+    var W = 760, H = 260, L = 52, R = 12, T = 16, B = 34;
+    var vals = D.brand.values, months = D.months;
+    var max = niceMax(Math.max.apply(null, vals));
+    var s = svgRoot(host, W, H);
+    s.setAttribute("aria-label",
+      "호텔어라운드 평창 월별 검색량 36개월. 2025년 10월 첫 관측, 2026년 1월 14,433회 최고.");
+    var pw = (W - L - R) / vals.length;
+    var y = function (v) { return T + (H - T - B) * (1 - v / max); };
+
+    [0, 0.5, 1].forEach(function (f) {
+      var v = max * f;
+      s.appendChild(el("line", { x1: L, x2: W - R, y1: y(v), y2: y(v),
+        stroke: f === 0 ? "var(--axis)" : "var(--grid)", "stroke-width": 1 }));
+      var t = el("text", { x: L - 8, y: y(v) + 4, "text-anchor": "end",
+        "font-size": 11, fill: "var(--muted)" });
+      t.textContent = v.toLocaleString("ko-KR");
+      s.appendChild(t);
+    });
+
+    // un-observed span marker
+    var lastZero = 0;
+    for (var i = 0; i < vals.length; i++) { if (vals[i] > 0) { lastZero = i; break; } }
+    var spanW = lastZero * pw;
+    s.appendChild(el("rect", { x: L, y: T, width: spanW, height: H - T - B,
+      fill: "var(--wash)" }));
+    var lab = el("text", { x: L + spanW / 2, y: T + 22, "text-anchor": "middle",
+      "font-size": 11.5, fill: "var(--muted)" });
+    lab.textContent = "26개월 — 검색 없음";
+    s.appendChild(lab);
+
+    vals.forEach(function (v, i) {
+      if (v <= 0) return;
+      var x = L + i * pw, bh = Math.max(H - B - y(v), 2);
+      var r = el("rect", { x: x + 1.5, y: y(v), width: Math.max(pw - 3, 2), height: bh,
+        rx: 2, fill: "var(--series-1)" });
+      r.addEventListener("mousemove", function (e) {
+        showTip(e, "<b>" + months[i] + "</b><br>" + fmt(v) + "회");
+      });
+      s.appendChild(r);
+    });
+
+    months.forEach(function (m, i) {
+      if (m.slice(5) !== "01" && m.slice(5) !== "07") return;
+      var t = el("text", { x: L + i * pw + pw / 2, y: H - B + 16, "text-anchor": "middle",
+        "font-size": 11, fill: "var(--muted)" });
+      t.textContent = m.slice(2).replace("-", ".");
+      s.appendChild(t);
+    });
+
+    var peakI = vals.indexOf(Math.max.apply(null, vals));
+    var pk = el("text", { x: L + peakI * pw + pw / 2, y: y(vals[peakI]) - 7,
+      "text-anchor": "middle", "font-size": 11.5, "font-weight": 620, fill: "var(--ink)" });
+    pk.textContent = fmt(vals[peakI]);
+    s.appendChild(pk);
+  })();
+
+  /* ── 2. small multiples ───────────────────────────────── */
+  (function smallMultiples() {
+    var host = document.getElementById("chart-small");
+    D.nonbrand.forEach(function (k) {
+      var wrap = document.createElement("figure");
+      var t = document.createElement("figcaption");
+      t.className = "sm-title";
+      t.textContent = k.short;
+      var sub = document.createElement("div");
+      sub.className = "sm-sub";
+      var mult = k.y1 ? (k.y3 / k.y1) : null;
+      sub.textContent = "최근 1년 " + fmt(k.y3) + "회 · 3년 "
+        + (mult ? (mult >= 1 ? "×" + mult.toFixed(1) : "−" + Math.round((1 - mult) * 100) + "%") : "—");
+      wrap.appendChild(t); wrap.appendChild(sub);
+
+      var W = 240, H = 96, T = 10, B = 16, L = 2, R = 2;
+      var s = svgRoot(wrap, W, H);
+      s.setAttribute("aria-label", k.keyword + " 36개월 추이");
+      var max = Math.max.apply(null, k.values) || 1;
+      var pw = (W - L - R) / k.values.length;
+      var y = function (v) { return T + (H - T - B) * (1 - v / max); };
+      s.appendChild(el("line", { x1: L, x2: W - R, y1: H - B, y2: H - B,
+        stroke: "var(--axis)", "stroke-width": 1 }));
+      k.values.forEach(function (v, i) {
+        if (v <= 0) return;
+        var r = el("rect", { x: L + i * pw + 0.8, y: y(v), width: Math.max(pw - 1.6, 1.6),
+          height: Math.max(H - B - y(v), 1.5), rx: 1.5, fill: "var(--series-1)" });
+        r.addEventListener("mousemove", function (e) {
+          showTip(e, "<b>" + k.short + "</b><br>" + D.months[i] + " · " + fmt(v) + "회");
+        });
+        s.appendChild(r);
+      });
+      var pi = k.values.indexOf(max);
+      var pl = el("text", { x: Math.min(L + pi * pw + pw / 2, W - 24), y: y(max) - 3,
+        "text-anchor": "middle", "font-size": 10.5, fill: "var(--ink-2)" });
+      pl.textContent = fmt(max);
+      s.appendChild(pl);
+      ["23.08", "26.07"].forEach(function (lbl, i) {
+        var tx = el("text", { x: i === 0 ? L : W - R, y: H - 3,
+          "text-anchor": i === 0 ? "start" : "end", "font-size": 10, fill: "var(--muted)" });
+        tx.textContent = lbl;
+        s.appendChild(tx);
+      });
+      host.appendChild(wrap);
+    });
+  })();
+
+  /* ── year table ───────────────────────────────────────── */
+  (function yearTable() {
+    var tb = document.getElementById("tbl-years");
+    D.nonbrand.forEach(function (k) {
+      var mult = k.y1 ? k.y3 / k.y1 : null;
+      var cls = mult === null ? "" : (mult >= 1 ? "up" : "down");
+      var txt = mult === null ? "—"
+        : (mult >= 1 ? "×" + mult.toFixed(1) : "−" + Math.round((1 - mult) * 100) + "%");
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + k.keyword + "</td>"
+        + "<td>" + fmt(k.y1) + "</td><td>" + fmt(k.y2) + "</td><td>" + fmt(k.y3) + "</td>"
+        + '<td class="' + cls + '">' + txt + "</td>"
+        + "<td>" + k.observed + "/36</td><td>" + k.mobile + "%</td>";
+      tb.appendChild(tr);
+    });
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td><b>합계</b></td>"
+      + "<td><b>" + fmt(D.nonbrand.reduce(function (a, k) { return a + k.y1; }, 0)) + "</b></td>"
+      + "<td><b>" + fmt(D.nonbrand.reduce(function (a, k) { return a + k.y2; }, 0)) + "</b></td>"
+      + "<td><b>" + fmt(D.nonbrand.reduce(function (a, k) { return a + k.y3; }, 0)) + "</b></td>"
+      + '<td class="up"><b>×2.5</b></td><td></td><td></td>';
+    tb.appendChild(tr);
+  })();
+
+  /* ── dead table ───────────────────────────────────────── */
+  (function deadTable() {
+    var tb = document.getElementById("tbl-dead");
+    D.dead.forEach(function (k) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + k.keyword + "</td>"
+        + '<td class="num-dead">' + k.abs + "회 (하한)</td>"
+        + '<td class="num-dead">0 / 36개월</td>'
+        + '<td style="color:var(--critical);font-weight:600">수요 없음</td>';
+      tb.appendChild(tr);
+    });
+  })();
+
+  /* ── 3. season index lines ────────────────────────────── */
+  (function season() {
+    var host = document.getElementById("chart-season");
+    var W = 760, H = 280, L = 40, R = 54, T = 18, B = 34;
+    var s = svgRoot(host, W, H);
+    s.setAttribute("aria-label",
+      "월별 수요 프로파일 지수. 브랜드는 1월 100으로 정점, 카테고리는 7월 100으로 정점.");
+    var lbls = D.season.labels;
+    var x = function (i) { return L + (W - L - R) * i / (lbls.length - 1); };
+    var y = function (v) { return T + (H - T - B) * (1 - v / 100); };
+
+    [0, 25, 50, 75, 100].forEach(function (v) {
+      s.appendChild(el("line", { x1: L, x2: W - R, y1: y(v), y2: y(v),
+        stroke: v === 0 ? "var(--axis)" : "var(--grid)", "stroke-width": 1 }));
+      var t = el("text", { x: L - 8, y: y(v) + 4, "text-anchor": "end",
+        "font-size": 11, fill: "var(--muted)" });
+      t.textContent = v;
+      s.appendChild(t);
+    });
+    lbls.forEach(function (m, i) {
+      var t = el("text", { x: x(i), y: H - B + 17, "text-anchor": "middle",
+        "font-size": 11, fill: "var(--muted)" });
+      t.textContent = m.replace("월", "");
+      s.appendChild(t);
+    });
+
+    function draw(vals, color, name) {
+      var d = "", started = false;
+      vals.forEach(function (v, i) {
+        if (v === null) { started = false; return; }
+        d += (started ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1) + " ";
+        started = true;
+      });
+      s.appendChild(el("path", { d: d, fill: "none", stroke: color, "stroke-width": 2,
+        "stroke-linejoin": "round", "stroke-linecap": "round" }));
+      vals.forEach(function (v, i) {
+        if (v === null) return;
+        s.appendChild(el("circle", { cx: x(i), cy: y(v), r: 3.4, fill: color,
+          stroke: "var(--surface)", "stroke-width": 2 }));
+      });
+      var pi = vals.indexOf(100);
+      if (pi >= 0) {
+        var t = el("text", { x: x(pi), y: y(100) - 11, "text-anchor": "middle",
+          "font-size": 11.5, "font-weight": 620, fill: color });
+        t.textContent = name;
+        s.appendChild(t);
+      }
+    }
+    draw(D.season.category, "var(--series-2)", "카테고리 정점");
+    draw(D.season.brand, "var(--series-1)", "브랜드 정점");
+
+    // hover columns
+    lbls.forEach(function (m, i) {
+      var band = el("rect", { x: x(i) - (W - L - R) / 24, y: T,
+        width: (W - L - R) / 12, height: H - T - B, fill: "transparent" });
+      band.addEventListener("mousemove", function (e) {
+        var b = D.season.brand[i], c = D.season.category[i];
+        showTip(e, "<b>" + m + "</b><br>브랜드 " + (b === null ? "관측 없음" : b)
+          + "<br>카테고리 " + c);
+      });
+      s.appendChild(band);
+    });
+  })();
+
+  /* ── 4. gap bars ──────────────────────────────────────── */
+  (function gap() {
+    var host = document.getElementById("chart-gap");
+    var items = D.gap.channels, ref = D.gap.shortfall;
+    var W = 760, rowH = 42, T = 12, B = 26, L = 250, R = 60;
+    var H = T + items.length * rowH + B;
+    var s = svgRoot(host, W, H);
+    s.setAttribute("aria-label", "7월 부족분 2,101박 대비 채널별 최대 기여 객실박 비교.");
+    var max = Math.max(ref, items.reduce(function (a, i) { return Math.max(a, i.v); }, 0));
+    var sx = function (v) { return (W - L - R) * v / max; };
+
+    // reference line = shortfall
+    var rx = L + sx(ref);
+    s.appendChild(el("line", { x1: rx, x2: rx, y1: T - 4, y2: H - B + 4,
+      stroke: "var(--critical)", "stroke-width": 2, "stroke-dasharray": "4 3" }));
+    var rl = el("text", { x: rx, y: H - B + 19, "text-anchor": "middle",
+      "font-size": 11.5, "font-weight": 620, fill: "var(--critical)" });
+    rl.textContent = "부족분 " + fmt(ref) + "박";
+    s.appendChild(rl);
+
+    items.forEach(function (it, i) {
+      var cy = T + i * rowH + rowH / 2;
+      var t = el("text", { x: L - 12, y: cy + 4, "text-anchor": "end",
+        "font-size": 12, fill: "var(--ink-2)" });
+      t.textContent = it.label;
+      s.appendChild(t);
+      var bw = Math.max(sx(it.v), 2);
+      var r = el("rect", { x: L, y: cy - 9, width: bw, height: 18, rx: 3,
+        fill: "var(--series-1)" });
+      r.addEventListener("mousemove", function (e) {
+        showTip(e, "<b>" + it.label + "</b><br>" + fmt(it.v) + "박 · 부족분의 "
+          + (100 * it.v / ref).toFixed(1) + "%");
+      });
+      s.appendChild(r);
+      var v = el("text", { x: L + bw + 8, y: cy + 4, "font-size": 11.5,
+        fill: "var(--ink)", "font-weight": 600 });
+      v.textContent = fmt(it.v) + "박";
+      s.appendChild(v);
+    });
+  })();
+})();
+</script>
+
+</body>
+</html>
