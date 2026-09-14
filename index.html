@@ -13,7 +13,7 @@
   --peak:#0d366b;    /* peak accent */
   --good:#006300; --bad:#d03b3b;
   /* 월별 순차 램프 (4→8월, light: 밝음→어두움 · L 단조감소 검증) */
-  --mo1:#bcd7f6; --mo2:#86b8f1; --mo3:#4a90dd; --mo4:#1c5cab; --mo5:#0d366b;
+  --mo1:#bcd7f6; --mo2:#86b8f1; --mo3:#4a90dd; --mo4:#1c5cab; --mo5:#0d366b; --mo6:#07203f;
 }
 *{box-sizing:border-box;}
 body{font-family:system-ui,-apple-system,'Segoe UI','Malgun Gothic','맑은 고딕',sans-serif;color:var(--ink);
@@ -105,7 +105,7 @@ tr:hover{background:#f7f8fa;}
     --grid:#2c2c2a; --baseline:#383835;
     --brand:#7ea3d6; --brand2:#9db8e0;
     --m5:#3987e5; --m6:#9ec5f4; --blue:#3987e5; --peak:#cde2fb;
-    --mo1:#1e4f8f; --mo2:#2f6fc0; --mo3:#4a90dd; --mo4:#6ea8ee; --mo5:#9ec5f4;
+    --mo1:#1e4f8f; --mo2:#2f6fc0; --mo3:#4a90dd; --mo4:#6ea8ee; --mo5:#9ec5f4; --mo6:#c4daf8;
     --good:#0ca30c; --bad:#e34948;
 }
   body{background:#0d0d0d;color:var(--ink);} #report-content{background:#141413;}
@@ -378,7 +378,7 @@ tr:hover{background:#f7f8fa;}
   <div class="kbox"><div class="n">3</div><h5>그러나 스파이크 의존은 심화</h5><p>연휴 사흘(8/14~16)이 8월 객실매출의 <b>32.8%</b>, 1주차 여드레와 합치면 <b>열하루가 72.8%</b>다. 연휴 일평균은 <b>직후 보름의 10.4배</b>이고 최고일 8/15(92.5백만)는 <b>최저일 8/31(0.6백만)의 147배</b>다 — 평일을 메우는 것이 남은 과제.</p></div>
 </div>
 
-<h2>2. 연간 사이클 속 5~8월의 위치</h2>
+<h2>2. 연간 사이클 속 5~9월의 위치</h2>
 <p>당 호텔은 평창의 입지상 <strong>겨울(스키)·여름(피서)을 양대 성수기</strong>로 하는 계절형 사업이다. 5~6월은 겨울 성수기 종료 후 저점을 지나 <strong>여름 성수기로 진입하는 전환 구간</strong>이었고, <strong>7~8월이 그 성수기의 본체</strong>다. 실적은 절대 규모보다 <strong>비수기 방어·성수기 진입 속도</strong>로 읽는다. 8월은 21일까지의 진행분이므로, 다른 달과의 비교는 길이에 영향받지 않는 <strong>일평균·OCC·ADR</strong>로 한다(10장 부록).</p>
 <div class="fig"><div class="cap">월별 총매출 추이 — 겨울 정점(2월) → 봄 저점(3·4월) → 5·6월 회복 → <b>7월 381.3백만 확정</b> → <b>8월 확정 총매출 561.7백만으로 7월을 47.3% 초과</b>(객실 512.5 + F&amp;B 49.2백만). 당 호텔의 <b>양대 성수기(겨울·여름) 구조</b>가 실적으로 확인됨</div><svg viewBox="0 0 460 230" class="chart" role="img" aria-label="연간 매출 사이클">
 <line x1="46" y1="190.0" x2="450" y2="190.0" class="grid"/>
@@ -421,35 +421,45 @@ tr:hover{background:#f7f8fa;}
 </svg></div>
 <div class="insight-box good"><strong>관리위원회(소유주) 관점.</strong> OCC 20%대는 전형적 비수기 구간이다. 관전 포인트는 <strong>'비수기 손실 최소화 + 다가오는 여름 성수기(7~8월) 수익 극대화'</strong>. 6월 말의 가파른 상승은 그 <strong>선행 신호</strong>였고, <strong>7월이 총매출 381.3백만원(객실 339.7 + F&amp;B 41.6)으로 확정되며 6월 실적의 1.95배, 5월 실적의 1.27배를 기록 — 2월 겨울 정점에 이은 연중 2위 매출월이 확정</strong>되었다. 주목할 점은 <strong>판매객실이 6월과 사실상 같은데도(2,393 vs 2,426실, -1.4%) 매출은 1.95배</strong>라는 것으로, 6월의 '물량형 회복'과 달리 7월은 <strong>ADR 75,876 → 141,956원(+87.1%)의 단가 회복형 성장</strong>이었다. 즉 <strong>같은 객실 수로 두 배의 매출을 만든 달</strong>이며, RevPAR도 17.2 → 30.2천원(+75%)으로 개선됐다. 특히 <strong>7/17(금)에는 객실매출 64.1백만원(OCC 84.6%)을 기록 — 5/1에 이은 연중 2위 매출일</strong>이자, <strong>7/24~31 여드레 연속 판매객실 83~168실·객실매출 11.9~32.3백만원의 고가동</strong>으로 월말까지 상승 기조가 이어졌다. 단체 유치가 이 기간에 이뤄진 것은 사실이나(바르게살기운동 경기도협의회 60객실·삼척시청 배드민턴·중앙대·키움 주중 단체·목포교육지원청·서울대 대학신문사 등), <strong>PMS 세그먼트 기준 단체 매출은 7월 전체의 5.6%</strong>이며 7/17의 단체 분류도 60실·5.2백만원에 그친다 — 즉 <strong>단체가 직접 만든 매출보다, 단체 일정과 맞물린 개인 예약이 실적의 대부분</strong>이었다(5-1절). <span class="note" style="display:inline">(2·3월은 기존 월간 보고, 4~6월은 일일보고 합산. ※4월 객실매출은 일일보고 72.9백만원이나 결산서 기준 112.1백만원으로 약 39백만원 차이 — 회계상 추가 인식분 추정, 확인 권장)</span></div>
 
-<h2>3. 실적 상세 — 4~7월 4개월 비교</h2>
-<p>봄 비수기 저점(4월)부터 여름 성수기 진입(7월)까지 <strong>완결된 4개월</strong>을 동일 기준으로 비교한다. (8월 확정 실적은 10장 부록에서 별도로 다룬다.)</p>
+<h2>3. 실적 상세 — 4~9월 6개월 비교</h2>
+<p>봄 비수기 저점(4월)부터 여름 성수기 정점(8월)을 지나 <strong>가을 비수기 진입(9월)까지</strong> 여섯 달을 동일 기준으로 비교한다. <strong>4~8월 다섯 달은 확정</strong>이고 <strong>9월은 9/1~13 진행 중</strong>이므로, 월 총액이 아니라 <strong>일평균·OCC·ADR</strong>로 읽는다.</p>
 
 <h3>3-1. 월간 실적 비교</h3>
 <div class="two-col">
-<div class="fig"><div class="cap">월별 총매출 (객실 + F&amp;B)</div><svg viewBox="0 0 420 225" class="chart" role="img" aria-label="월별 총매출">
+<div class="fig"><div class="cap">월별 총매출 (객실 + F&amp;B) — 9월은 13일분(점선)</div><svg viewBox="0 0 420 225" class="chart" role="img" aria-label="월별 총매출">
 <line x1="44" y1="175.0" x2="410" y2="175.0" class="grid"/>
 <text x="38" y="178.0" class="ytick" text-anchor="end">0</text>
 <line x1="44" y1="137.5" x2="410" y2="137.5" class="grid"/>
-<text x="38" y="140.5" class="ytick" text-anchor="end">100</text>
+<text x="38" y="140.5" class="ytick" text-anchor="end">150</text>
 <line x1="44" y1="100.0" x2="410" y2="100.0" class="grid"/>
-<text x="38" y="103.0" class="ytick" text-anchor="end">200</text>
+<text x="38" y="103.0" class="ytick" text-anchor="end">300</text>
 <line x1="44" y1="62.5" x2="410" y2="62.5" class="grid"/>
-<text x="38" y="65.5" class="ytick" text-anchor="end">300</text>
+<text x="38" y="65.5" class="ytick" text-anchor="end">450</text>
 <line x1="44" y1="25.0" x2="410" y2="25.0" class="grid"/>
-<text x="38" y="28.0" class="ytick" text-anchor="end">400</text>
+<text x="38" y="28.0" class="ytick" text-anchor="end">600</text>
 <text x="38" y="15" class="axis-unit" text-anchor="end">백만원</text>
-<path d="M 63.8,175.0 L 63.8,151.3 Q 63.8,147.3 67.8,147.3 L 111.8,147.3 Q 115.8,147.3 115.8,151.3 L 115.8,175.0 Z" fill="var(--mo1)"><title>4월 총매출 73,883,008원 (객실 72,882,108 + F&amp;B 1,000,900)</title></path>
-<text x="89.8" y="141.3" class="barval" text-anchor="middle">73.9</text>
-<text x="89.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
-<path d="M 155.2,175.0 L 155.2,66.8 Q 155.2,62.8 159.2,62.8 L 203.2,62.8 Q 207.2,62.8 207.2,66.8 L 207.2,175.0 Z" fill="var(--mo2)"><title>5월 총매출 299,258,098원 (객실 269,439,098 + F&amp;B 29,819,000)</title></path>
-<text x="181.2" y="56.8" class="barval" text-anchor="middle">299.3</text>
-<text x="181.2" y="192.0" class="catlab" text-anchor="middle">5월</text>
-<path d="M 246.8,175.0 L 246.8,105.7 Q 246.8,101.7 250.8,101.7 L 294.8,101.7 Q 298.8,101.7 298.8,105.7 L 298.8,175.0 Z" fill="var(--mo3)"><title>6월 총매출 195,437,573원 (객실 184,075,773 + F&amp;B 11,361,800)</title></path>
-<text x="272.8" y="95.7" class="barval" text-anchor="middle">195.4</text>
-<text x="272.8" y="192.0" class="catlab" text-anchor="middle">6월</text>
-<path d="M 338.2,175.0 L 338.2,36.0 Q 338.2,32.0 342.2,32.0 L 386.2,32.0 Q 390.2,32.0 390.2,36.0 L 390.2,175.0 Z" fill="var(--mo4)"><title>7월 총매출 381,335,254원 (객실 339,700,954 + F&amp;B 41,634,300)</title></path>
-<text x="364.2" y="26.0" class="barval" text-anchor="middle">381.3</text>
-<text x="364.2" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<path d="M 63.8,175.0 L 63.8,160.5 Q 63.8,156.5 67.8,156.5 L 99.8,156.5 Q 103.8,156.5 103.8,160.5 L 103.8,175.0 Z" fill="var(--mo1)"><title>4월 총매출 73,883,008원 (객실 72,882,108 + F&amp;B 1,000,900)</title></path>
+<text x="83.8" y="150.5" class="barval" text-anchor="middle">73.9</text>
+<text x="83.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
+<text x="83.8" y="205.0" class="subtick" text-anchor="middle">봄 저점</text>
+<path d="M 121.1,175.0 L 121.1,104.2 Q 121.1,100.2 125.1,100.2 L 157.1,100.2 Q 161.1,100.2 161.1,104.2 L 161.1,175.0 Z" fill="var(--mo2)"><title>5월 총매출 299,258,098원 (객실 269,439,098 + F&amp;B 29,819,000)</title></path>
+<text x="141.1" y="94.2" class="barval" text-anchor="middle">299.3</text>
+<text x="141.1" y="192.0" class="catlab" text-anchor="middle">5월</text>
+<path d="M 178.4,175.0 L 178.4,130.1 Q 178.4,126.1 182.4,126.1 L 214.4,126.1 Q 218.4,126.1 218.4,130.1 L 218.4,175.0 Z" fill="var(--mo3)"><title>6월 총매출 195,437,573원 (객실 184,075,773 + F&amp;B 11,361,800)</title></path>
+<text x="198.4" y="120.1" class="barval" text-anchor="middle">195.4</text>
+<text x="198.4" y="192.0" class="catlab" text-anchor="middle">6월</text>
+<path d="M 235.6,175.0 L 235.6,83.7 Q 235.6,79.7 239.6,79.7 L 271.6,79.7 Q 275.6,79.7 275.6,83.7 L 275.6,175.0 Z" fill="var(--mo4)"><title>7월 총매출 381,335,254원 (객실 339,700,954 + F&amp;B 41,634,300)</title></path>
+<text x="255.6" y="73.7" class="barval" text-anchor="middle">381.3</text>
+<text x="255.6" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<text x="255.6" y="205.0" class="subtick" text-anchor="middle">확정</text>
+<path d="M 292.9,175.0 L 292.9,38.6 Q 292.9,34.6 296.9,34.6 L 328.9,34.6 Q 332.9,34.6 332.9,38.6 L 332.9,175.0 Z" fill="var(--mo5)"><title>8월 총매출 561,709,687원 (객실 512,476,087 + F&amp;B 49,233,600)</title></path>
+<text x="312.9" y="28.6" class="barval" text-anchor="middle">561.7</text>
+<text x="312.9" y="192.0" class="catlab" text-anchor="middle">8월</text>
+<text x="312.9" y="205.0" class="subtick" text-anchor="middle">확정</text>
+<path d="M 350.2,175.0 L 350.2,164.9 Q 350.2,160.9 354.2,160.9 L 386.2,160.9 Q 390.2,160.9 390.2,164.9 L 390.2,175.0 Z" fill="var(--mo6)" fill-opacity="0.28" stroke="var(--mo6)" stroke-width="1.6" stroke-dasharray="4 2"><title>9월 총매출 56,489,667원 (객실 54,224,667 + F&amp;B 2,265,000)</title></path>
+<text x="370.2" y="154.9" class="barval" text-anchor="middle">56.5</text>
+<text x="370.2" y="192.0" class="catlab" text-anchor="middle">9월</text>
+<text x="370.2" y="205.0" class="subtick" text-anchor="middle">1~13일</text>
 </svg></div>
 <div class="fig"><div class="cap">F&amp;B 매출 비중</div><svg viewBox="0 0 420 225" class="chart" role="img" aria-label="월별 F&B 매출 비중">
 <line x1="44" y1="175.0" x2="410" y2="175.0" class="grid"/>
@@ -463,90 +473,112 @@ tr:hover{background:#f7f8fa;}
 <line x1="44" y1="25.0" x2="410" y2="25.0" class="grid"/>
 <text x="38" y="28.0" class="ytick" text-anchor="end">12</text>
 <text x="38" y="15" class="axis-unit" text-anchor="end">%</text>
-<path d="M 63.8,175.0 L 63.8,162.1 Q 63.8,158.1 67.8,158.1 L 111.8,158.1 Q 115.8,158.1 115.8,162.1 L 115.8,175.0 Z" fill="var(--mo1)"><title>4월 F&amp;B 비중 1.4% (F&amp;B 1,000,900원)</title></path>
-<text x="89.8" y="152.1" class="barval" text-anchor="middle">1.4</text>
-<text x="89.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
-<path d="M 155.2,175.0 L 155.2,54.4 Q 155.2,50.4 159.2,50.4 L 203.2,50.4 Q 207.2,50.4 207.2,54.4 L 207.2,175.0 Z" fill="var(--mo2)"><title>5월 F&amp;B 비중 10.0% (F&amp;B 29,819,000원)</title></path>
-<text x="181.2" y="44.4" class="barval" text-anchor="middle">10.0</text>
-<text x="181.2" y="192.0" class="catlab" text-anchor="middle">5월</text>
-<path d="M 246.8,175.0 L 246.8,106.3 Q 246.8,102.3 250.8,102.3 L 294.8,102.3 Q 298.8,102.3 298.8,106.3 L 298.8,175.0 Z" fill="var(--mo3)"><title>6월 F&amp;B 비중 5.8% (F&amp;B 11,361,800원)</title></path>
-<text x="272.8" y="96.3" class="barval" text-anchor="middle">5.8</text>
-<text x="272.8" y="192.0" class="catlab" text-anchor="middle">6월</text>
-<path d="M 338.2,175.0 L 338.2,42.5 Q 338.2,38.5 342.2,38.5 L 386.2,38.5 Q 390.2,38.5 390.2,42.5 L 390.2,175.0 Z" fill="var(--mo4)"><title>7월 F&amp;B 비중 10.9% (F&amp;B 41,634,300원)</title></path>
-<text x="364.2" y="32.5" class="barval" text-anchor="middle">10.9</text>
-<text x="364.2" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<path d="M 63.8,175.0 L 63.8,162.1 Q 63.8,158.1 67.8,158.1 L 99.8,158.1 Q 103.8,158.1 103.8,162.1 L 103.8,175.0 Z" fill="var(--mo1)"><title>4월 F&amp;B 비중 1.4% (F&amp;B 1,000,900원)</title></path>
+<text x="83.8" y="152.1" class="barval" text-anchor="middle">1.4</text>
+<text x="83.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
+<path d="M 121.1,175.0 L 121.1,54.4 Q 121.1,50.4 125.1,50.4 L 157.1,50.4 Q 161.1,50.4 161.1,54.4 L 161.1,175.0 Z" fill="var(--mo2)"><title>5월 F&amp;B 비중 10.0% (F&amp;B 29,819,000원)</title></path>
+<text x="141.1" y="44.4" class="barval" text-anchor="middle">10.0</text>
+<text x="141.1" y="192.0" class="catlab" text-anchor="middle">5월</text>
+<path d="M 178.4,175.0 L 178.4,106.3 Q 178.4,102.3 182.4,102.3 L 214.4,102.3 Q 218.4,102.3 218.4,106.3 L 218.4,175.0 Z" fill="var(--mo3)"><title>6월 F&amp;B 비중 5.8% (F&amp;B 11,361,800원)</title></path>
+<text x="198.4" y="96.3" class="barval" text-anchor="middle">5.8</text>
+<text x="198.4" y="192.0" class="catlab" text-anchor="middle">6월</text>
+<path d="M 235.6,175.0 L 235.6,42.5 Q 235.6,38.5 239.6,38.5 L 271.6,38.5 Q 275.6,38.5 275.6,42.5 L 275.6,175.0 Z" fill="var(--mo4)"><title>7월 F&amp;B 비중 10.9% (F&amp;B 41,634,300원)</title></path>
+<text x="255.6" y="32.5" class="barval" text-anchor="middle">10.9</text>
+<text x="255.6" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<path d="M 292.9,175.0 L 292.9,69.4 Q 292.9,65.4 296.9,65.4 L 328.9,65.4 Q 332.9,65.4 332.9,69.4 L 332.9,175.0 Z" fill="var(--mo5)"><title>8월 F&amp;B 비중 8.8% (F&amp;B 49,233,600원)</title></path>
+<text x="312.9" y="59.4" class="barval" text-anchor="middle">8.8</text>
+<text x="312.9" y="192.0" class="catlab" text-anchor="middle">8월</text>
+<path d="M 350.2,175.0 L 350.2,128.9 Q 350.2,124.9 354.2,124.9 L 386.2,124.9 Q 390.2,124.9 390.2,128.9 L 390.2,175.0 Z" fill="var(--mo6)"><title>9월 F&amp;B 비중 4.0% (F&amp;B 2,265,000원)</title></path>
+<text x="370.2" y="118.9" class="barval" text-anchor="middle">4.0</text>
+<text x="370.2" y="192.0" class="catlab" text-anchor="middle">9월</text>
 </svg></div>
 </div>
-<table><thead><tr><th>지표</th><th>4월 (30일)</th><th>5월 (31일)</th><th>6월 (30일)</th><th>7월 (31일)</th></tr></thead><tbody>
-<tr><td>객실매출</td><td>72,882,108원</td><td>269,439,098원</td><td>184,075,773원</td><td>339,700,954원</td></tr>
-<tr><td>F&amp;B매출</td><td>1,000,900원</td><td>29,819,000원</td><td>11,361,800원</td><td>41,634,300원</td></tr>
-<tr class="highlight-row"><td>총매출</td><td><strong>73,883,008원</strong></td><td><strong>299,258,098원</strong></td><td><strong>195,437,573원</strong></td><td><strong>381,335,254원</strong></td></tr>
-<tr><td>판매객실</td><td>1,233실</td><td>2,171실</td><td>2,426실</td><td>2,393실</td></tr>
-<tr><td>OCC</td><td>11.6%</td><td>19.8%</td><td>22.7%</td><td>21.3%</td></tr>
-<tr><td>ADR</td><td>59,110원</td><td>124,108원</td><td>75,876원</td><td>141,956원</td></tr>
-<tr><td>F&amp;B 비중</td><td>1.4%</td><td>10.0%</td><td>5.8%</td><td>10.9%</td></tr>
+<table><thead><tr><th>지표</th><th>4월 (30일)</th><th>5월 (31일)</th><th>6월 (30일)</th><th>7월 (31일)</th><th>8월 (31일)</th><th>9월 (13일)</th></tr></thead><tbody>
+<tr><td>객실매출</td><td>72,882,108원</td><td>269,439,098원</td><td>184,075,773원</td><td>339,700,954원</td><td>512,476,087원</td><td class="note">54,224,667원</td></tr>
+<tr><td>F&amp;B매출</td><td>1,000,900원</td><td>29,819,000원</td><td>11,361,800원</td><td>41,634,300원</td><td>49,233,600원</td><td class="note">2,265,000원</td></tr>
+<tr class="highlight-row"><td>총매출</td><td><strong>73,883,008원</strong></td><td><strong>299,258,098원</strong></td><td><strong>195,437,573원</strong></td><td><strong>381,335,254원</strong></td><td><strong>561,709,687원</strong></td><td class="note">56,489,667원</td></tr>
+<tr><td>판매객실</td><td>1,233실</td><td>2,171실</td><td>2,426실</td><td>2,393실</td><td>3,135실</td><td class="note">655실</td></tr>
+<tr><td>OCC</td><td>11.6%</td><td>19.8%</td><td>22.7%</td><td>21.3%</td><td>28.2%</td><td>14.1%</td></tr>
+<tr><td>ADR</td><td>59,110원</td><td>124,108원</td><td>75,876원</td><td>141,956원</td><td>163,469원</td><td>82,786원</td></tr>
+<tr><td>F&amp;B 비중</td><td>1.4%</td><td>10.0%</td><td>5.8%</td><td>10.9%</td><td>8.8%</td><td class="negative">4.0%</td></tr>
 </tbody></table>
+<div class="note">※ 9월은 9/1~13 열사흘분 진행 중 — <strong>월 총액(회색 표기) 네 줄은 다른 달과 직접 비교하지 않는다.</strong> 비교는 OCC·ADR과 아래 3-2절 일평균으로 한다.</div>
 <div class="note">※ 4~6월은 일일보고의 당일 실적(TODAY) 합산, 7월은 PMS 원장(Sales On the Book) 확정치. F&amp;B는 월 누계 기준. OCC는 가용객실 4~6월 약 356실 · 7월 약 363실 기준. 금액 V.A.T 별도. 6/30 리포트의 월 누계열은 익월로 롤오버되어 사용하지 않고 30일간 일별 합산으로 산출했다(5월은 이 합산치가 5/31 누계와 정확히 일치함을 확인).</div>
-<div class="insight-box"><strong>F&amp;B 비중이 매출의 질을 드러낸다.</strong> 총매출 대비 F&amp;B 비중은 4월 1.4% → 5월 10.0% → 6월 5.8% → <strong>7월 10.9%</strong>. 객실만 파는 달(4·6월)과 <strong>체류·연회가 함께 붙는 달(5·7월)</strong>이 뚜렷이 갈리며, 7월은 절대액(41.6백만)과 비중(10.9%) 모두 최고다. 6월의 급락(5.8%)은 실제 부진과 입력 누락이 섞여 있어 5장에서 별도로 점검한다.</div>
+<div class="insight-box"><strong>F&amp;B 비중이 매출의 질을 드러낸다.</strong> 총매출 대비 F&amp;B 비중은 <strong>4월 1.4% → 5월 10.0% → 6월 5.8% → 7월 10.9% → 8월 8.8% → 9월 4.0%</strong>다. 객실 단가가 오른 달(5·7·8월)에 F&amp;B도 함께 붙고, 물량형이었던 6월과 비수기인 4·9월에는 떨어진다 — <strong>F&amp;B는 객실 단가에 연동되는 부가매출</strong>이라는 뜻이다. 다만 <strong>9월은 열사흘 누계 2.27백만원</strong>으로, 축제가 열린 9/4~13에도 부착이 거의 붙지 않았다. 8월의 <strong>8/24~27 나흘 연속 당일매출 0원</strong> 건과 겹쳐 보면 실제 부진인지 입력 누락인지 <strong>집계 정확도 점검이 먼저</strong>다(5-2절).</div>
 
 <h3>3-2. 일평균 환산 (일수 차이 보정)</h3>
 <div class="two-col">
 <div class="fig"><div class="cap">일평균 총매출 — 달 길이 보정</div><svg viewBox="0 0 420 225" class="chart" role="img" aria-label="일평균 총매출">
 <line x1="44" y1="175.0" x2="410" y2="175.0" class="grid"/>
 <text x="38" y="178.0" class="ytick" text-anchor="end">0</text>
-<line x1="44" y1="125.0" x2="410" y2="125.0" class="grid"/>
-<text x="38" y="128.0" class="ytick" text-anchor="end">4</text>
-<line x1="44" y1="75.0" x2="410" y2="75.0" class="grid"/>
-<text x="38" y="78.0" class="ytick" text-anchor="end">8</text>
+<line x1="44" y1="137.5" x2="410" y2="137.5" class="grid"/>
+<text x="38" y="140.5" class="ytick" text-anchor="end">5</text>
+<line x1="44" y1="100.0" x2="410" y2="100.0" class="grid"/>
+<text x="38" y="103.0" class="ytick" text-anchor="end">10</text>
+<line x1="44" y1="62.5" x2="410" y2="62.5" class="grid"/>
+<text x="38" y="65.5" class="ytick" text-anchor="end">15</text>
 <line x1="44" y1="25.0" x2="410" y2="25.0" class="grid"/>
-<text x="38" y="28.0" class="ytick" text-anchor="end">12</text>
-<text x="38" y="15" class="axis-unit" text-anchor="end">백만원/일</text>
-<path d="M 63.8,175.0 L 63.8,148.2 Q 63.8,144.2 67.8,144.2 L 111.8,144.2 Q 115.8,144.2 115.8,148.2 L 115.8,175.0 Z" fill="var(--mo1)"><title>4월 일평균 총매출 2,462,767원 (30일)</title></path>
-<text x="89.8" y="138.2" class="barval" text-anchor="middle">2.46</text>
-<text x="89.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
-<path d="M 155.2,175.0 L 155.2,58.3 Q 155.2,54.3 159.2,54.3 L 203.2,54.3 Q 207.2,54.3 207.2,58.3 L 207.2,175.0 Z" fill="var(--mo2)"><title>5월 일평균 총매출 9,653,487원 (31일)</title></path>
-<text x="181.2" y="48.3" class="barval" text-anchor="middle">9.65</text>
-<text x="181.2" y="192.0" class="catlab" text-anchor="middle">5월</text>
-<path d="M 246.8,175.0 L 246.8,97.6 Q 246.8,93.6 250.8,93.6 L 294.8,93.6 Q 298.8,93.6 298.8,97.6 L 298.8,175.0 Z" fill="var(--mo3)"><title>6월 일평균 총매출 6,514,586원 (30일)</title></path>
-<text x="272.8" y="87.6" class="barval" text-anchor="middle">6.51</text>
-<text x="272.8" y="192.0" class="catlab" text-anchor="middle">6월</text>
-<path d="M 338.2,175.0 L 338.2,25.2 Q 338.2,21.2 342.2,21.2 L 386.2,21.2 Q 390.2,21.2 390.2,25.2 L 390.2,175.0 Z" fill="var(--mo4)"><title>7월 일평균 총매출 12,301,137원 (31일)</title></path>
-<text x="364.2" y="15.2" class="barval" text-anchor="middle">12.30</text>
-<text x="364.2" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<text x="38" y="28.0" class="ytick" text-anchor="end">20</text>
+<text x="38" y="15" class="axis-unit" text-anchor="end">백만원</text>
+<path d="M 63.8,175.0 L 63.8,160.5 Q 63.8,156.5 67.8,156.5 L 99.8,156.5 Q 103.8,156.5 103.8,160.5 L 103.8,175.0 Z" fill="var(--mo1)"><title>4월 일평균 총매출 2,462,766원 (30일 기준)</title></path>
+<text x="83.8" y="150.5" class="barval" text-anchor="middle">2.5</text>
+<text x="83.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
+<path d="M 121.1,175.0 L 121.1,106.6 Q 121.1,102.6 125.1,102.6 L 157.1,102.6 Q 161.1,102.6 161.1,106.6 L 161.1,175.0 Z" fill="var(--mo2)"><title>5월 일평균 총매출 9,653,487원 (31일 기준)</title></path>
+<text x="141.1" y="96.6" class="barval" text-anchor="middle">9.7</text>
+<text x="141.1" y="192.0" class="catlab" text-anchor="middle">5월</text>
+<path d="M 178.4,175.0 L 178.4,130.1 Q 178.4,126.1 182.4,126.1 L 214.4,126.1 Q 218.4,126.1 218.4,130.1 L 218.4,175.0 Z" fill="var(--mo3)"><title>6월 일평균 총매출 6,514,585원 (30일 기준)</title></path>
+<text x="198.4" y="120.1" class="barval" text-anchor="middle">6.5</text>
+<text x="198.4" y="192.0" class="catlab" text-anchor="middle">6월</text>
+<path d="M 235.6,175.0 L 235.6,86.7 Q 235.6,82.7 239.6,82.7 L 271.6,82.7 Q 275.6,82.7 275.6,86.7 L 275.6,175.0 Z" fill="var(--mo4)"><title>7월 일평균 총매출 12,301,137원 (31일 기준)</title></path>
+<text x="255.6" y="76.7" class="barval" text-anchor="middle">12.3</text>
+<text x="255.6" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<path d="M 292.9,175.0 L 292.9,43.1 Q 292.9,39.1 296.9,39.1 L 328.9,39.1 Q 332.9,39.1 332.9,43.1 L 332.9,175.0 Z" fill="var(--mo5)"><title>8월 일평균 총매출 18,119,667원 (31일 기준)</title></path>
+<text x="312.9" y="33.1" class="barval" text-anchor="middle">18.1</text>
+<text x="312.9" y="192.0" class="catlab" text-anchor="middle">8월</text>
+<path d="M 350.2,175.0 L 350.2,146.4 Q 350.2,142.4 354.2,142.4 L 386.2,142.4 Q 390.2,142.4 390.2,146.4 L 390.2,175.0 Z" fill="var(--mo6)"><title>9월 일평균 총매출 4,345,359원 (13일 기준)</title></path>
+<text x="370.2" y="136.4" class="barval" text-anchor="middle">4.3</text>
+<text x="370.2" y="192.0" class="catlab" text-anchor="middle">9월</text>
 </svg></div>
 <div class="fig"><div class="cap">일평균 판매객실</div><svg viewBox="0 0 420 225" class="chart" role="img" aria-label="일평균 판매객실">
 <line x1="44" y1="175.0" x2="410" y2="175.0" class="grid"/>
 <text x="38" y="178.0" class="ytick" text-anchor="end">0</text>
 <line x1="44" y1="137.5" x2="410" y2="137.5" class="grid"/>
-<text x="38" y="140.5" class="ytick" text-anchor="end">25</text>
+<text x="38" y="140.5" class="ytick" text-anchor="end">30</text>
 <line x1="44" y1="100.0" x2="410" y2="100.0" class="grid"/>
-<text x="38" y="103.0" class="ytick" text-anchor="end">50</text>
+<text x="38" y="103.0" class="ytick" text-anchor="end">60</text>
 <line x1="44" y1="62.5" x2="410" y2="62.5" class="grid"/>
-<text x="38" y="65.5" class="ytick" text-anchor="end">75</text>
+<text x="38" y="65.5" class="ytick" text-anchor="end">90</text>
 <line x1="44" y1="25.0" x2="410" y2="25.0" class="grid"/>
-<text x="38" y="28.0" class="ytick" text-anchor="end">100</text>
-<text x="38" y="15" class="axis-unit" text-anchor="end">실/일</text>
-<path d="M 63.8,175.0 L 63.8,117.3 Q 63.8,113.3 67.8,113.3 L 111.8,113.3 Q 115.8,113.3 115.8,117.3 L 115.8,175.0 Z" fill="var(--mo1)"><title>4월 일평균 판매객실 41.1실 (총 1,233실 / 30일)</title></path>
-<text x="89.8" y="107.3" class="barval" text-anchor="middle">41.1</text>
-<text x="89.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
-<path d="M 155.2,175.0 L 155.2,74.0 Q 155.2,70.0 159.2,70.0 L 203.2,70.0 Q 207.2,70.0 207.2,74.0 L 207.2,175.0 Z" fill="var(--mo2)"><title>5월 일평균 판매객실 70.0실 (총 2,171실 / 31일)</title></path>
-<text x="181.2" y="64.0" class="barval" text-anchor="middle">70.0</text>
-<text x="181.2" y="192.0" class="catlab" text-anchor="middle">5월</text>
-<path d="M 246.8,175.0 L 246.8,57.7 Q 246.8,53.7 250.8,53.7 L 294.8,53.7 Q 298.8,53.7 298.8,57.7 L 298.8,175.0 Z" fill="var(--mo3)"><title>6월 일평균 판매객실 80.9실 (총 2,426실 / 30일)</title></path>
-<text x="272.8" y="47.7" class="barval" text-anchor="middle">80.9</text>
-<text x="272.8" y="192.0" class="catlab" text-anchor="middle">6월</text>
-<path d="M 338.2,175.0 L 338.2,63.2 Q 338.2,59.2 342.2,59.2 L 386.2,59.2 Q 390.2,59.2 390.2,63.2 L 390.2,175.0 Z" fill="var(--mo4)"><title>7월 일평균 판매객실 77.2실 (총 2,393실 / 31일)</title></path>
-<text x="364.2" y="53.2" class="barval" text-anchor="middle">77.2</text>
-<text x="364.2" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<text x="38" y="28.0" class="ytick" text-anchor="end">120</text>
+<text x="38" y="15" class="axis-unit" text-anchor="end">실</text>
+<path d="M 63.8,175.0 L 63.8,127.6 Q 63.8,123.6 67.8,123.6 L 99.8,123.6 Q 103.8,123.6 103.8,127.6 L 103.8,175.0 Z" fill="var(--mo1)"><title>4월 일평균 판매객실 41.1실 (30일 기준)</title></path>
+<text x="83.8" y="117.6" class="barval" text-anchor="middle">41.1</text>
+<text x="83.8" y="192.0" class="catlab" text-anchor="middle">4월</text>
+<path d="M 121.1,175.0 L 121.1,91.5 Q 121.1,87.5 125.1,87.5 L 157.1,87.5 Q 161.1,87.5 161.1,91.5 L 161.1,175.0 Z" fill="var(--mo2)"><title>5월 일평균 판매객실 70.0실 (31일 기준)</title></path>
+<text x="141.1" y="81.5" class="barval" text-anchor="middle">70.0</text>
+<text x="141.1" y="192.0" class="catlab" text-anchor="middle">5월</text>
+<path d="M 178.4,175.0 L 178.4,77.9 Q 178.4,73.9 182.4,73.9 L 214.4,73.9 Q 218.4,73.9 218.4,77.9 L 218.4,175.0 Z" fill="var(--mo3)"><title>6월 일평균 판매객실 80.9실 (30일 기준)</title></path>
+<text x="198.4" y="67.9" class="barval" text-anchor="middle">80.9</text>
+<text x="198.4" y="192.0" class="catlab" text-anchor="middle">6월</text>
+<path d="M 235.6,175.0 L 235.6,82.5 Q 235.6,78.5 239.6,78.5 L 271.6,78.5 Q 275.6,78.5 275.6,82.5 L 275.6,175.0 Z" fill="var(--mo4)"><title>7월 일평균 판매객실 77.2실 (31일 기준)</title></path>
+<text x="255.6" y="72.5" class="barval" text-anchor="middle">77.2</text>
+<text x="255.6" y="192.0" class="catlab" text-anchor="middle">7월</text>
+<path d="M 292.9,175.0 L 292.9,52.6 Q 292.9,48.6 296.9,48.6 L 328.9,48.6 Q 332.9,48.6 332.9,52.6 L 332.9,175.0 Z" fill="var(--mo5)"><title>8월 일평균 판매객실 101.1실 (31일 기준)</title></path>
+<text x="312.9" y="42.6" class="barval" text-anchor="middle">101.1</text>
+<text x="312.9" y="192.0" class="catlab" text-anchor="middle">8월</text>
+<path d="M 350.2,175.0 L 350.2,116.0 Q 350.2,112.0 354.2,112.0 L 386.2,112.0 Q 390.2,112.0 390.2,116.0 L 390.2,175.0 Z" fill="var(--mo6)"><title>9월 일평균 판매객실 50.4실 (13일 기준)</title></path>
+<text x="370.2" y="106.0" class="barval" text-anchor="middle">50.4</text>
+<text x="370.2" y="192.0" class="catlab" text-anchor="middle">9월</text>
 </svg></div>
 </div>
-<table><thead><tr><th>지표 (1일 평균)</th><th>4월</th><th>5월</th><th>6월</th><th>7월</th></tr></thead><tbody>
-<tr><td>객실매출 / 일</td><td>2,429,404원</td><td>8,691,584원</td><td>6,135,859원</td><td>10,958,095원</td></tr>
-<tr class="highlight-row"><td>총매출 / 일</td><td><strong>2,462,767원</strong></td><td><strong>9,653,487원</strong></td><td><strong>6,514,586원</strong></td><td><strong>12,301,137원</strong></td></tr>
-<tr><td>판매객실 / 일</td><td>41.1실</td><td>70.0실</td><td>80.9실</td><td>77.2실</td></tr>
-<tr><td>ADR</td><td>59,110원</td><td>124,108원</td><td>75,876원</td><td>141,956원</td></tr>
+<table><thead><tr><th>지표 (1일 평균)</th><th>4월</th><th>5월</th><th>6월</th><th>7월</th><th>8월</th><th>9월</th></tr></thead><tbody>
+<tr><td>객실매출 / 일</td><td>2,429,404원</td><td>8,691,584원</td><td>6,135,859원</td><td>10,958,095원</td><td>16,531,487원</td><td>4,171,128원</td></tr>
+<tr class="highlight-row"><td>총매출 / 일</td><td><strong>2,462,767원</strong></td><td><strong>9,653,487원</strong></td><td><strong>6,514,586원</strong></td><td><strong>12,301,137원</strong></td><td><strong>18,119,667원</strong></td><td><strong>4,345,359원</strong></td></tr>
+<tr><td>판매객실 / 일</td><td>41.1실</td><td>70.0실</td><td>80.9실</td><td>77.2실</td><td>101.1실</td><td>50.4실</td></tr>
+<tr><td>ADR</td><td>59,110원</td><td>124,108원</td><td>75,876원</td><td>141,956원</td><td>163,469원</td><td>82,786원</td></tr>
+<tr><td>RevPAR <span class="note" style="display:inline">(가용 358실)</span></td><td>6,786원</td><td>24,278원</td><td>17,139원</td><td>30,609원</td><td><strong>46,177원</strong></td><td>11,651원</td></tr>
 </tbody></table>
-<div class="insight-box good"><strong>일평균으로 보면 6월의 '후퇴'는 착시다.</strong> 총매출 일평균은 4월 2.46 → 5월 9.65 → 6월 6.51 → <strong>7월 12.30백만원</strong>으로 5월 대비 6월이 낮아 보이지만, <strong>판매객실 일평균은 70.0 → 80.9실로 오히려 늘었다</strong>(+15.5%). 5월의 높은 매출은 소수 초고단가일이 만든 것이고, 6월은 <strong>단가를 내주고 물량을 확보한 달</strong>이다. 7월에 이르러 물량(77.2실)을 지키면서 단가까지 회복해 일평균 총매출이 4월의 <strong>5.0배</strong>가 됐다.</div>
+<div class="insight-box good"><strong>일평균으로 보면 여섯 달의 궤적이 한 줄로 읽힌다.</strong> 총매출 일평균은 <strong>4월 2.46 → 5월 9.65 → 6월 6.51 → 7월 12.30 → 8월 18.12백만원</strong>으로 올라섰다가 <strong>9월 4.35백만원</strong>으로 떨어졌다. 8월은 4월의 <strong>7.4배</strong>, 9월은 <strong>1.8배</strong>다. 6월의 '후퇴'는 착시였다 — 매출은 5월보다 줄었지만 <strong>판매객실은 오히려 늘었고(일 70.0 → 80.9실)</strong> 단가만 무너진 물량형이었기 때문이다. 반면 <strong>9월의 하락은 물량·단가가 함께 빠진 실재하는 후퇴</strong>다. <strong>판매객실과 단가가 함께 오른 구간은 7·8월뿐이다.</strong> 5월은 단가만(ADR 124,108원·일 70.0실), 6월은 물량만(75,876원·80.9실) 올랐고, 7·8월은 둘이 함께 올라 <strong>8월 일 101.1실·ADR 163,469원</strong>으로 정점을 찍었다. <strong>9월은 둘 다 반토막이다</strong> — 일평균 판매객실 101.1 → 50.4실, ADR 163,469 → 82,786원. 가동과 단가가 동시에 빠지면 <strong>RevPAR는 곱으로 준다</strong> — <strong>4월 6,786 → 5월 24,278 → 6월 17,139 → 7월 30,609 → 8월 46,177 → 9월 11,651원</strong>으로, <strong>9월은 8월의 4분의 1이고 5월의 48% 수준</strong>이다. <span class="note" style="display:inline">(RevPAR = 일평균 객실매출 ÷ 가용 358실. 달마다 다른 가용객실 대신 358실로 통일해 산출했다.)</span></div>
 
 <h2>4. 매출 구조 분석 — 4~7월</h2>
 
